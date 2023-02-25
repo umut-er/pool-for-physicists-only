@@ -1,5 +1,6 @@
 // TODO: Docstrings
-// TODO: Implement vector normalization
+// TODO: Testing
+// TODO: Better error messages
 
 public class Vector3 extends Matrix{
     
@@ -9,6 +10,10 @@ public class Vector3 extends Matrix{
 
     public double getAxis(int index){
         return data[index][0];
+    }
+
+    public double getVectorLength(){
+        return Math.sqrt(this.getAxis(0) * this.getAxis(0) + this.getAxis(1) * this.getAxis(1) + this.getAxis(2) * this.getAxis(2));
     }
 
     public void setAxis(int index, double num){
@@ -34,7 +39,7 @@ public class Vector3 extends Matrix{
     public static Vector3 rotateAboutZAxis(Vector3 vector, double phi){
         double[] rotation_data = {Math.cos(phi), -Math.sin(phi), 0, Math.sin(phi), Math.cos(phi), 0, 0, 0, 1};
         Matrix rotation_matrix = new Matrix(3, 3, rotation_data);
-        return vectorFromMatrix(Matrix.multiply(rotation_matrix, vector));
+        return Vector3.vectorFromMatrix(Matrix.multiply(rotation_matrix, vector));
     }
 
     public static Vector3 crossProduct(Vector3 vector1, Vector3 vector2){
@@ -45,11 +50,20 @@ public class Vector3 extends Matrix{
         return new Vector3(new_data);
     }
 
+    public static Vector3 normalize(Vector3 vector){
+        return Vector3.vectorFromMatrix(Matrix.multiply(1/vector.getVectorLength(), vector));
+    }
+
+    @Override
+    public String toString(){
+        return "[" + getAxis(0) + ", " + getAxis(1) + ", " + getAxis(2) + "]";
+    }
+
     public static void main(String[] args){
-        double[] data1 = {2, 3, 1};
-        // double[] rotation = {0, -1, 0, 1, 0, 0, 0, 0, 1};
+        double[] data1 = {3.234234234, 4.2453454534234, 0};
         Vector3 vector = new Vector3(data1);
         // Matrix matrix = new Matrix(3, 3, rotation);
-        System.out.println(Vector3.rotateAboutZAxis(vector, Math.PI / 2));
+        // System.out.println(Vector3.normalize(vector));
+        System.out.println(vector);
     }
 }

@@ -1,6 +1,9 @@
 import java.util.Arrays;
 
 // TODO: Docstrings
+// TODO: Testing
+// TODO: Better error messages / Custom error types (?)
+// TODO: Represent a matrix using 1d data array (?) (Big change)
 
 /**
  * A simple matrix class (mainly) for vectors
