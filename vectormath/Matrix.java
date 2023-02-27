@@ -1,12 +1,14 @@
+package vectormath;
+
 import java.util.Arrays;
 
-// TODO: Docstrings
 // TODO: Testing
 // TODO: Better error messages / Custom error types (?)
-// TODO: Represent a matrix using 1d data array (?) (Big change)
+// TODO: Represent a matrix using 1d data array (?) (Big change) (Somewhat sure this only affects Matrix, power of abstraction. - Umut Erşahince).
 
 /**
- * A simple matrix class (mainly) for vectors
+ * A simple matrix class (mainly) for vectors and related mathematical equations.
+ * @author Bilkent 2023 Spring CS102 Section 2 Group 5
  */
 public class Matrix{
     protected double[][] data;
@@ -40,14 +42,22 @@ public class Matrix{
         return this.columns;
     }
 
-    public double getItem(int i, int j){
-        return data[i][j];
+    public double getItem(int row, int column){
+        return data[row][column];
     }
 
-    public void setItem(int i, int j, double num){
-        data[i][j] = num;
+    public void setItem(int row, int column, double num){
+        data[row][column] = num;
     }
 
+    /**
+     * A method to resize (reshape) a given 1D array into a 2D array.
+     * @param rows How many rows the resized array should have
+     * @param columns How many columns the resized array should have
+     * @param data The 1D double array to resize
+     * @return A 2d array resized according to the parameters.
+     * @throws ArrayIndexOutOfBoundsException When the resize is not appropriate for given array, i.e. rows * columns != data.length
+     */
     private static double[][] resize(int rows, int columns, double[] data) throws ArrayIndexOutOfBoundsException{
         if(data.length != rows * columns) throw new ArrayIndexOutOfBoundsException("Resize is not appropriate.");
         double[][] res = new double[rows][columns];
@@ -59,6 +69,12 @@ public class Matrix{
         return res;
     }
 
+    /**
+     * An implementation of constant * Matrix, i.e. matrix[i, j] *= c. This method returns a new Matrix.
+     * @param c The constant in the multiplication.
+     * @param matrix The matrix in the multiplication.
+     * @return A new Matrix, the result of the operation.
+     */
     public static Matrix multiply(double c, Matrix matrix){
         Matrix res = matrix;
         for(int i = 0; i < res.rows; i++){
@@ -69,6 +85,13 @@ public class Matrix{
         return res;
     }
 
+    /**
+     * An implementation of matrix * matrix by means of matrix multiplication. This method returns a new Matrix.
+     * @param matrix1 First matrix, order matters.
+     * @param matrix2 Second matrix, order matters.
+     * @return A new Matrix of shape [matrix1.rows, matrix2.columns], result of the operation
+     * @throws ArrayIndexOutOfBoundsException When matrix1.columns != matrix2.rows.
+     */
     public static Matrix multiply(Matrix matrix1, Matrix matrix2) throws ArrayIndexOutOfBoundsException{
         if(matrix1.getColumnCount() != matrix2.getRowCount()){
             throw new ArrayIndexOutOfBoundsException("Matrix 1 column count must be equal to matrix 2 row count for matrix multiplication");
@@ -84,6 +107,13 @@ public class Matrix{
         return new Matrix(new_data);
     }
 
+    /**
+     * An implementation of matrix addition. This method returns a new Matrix.
+     * @param matrix1 First matrix, order doesn't matter.
+     * @param matrix2 Second matrix, order doesn't matter.
+     * @return A new Matrix, result of the operation.
+     * @throws ArrayIndexOutOfBoundsException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
+     */
     public static Matrix add(Matrix matrix1, Matrix matrix2) throws ArrayIndexOutOfBoundsException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
             throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for addition.");
@@ -97,6 +127,13 @@ public class Matrix{
         return res;
     }
 
+    /**
+     * An implementation of matrix subtraction (matrix1 - matrix2). This method returns a new Matrix.
+     * @param matrix1 First matrix, order matters.
+     * @param matrix2 Second matrix, order matters.
+     * @return A new Matrix, result of the operation.
+     * @throws ArrayIndexOutOfBoundsException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
+     */
     public static Matrix subtract(Matrix matrix1, Matrix matrix2) throws ArrayIndexOutOfBoundsException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
             throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for subtraction.");
@@ -108,10 +145,15 @@ public class Matrix{
             }
         }
         return res;
-    }
+    }    
 
-    
-
+    /**
+     * An implementation of the dot product. This method returns a new Matrix.
+     * @param matrix1 First matrix, order doesn't matter.
+     * @param matrix2 Second matrix, order doesn't matter.
+     * @return An integer, result of the operation.
+     * @throws ArrayIndexOutOfBoundsException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
+     */
     public static int dotProduct(Matrix matrix1, Matrix matrix2) throws ArrayIndexOutOfBoundsException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
             throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for dot product.");
@@ -125,6 +167,10 @@ public class Matrix{
         return sum;
     }
 
+    /**
+     * Same as the multiply(double c, Matrix matrix) but modifies the matrix on which it is called.
+     * @param c The constant in the multiplication.
+     */
     public void inPlaceMultiply(double c){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
@@ -133,6 +179,11 @@ public class Matrix{
         }
     }
 
+    /**
+     * Same as add(Matrix matrix1, Matrix matrix2) but modifies the matrix on which it is called.
+     * @param matrix The matrix to add. This is not modified.
+     * @throws ArrayIndexOutOfBoundsException When this.rows != matrix.rows or this.columns != matrix.columns.
+     */
     public void inPlaceAdd(Matrix matrix) throws ArrayIndexOutOfBoundsException{
         if(matrix.getRowCount() != rows || matrix.getColumnCount() != columns){
             throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for addition.");
@@ -144,6 +195,11 @@ public class Matrix{
         }
     }
 
+    /**
+     * Same as subtract(Matrix matrix1, Matrix matrix2) but modifies the matrix on which it is called.
+     * @param matrix matrix2 in the static method. This is not modified.
+     * @throws ArrayIndexOutOfBoundsException When this.rows != matrix.rows or this.columns != matrix.columns.
+     */
     public void inPlaceSubtract(Matrix matrix) throws ArrayIndexOutOfBoundsException{
         if(matrix.getRowCount() != rows || matrix.getColumnCount() != columns){
             throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for addition.");
@@ -155,6 +211,7 @@ public class Matrix{
         }
     }
 
+    @Override
     public String toString(){
         String s = "";
         for(int i = 0; i < rows; i++){
@@ -163,14 +220,14 @@ public class Matrix{
         return s;
     }
 
-    // public static void main(String[] args) {
-    //     double[][] vector3d = new double[1][3];
-    //     vector3d[0][0] = 0; vector3d[0][1] = 0; vector3d[0][2] = 1;
-    //     double[] data = {9, 5, 2, 1, 8, 5, 3, 1, 6};
-    //     double[] data2 = {3, 2, 1, 4, 5, 3};
-    //     Matrix matrix1 = new Matrix(3, 3, data);
-    //     Matrix matrix2 = new Matrix(3, 2, data2);
-    //     System.out.println(Matrix.multiply(matrix1, matrix2));
-    //     System.out.println(matrix1);
-    // }
+    public static void main(String[] args) {
+        double[][] vector3d = new double[1][3];
+        vector3d[0][0] = 0; vector3d[0][1] = 0; vector3d[0][2] = 1;
+        double[] data = {9, 5, 2, 1, 8, 5, 3, 1, 6};
+        double[] data2 = {3, 2, 1, 4, 5, 3};
+        Matrix matrix1 = new Matrix(3, 3, data);
+        Matrix matrix2 = new Matrix(3, 2, data2);
+        System.out.println(Matrix.multiply(matrix1, matrix2));
+        System.out.println(matrix1);
+    }
 }
