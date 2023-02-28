@@ -11,9 +11,9 @@ import java.util.Arrays;
  * @author Bilkent 2023 Spring CS102 Section 2 Group 5
  */
 public class Matrix{
-    protected double[][] data;
-    protected int rows;
-    protected int columns;
+    private double[][] data;
+    private int rows;
+    private int columns;
 
     public Matrix(double[][] data){
         this.data = data.clone();
