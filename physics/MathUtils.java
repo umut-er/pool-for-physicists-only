@@ -13,7 +13,7 @@ public class MathUtils{
      * @param b bx^2
      * @param c cx
      * @param d d
-     * @return a double, a positive real root of the equation. It is guaranteed that this exists.
+     * @return a double, a real root of the equation. It is guaranteed that this exists.
      */
     public static double solveCubicEquation(double a, double b, double c, double d){
         double p = -b / (3 * a);
