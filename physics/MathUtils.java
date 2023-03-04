@@ -8,7 +8,7 @@ public class MathUtils{
      * Returns a real root of the cubic equation.
      * Parameters describe a cubic equation ax^3 + bx^2 + cx + d = 0.
      * The equations are exact but a small error can be present due to floating point arithmetic.
-     * This uses the method expained in this link: https://math.vanderbilt.edu/schectex/courses/cubic/
+     * This uses the method explained in this link: https://math.vanderbilt.edu/schectex/courses/cubic/
      * @param a ax^3
      * @param b bx^2
      * @param c cx
@@ -30,13 +30,13 @@ public class MathUtils{
      * Returns the minimum positive real root of the quartic equation. -1 if no such roots exist.
      * Parameters describe the quartic equation ax^4 + bx^3 + cx^2 + dx + e = 0.
      * The equations are exact but a small error can be present due to floating point arithmetic.
-     * This uses the method expained in this link: https://proofwiki.org/wiki/Ferrari%27s_Method
+     * This uses the method explained in this link: https://proofwiki.org/wiki/Ferrari%27s_Method
      * @param a ax^4
      * @param b bx^3
      * @param c cx^2
      * @param d dx
      * @param e e
-     * @return a double, the positive real root if exists, else -1.
+     * @return a double, the smallest positive real root if exists, else -1.
      */
     public static double solveQuarticEquation(double a, double b, double c, double d, double e){
         double y1 = MathUtils.solveCubicEquation(1, -c / a, b * d / (a * a) - 4 * e / a, 4 * c * e / (a * a) - b * b * e / (a * a * a) - d * d / (a * a));
