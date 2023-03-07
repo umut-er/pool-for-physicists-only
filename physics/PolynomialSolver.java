@@ -2,7 +2,7 @@ package physics;
 
 // TODO: Testing
 
-public class MathUtils{
+public class PolynomialSolver{
     
     /**
      * Returns a real root of the cubic equation.
@@ -39,7 +39,7 @@ public class MathUtils{
      * @return a double, the smallest positive real root if exists, else -1.
      */
     public static double solveQuarticEquation(double a, double b, double c, double d, double e){
-        double y1 = MathUtils.solveCubicEquation(1, -c / a, b * d / (a * a) - 4 * e / a, 4 * c * e / (a * a) - b * b * e / (a * a * a) - d * d / (a * a));
+        double y1 = solveCubicEquation(1, -c / a, b * d / (a * a) - 4 * e / a, 4 * c * e / (a * a) - b * b * e / (a * a * a) - d * d / (a * a));
         double pDifferenceTerm = Math.sqrt(b * b / (a * a) - 4 * c / a + 4 * y1);
         double[] p = {b / a + pDifferenceTerm, b / a - pDifferenceTerm};
         double qDifferenceTerm = Math.sqrt(y1 * y1 - 4 * e / a);
@@ -62,6 +62,6 @@ public class MathUtils{
     }
 
     public static void main(String[] args) {
-        System.out.println(MathUtils.solveQuarticEquation(1,0,0,0,1));
+        System.out.println(PolynomialSolver.solveQuarticEquation(1,-4,6,-4,1));
     }
 }
