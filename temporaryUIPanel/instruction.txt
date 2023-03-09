@@ -1,0 +1,11 @@
+Geçici olarak kullanabileceğimiz bi tane UI paneli yarattım
+Sadece topun bir yere çarpmadan gitmesi için tasarladım
+Classlar ve methodlar biraz dağınık düzelteceğim sonra, daha bitmedi biten kısmını yolluyorum
+Vuruş denemesi için billiardsPanel classından actionPerformed methoduna topun x ve y
+değerlerine etkileyecek şekilde bir kod yazılması lazım ayrıca instance variablelardan
+xMoveDistance ve yMoveDistance'ı da değiştirebilirsiniz vuruşa göre.
+Zaten bi ara toplanıp konuşuruz detayları
+bb
+
+Png source
+https://pngimg.com/image/10956
