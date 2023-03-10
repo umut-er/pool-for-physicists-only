@@ -1,6 +1,9 @@
 package gameobjects;
 
+import javax.swing.ImageIcon;
+
 import vectormath.Vector3;
+
 
 enum BallType{
     STRIPE, SOLID, CUE
@@ -10,10 +13,12 @@ public class Ball {
     private BallType type;
     private Vector3 displacement;
     private Vector3 velocity;
-    private Vector3 angularVelocity;    
+    private Vector3 angularVelocity;
+    private ImageIcon ballImage;
 
-    public Ball(BallType type){
+    public Ball(BallType type, String imageName){
         this(type, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        this.ballImage = new ImageIcon(imageName);
     }
 
     public Ball(BallType type, double... data) throws IllegalArgumentException{
@@ -22,6 +27,7 @@ public class Ball {
         this.displacement = new Vector3(data[0], data[1], data[2]);
         this.velocity = new Vector3(data[3], data[4], data[5]);
         this.angularVelocity = new Vector3(data[6], data[7], data[8]);
+
     }
 
     public Vector3 getDisplacement(){
