@@ -10,8 +10,8 @@ package vectormath;
  */
 public class Vector3 extends Matrix{
     
-    public Vector3(double[] data1d){
-        super(3, 1, data1d);
+    public Vector3(double... data){
+        super(3, 1, data);
     }
 
     /**
@@ -55,11 +55,11 @@ public class Vector3 extends Matrix{
      * A method to convert a Matrix into a Vector3.
      * @param matrix The matrix to convert, this is not modified.
      * @return A new Vector3 constructed from the data on matrix.
-     * @throws ArrayIndexOutOfBoundsException When matrix shape is not [1, 3].
+     * @throws IllegalArgumentException When matrix shape is not [1, 3].
      */
-    public static Vector3 vectorFromMatrix(Matrix matrix) throws ArrayIndexOutOfBoundsException{
+    public static Vector3 vectorFromMatrix(Matrix matrix) throws IllegalArgumentException{
         if(matrix.getRowCount() != 3 || matrix.getColumnCount() != 1){
-            throw new ArrayIndexOutOfBoundsException("Matrix is not compatible with a vector");
+            throw new IllegalArgumentException("Matrix is not compatible with a vector");
         }
         double[] empty_data = new double[3];
         Vector3 res = new Vector3(empty_data);
