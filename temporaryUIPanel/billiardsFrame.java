@@ -3,12 +3,12 @@ package temporaryUIPanel;
 import java.awt.Color;
 import javax.swing.JFrame;
 
-public class billiardsFrame extends JFrame{
-    billiardsPanel panel;
+public class BilliardsFrame extends JFrame{
+    BilliardsPanel panel;
     
-    billiardsFrame()
+    public BilliardsFrame()
     {
-        panel=new billiardsPanel();
+        panel = new BilliardsPanel();
         this.setVisible(true);
         this.setSize(Main.TABLE_WIDTH,Main.TABLE_HEIGHT);
         this.setTitle("billiardsPanel");

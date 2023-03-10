@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class whiteBall{
+public class WhiteBall{
 
     Image imageBall;
     int xMoveDistance;
@@ -13,7 +13,7 @@ public class whiteBall{
     int x;
     int y;
     
-    whiteBall()
+    public WhiteBall()
     {
         BufferedImage bufferedImage;
         try 

@@ -6,6 +6,6 @@ public class Main {
     final public static int TABLE_WIDTH=426;
     final public static int TABLE_HEIGHT=872;
     public static void main(String[] args) {
-        new billiardsFrame();
+        new BilliardsFrame();
     }
 }

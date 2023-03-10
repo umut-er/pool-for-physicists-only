@@ -7,9 +7,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class billiardsPanel extends JPanel implements ActionListener{
+public class BilliardsPanel extends JPanel implements ActionListener{
 
-    whiteBall whiteBall=new whiteBall();
+    WhiteBall whiteBall = new WhiteBall();
     Timer timer;
     Image imageBall;
     int xMoveDistance=10;
@@ -19,7 +19,7 @@ public class billiardsPanel extends JPanel implements ActionListener{
     //In order to smoothen the fraction
     int count=1;
     
-    billiardsPanel()
+    public BilliardsPanel()
     {
         this.setBackground(new Color(0, 170, 0));
         this.setBounds(0, 0, Main.TABLE_WIDTH, Main.TABLE_HEIGHT);
