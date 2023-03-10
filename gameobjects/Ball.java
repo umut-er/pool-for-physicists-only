@@ -59,4 +59,8 @@ public class Ball {
     public void setAngularVelocity(double x, double y, double z){
         this.angularVelocity.setAll(x, y, z);
     }
+
+    public void setAngularVelocity(Vector3 angularVelocity){
+        this.angularVelocity = angularVelocity;
+    }
 }
