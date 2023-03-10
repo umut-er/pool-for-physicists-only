@@ -17,17 +17,16 @@ public class Ball {
     private ImageIcon ballImage;
 
     public Ball(BallType type, String imageName){
-        this(type, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-        this.ballImage = new ImageIcon(imageName);
+        this(type, imageName, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public Ball(BallType type, double... data) throws IllegalArgumentException{
+    public Ball(BallType type, String imageName, double... data) throws IllegalArgumentException{
         if(data.length != 9) throw new IllegalArgumentException("9 arguments required for vector initialization, " + data.length + " given.");
         this.type = type;
         this.displacement = new Vector3(data[0], data[1], data[2]);
         this.velocity = new Vector3(data[3], data[4], data[5]);
         this.angularVelocity = new Vector3(data[6], data[7], data[8]);
-
+        this.ballImage = new ImageIcon(imageName);
     }
 
     public Vector3 getDisplacement(){
