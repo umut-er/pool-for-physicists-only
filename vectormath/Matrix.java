@@ -3,7 +3,6 @@ package vectormath;
 import java.util.Arrays;
 
 // TODO: Testing
-// TODO: Better error messages / Custom error types (?)
 // TODO: Represent a matrix using 1d data array (?) (Big change) (Somewhat sure this only affects Matrix, power of abstraction. - Umut Erşahince).
 // TODO: Check for excess copies.
 
@@ -221,14 +220,22 @@ public class Matrix{
         return s;
     }
 
+    // TODO: We probably need a tolerance on this one, something like 1e-10
+    @Override
+    public boolean equals(Object obj){
+        Matrix comp = (Matrix)obj;
+        if(this.getRowCount() != comp.getRowCount() || this.getColumnCount() != comp.getColumnCount()) return false;
+        for(int i = 0; i < getRowCount(); i++){
+            for(int j = 0; j < getColumnCount(); j++){
+                if(this.getItem(i, j) != comp.getItem(i, j)) return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        double[][] vector3d = new double[1][3];
-        vector3d[0][0] = 0; vector3d[0][1] = 0; vector3d[0][2] = 1;
-        double[] data = {9, 5, 2, 1, 8, 5, 3, 1, 6};
-        double[] data2 = {3, 2, 1, 4, 5, 3};
-        Matrix matrix1 = new Matrix(3, 3, data);
-        Matrix matrix2 = new Matrix(3, 2, data2);
-        System.out.println(Matrix.multiply(matrix1, matrix2));
-        System.out.println(matrix1);
+        Matrix test1 = new Matrix(3, 1, 0, 1, 2);
+        Vector3 test2 = new Vector3(0, 1, 2);
+        System.out.println(test1.equals(test2));
     }
 }

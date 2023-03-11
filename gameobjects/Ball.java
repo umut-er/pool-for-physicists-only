@@ -2,12 +2,15 @@ package gameobjects;
 
 import vectormath.Vector3;
 
+// TODO: Documentation
+
 enum BallType{
     STRIPE, SOLID, CUE
 }
 
 public class Ball {
     private BallType type;
+    private static final double ballRadius = 1; // going to change later. 
     private Vector3 displacement;
     private Vector3 velocity;
     private Vector3 angularVelocity;    
@@ -62,5 +65,31 @@ public class Ball {
 
     public void setAngularVelocity(Vector3 angularVelocity){
         this.angularVelocity = angularVelocity;
+    }
+
+    public boolean isStationary(){
+        return velocity.getVectorLength() == 0 && angularVelocity.getVectorLength() == 0;
+    }
+
+    public boolean isSpinning(){
+        return velocity.getVectorLength() == 0 &&
+            angularVelocity.getAxis(0) == 0 &&
+            angularVelocity.getAxis(1) == 0 &&
+            angularVelocity.getAxis(2) > 0;
+    }
+
+    public boolean isRolling(){
+        Vector3 normalizedVector = new Vector3(0, 0, -ballRadius);
+        return Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
+    }
+
+    public boolean isSliding(){
+        Vector3 normalizedVector = new Vector3(0, 0, -ballRadius);
+        return !Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
+    }
+
+    public static void main(String[] args) {
+        Ball testBall = new Ball(BallType.CUE, 1, 1, 1, 1, 0, 0, 0, 1, 0);
+        System.out.println(testBall.isRolling());
     }
 }

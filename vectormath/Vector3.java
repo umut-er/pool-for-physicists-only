@@ -1,7 +1,6 @@
 package vectormath;
 
 // TODO: Testing
-// TODO: Better error messages / Custom Error Types (?)
 
 /**
  * A simple 3D Vector class capable of crucial vector operations such as cross multiplication.
