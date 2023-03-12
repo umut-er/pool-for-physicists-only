@@ -145,7 +145,7 @@ public class Matrix{
             }
         }
         return res;
-    }    
+    }
 
     /**
      * An implementation of the dot product. This method returns a new Matrix.

@@ -10,10 +10,10 @@ enum BallType{
 
 public class Ball {
     private BallType type;
-    private static final double ballRadius = 1; // going to change later. 
+    private static final double ballRadius = 1; // going to change later.
     private Vector3 displacement;
     private Vector3 velocity;
-    private Vector3 angularVelocity;    
+    private Vector3 angularVelocity;
 
     public Ball(BallType type){
         this(type, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -54,7 +54,7 @@ public class Ball {
     public void setVelocity(double x, double y, double z){
         this.velocity.setAll(x, y, z);
     }
-    
+
     public void setVelocity(Vector3 velocity){
         this.velocity = velocity;
     }

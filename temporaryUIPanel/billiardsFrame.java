@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 
 public class BilliardsFrame extends JFrame{
     BilliardsPanel panel;
-    
+
     public BilliardsFrame()
     {
         panel = new BilliardsPanel();

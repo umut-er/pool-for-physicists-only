@@ -12,16 +12,16 @@ public class WhiteBall{
     int yMoveDistance;
     int x;
     int y;
-    
+
     public WhiteBall()
     {
         BufferedImage bufferedImage;
-        try 
+        try
         {
             bufferedImage = ImageIO.read(new File("ballImage.png"));
             imageBall = bufferedImage.getScaledInstance(17, 17, Image.SCALE_DEFAULT);
-        } 
-        catch (IOException e) 
+        }
+        catch (IOException e)
         {
             imageBall=null;
         }

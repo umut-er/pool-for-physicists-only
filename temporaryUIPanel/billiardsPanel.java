@@ -18,7 +18,7 @@ public class BilliardsPanel extends JPanel implements ActionListener{
     int y=568;
     //In order to smoothen the fraction
     int count=1;
-    
+
     public BilliardsPanel()
     {
         this.setBackground(new Color(0, 170, 0));
@@ -39,7 +39,7 @@ public class BilliardsPanel extends JPanel implements ActionListener{
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) 
+    public void actionPerformed(ActionEvent e)
     {
         //Actions will be simulated in this area
         count++;

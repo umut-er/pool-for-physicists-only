@@ -8,7 +8,7 @@ package vectormath;
  * @author Bilkent 2023 Spring CS102 Section 2 Group 5
  */
 public class Vector3 extends Matrix{
-    
+
     public Vector3(double... data){
         super(3, 1, data);
     }
