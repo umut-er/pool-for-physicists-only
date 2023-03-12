@@ -11,21 +11,15 @@ import java.util.Arrays;
  * @author Bilkent 2023 Spring CS102 Section 2 Group 5
  */
 public class Matrix{
-    private double[][] data;
+    private double[] data;
     private int rows;
     private int columns;
-
-    public Matrix(double[][] data){
-        this.data = data.clone();
-        this.rows = data.length;
-        this.columns = data[0].length;
-    }
 
     public Matrix(int rows, int columns, double[] data1d) throws ArrayIndexOutOfBoundsException{
         if(rows * columns != data1d.length) throw new ArrayIndexOutOfBoundsException("Data length should be equal to row(= " + rows + ") * column(= " + columns + ")");
         this.rows = rows;
         this.columns = columns;
-        this.data = resize(rows, columns, data1d);
+        this.data = data1d;
     }
 
     public Matrix(Matrix matrix){
@@ -43,11 +37,11 @@ public class Matrix{
     }
 
     public double getItem(int row, int column){
-        return data[row][column];
+        return this.data[row * this.columns + column];
     }
 
     public void setItem(int row, int column, double num){
-        data[row][column] = num;
+        this.data[row * this.columns + column] = num;
     }
 
     /**
@@ -57,7 +51,7 @@ public class Matrix{
      * @param data The 1D double array to resize
      * @return A 2d array resized according to the parameters.
      * @throws ArrayIndexOutOfBoundsException When the resize is not appropriate for given array, i.e. rows * columns != data.length
-     */
+     *
     private static double[][] resize(int rows, int columns, double[] data) throws ArrayIndexOutOfBoundsException{
         if(data.length != rows * columns) throw new ArrayIndexOutOfBoundsException("Resize is not appropriate.");
         double[][] res = new double[rows][columns];
@@ -67,7 +61,7 @@ public class Matrix{
             }
         }
         return res;
-    }
+    }/
 
     /**
      * An implementation of constant * Matrix, i.e. matrix[i, j] *= c. This method returns a new Matrix.
@@ -96,15 +90,17 @@ public class Matrix{
         if(matrix1.getColumnCount() != matrix2.getRowCount()){
             throw new ArrayIndexOutOfBoundsException("Matrix 1 column count must be equal to matrix 2 row count for matrix multiplication");
         }
-        double[][] new_data = new double[matrix1.getRowCount()][matrix2.getColumnCount()];
-        for(int i = 0; i < matrix1.getRowCount(); i++){
-            for(int k = 0; k < matrix1.getColumnCount(); k++){
-                for(int j = 0; j < matrix2.getColumnCount(); j++){
-                    new_data[i][j] += matrix1.getItem(i, k) * matrix2.getItem(k, j);
+        int new_row = matrix1.getRowCount();
+        int new_column = matrix2.getColumnCount();
+        double[] new_data = new double[new_row * new_column]; 
+        for(int i = 0; i < new_row; i++){
+            for(int j = 0; j < new_column; j++){
+                    for(int k = 0; k < matrix1.getColumnCount(); k++){
+                    new_data[i * new_column + j] += matrix1.getItem(i, k) * matrix2.getItem(k, j);
                 }
             }
         }
-        return new Matrix(new_data);
+        return new Matrix(new_row, new_column ,new_data);
     }
 
     /**
@@ -121,7 +117,7 @@ public class Matrix{
         Matrix res = matrix1;
         for(int i = 0; i < matrix1.getRowCount(); i++){
             for(int j = 0; j < matrix1.getColumnCount(); j++){
-                matrix1.setItem(i, j, matrix1.getItem(i, j) + matrix2.getItem(i, j));
+                res.setItem(i, j, matrix1.getItem(i, j) + matrix2.getItem(i, j));
             }
         }
         return res;
@@ -141,7 +137,7 @@ public class Matrix{
         Matrix res = matrix1;
         for(int i = 0; i < matrix1.getRowCount(); i++){
             for(int j = 0; j < matrix1.getColumnCount(); j++){
-                matrix1.setItem(i, j, matrix1.getItem(i, j) - matrix2.getItem(i, j));
+                res.setItem(i, j, matrix1.getItem(i, j) - matrix2.getItem(i, j));
             }
         }
         return res;
@@ -174,7 +170,7 @@ public class Matrix{
     public void inPlaceMultiply(double c){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                data[i][j] *= c;
+                data[i * this.columns + j] *= c;
             }
         }
     }
@@ -190,11 +186,11 @@ public class Matrix{
         }
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                data[i][j] += matrix.getItem(i, j);
+                data[i * this.columns + j] += matrix.getItem(i, j);
             }
         }
     }
-
+    
     /**
      * Same as subtract(Matrix matrix1, Matrix matrix2) but modifies the matrix on which it is called.
      * @param matrix matrix2 in the static method. This is not modified.
@@ -206,7 +202,7 @@ public class Matrix{
         }
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                data[i][j] -= matrix.getItem(i, j);
+                data[i * this.columns + j] -= matrix.getItem(i, j);
             }
         }
     }
@@ -214,8 +210,11 @@ public class Matrix{
     @Override
     public String toString(){
         String s = "";
-        for(int i = 0; i < rows; i++){
-            s += Arrays.toString(data[i]) + "\n";
+        for(int i = 0; i < this.rows; i++){
+            for(int j = 0; j < this.columns; j++){
+                s += this.data[i * this.columns + j] + "\t";
+            }
+            s += "\n";
         }
         return s;
     }
