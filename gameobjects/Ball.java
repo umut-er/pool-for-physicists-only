@@ -4,22 +4,22 @@ import vectormath.Vector3;
 
 // TODO: Documentation
 
-enum BallType{
-    STRIPE, SOLID, CUE
-}
-
 public class Ball {
-    private BallType type;
-    private static final double ballRadius = 1; // going to change later.
+    public static enum Type{
+        STRIPE, SOLID, CUE
+    }
+    public static final double BALL_RADIUS = 0.028575;
+
+    private Type type;
     private Vector3 displacement;
     private Vector3 velocity;
     private Vector3 angularVelocity;
 
-    public Ball(BallType type){
+    public Ball(Type type){
         this(type, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public Ball(BallType type, double... data) throws IllegalArgumentException{
+    public Ball(Type type, double... data) throws IllegalArgumentException{
         if(data.length != 9) throw new IllegalArgumentException("9 arguments required for vector initialization, " + data.length + " given.");
         this.type = type;
         this.displacement = new Vector3(data[0], data[1], data[2]);
@@ -39,7 +39,7 @@ public class Ball {
         return this.angularVelocity;
     }
 
-    public BallType getType(){
+    public Type getType(){
         return this.type;
     }
 
@@ -75,21 +75,37 @@ public class Ball {
         return velocity.getVectorLength() == 0 &&
             angularVelocity.getAxis(0) == 0 &&
             angularVelocity.getAxis(1) == 0 &&
-            angularVelocity.getAxis(2) > 0;
+            angularVelocity.getAxis(2) != 0;
     }
 
     public boolean isRolling(){
-        Vector3 normalizedVector = new Vector3(0, 0, -ballRadius);
+        Vector3 normalizedVector = new Vector3(0, 0, -BALL_RADIUS);
         return Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
     }
 
     public boolean isSliding(){
-        Vector3 normalizedVector = new Vector3(0, 0, -ballRadius);
+        Vector3 normalizedVector = new Vector3(0, 0, -BALL_RADIUS);
         return !Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
     }
 
+    @Override
+    public String toString(){
+        String ballTypeString = "";
+        if(type == Type.CUE)
+            ballTypeString = "cue";
+        else if(type == Type.SOLID)
+            ballTypeString = "solid";
+        else
+            ballTypeString = "stripe";
+        return String.format("Ball Type: %s\nPosition: <%.2f, %.2f, %.2f>\nVelocity: <%.2f, %.2f, %.2f>\nAngular Velocity: <%.2f, %.2f, %.2f>"
+                                , ballTypeString
+                                , getDisplacement().getAxis(0), getDisplacement().getAxis(1), getDisplacement().getAxis(2)
+                                , getVelocity().getAxis(0), getVelocity().getAxis(1), getVelocity().getAxis(2)
+                                , getAngularVelocity().getAxis(0), getAngularVelocity().getAxis(1), getAngularVelocity().getAxis(2));
+    }
+
     public static void main(String[] args) {
-        Ball testBall = new Ball(BallType.CUE, 1, 1, 1, 1, 0, 0, 0, 1, 0);
+        Ball testBall = new Ball(Type.CUE, 1, 1, 1, 1, 0, 0, 0, 1, 0);
         System.out.println(testBall.isRolling());
     }
 }
