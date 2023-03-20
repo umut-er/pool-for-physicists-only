@@ -97,15 +97,15 @@ public class Ball {
             ballTypeString = "solid";
         else
             ballTypeString = "stripe";
-        return String.format("Ball Type: %s\nPosition: <%.2f, %.2f, %.2f>\nVelocity: <%.2f, %.2f, %.2f>\nAngular Velocity: <%.2f, %.2f, %.2f>"
+        return String.format("Ball Type: %s\nPosition: %s\nVelocity: %s\nAngular Velocity: %s"
                                 , ballTypeString
-                                , getDisplacement().getAxis(0), getDisplacement().getAxis(1), getDisplacement().getAxis(2)
-                                , getVelocity().getAxis(0), getVelocity().getAxis(1), getVelocity().getAxis(2)
-                                , getAngularVelocity().getAxis(0), getAngularVelocity().getAxis(1), getAngularVelocity().getAxis(2));
+                                , getDisplacement()
+                                , getVelocity()
+                                , getAngularVelocity());
     }
 
     public static void main(String[] args) {
-        Ball testBall = new Ball(Type.CUE, 1, 1, 1, 1, 0, 0, 0, 1, 0);
+        Ball testBall = new Ball(Ball.Type.CUE, 0, 0, 0, 20 * BALL_RADIUS, -20 * BALL_RADIUS, 0, 20, 20, 0);
         System.out.println(testBall.isRolling());
     }
 }

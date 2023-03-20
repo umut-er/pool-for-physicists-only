@@ -220,14 +220,13 @@ public class Matrix{
         return s;
     }
 
-    // TODO: We probably need a tolerance on this one, something like 1e-10
     @Override
     public boolean equals(Object obj){
         Matrix comp = (Matrix)obj;
         if(this.getRowCount() != comp.getRowCount() || this.getColumnCount() != comp.getColumnCount()) return false;
         for(int i = 0; i < getRowCount(); i++){
             for(int j = 0; j < getColumnCount(); j++){
-                if(this.getItem(i, j) != comp.getItem(i, j)) return false;
+                if(Math.abs(this.getItem(i, j) - comp.getItem(i, j)) > 1e-6) return false;
             }
         }
         return true;
