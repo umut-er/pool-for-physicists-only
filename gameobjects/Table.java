@@ -1,8 +1,12 @@
 package gameobjects;
 
+import ui.TableUI;
+
 public class Table{
-    Ball[] ballsInPlay;
-    Cushion[] cushions;
+    private Ball[] ballsInPlay;
+    private Cushion[] cushions;
+    private TableUI tableUI;
+    
     // Add UI component
     // Timer timer;
     // 1 cm = 3 pixels

@@ -1,7 +1,8 @@
 package gameobjects;
 
-// import javax.imageio.ImageIO;
+import ui.BallUI;
 import vectormath.Vector3;
+// import javax.imageio.ImageIO;
 // import java.awt.Image;
 // import java.awt.image.BufferedImage;
 // import java.io.File;
@@ -16,7 +17,7 @@ public class Ball {
     private Vector3 displacement;
     private Vector3 velocity;
     private Vector3 angularVelocity;
-    // Add UI component
+    private BallUI ballui;
     // private Image ballImage;
 
     public Ball(BallType type, String imageName){
