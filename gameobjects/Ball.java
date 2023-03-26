@@ -1,11 +1,11 @@
 package gameobjects;
 
-import javax.imageio.ImageIO;
+// import javax.imageio.ImageIO;
 import vectormath.Vector3;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+// import java.awt.Image;
+// import java.awt.image.BufferedImage;
+// import java.io.File;
+// import java.io.IOException;
 
 enum BallType{
     STRIPE, SOLID, CUE
@@ -16,7 +16,8 @@ public class Ball {
     private Vector3 displacement;
     private Vector3 velocity;
     private Vector3 angularVelocity;
-    private Image ballImage;
+    // Add UI component
+    // private Image ballImage;
 
     public Ball(BallType type, String imageName){
         this(type, imageName, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -28,16 +29,16 @@ public class Ball {
         this.displacement = new Vector3(data[0], data[1], data[2]);
         this.velocity = new Vector3(data[3], data[4], data[5]);
         this.angularVelocity = new Vector3(data[6], data[7], data[8]);
-        BufferedImage bufferedImage;
-        try 
-        {
-            bufferedImage = ImageIO.read(new File("ballImage.png"));
-            this.ballImage = bufferedImage.getScaledInstance(17, 17, Image.SCALE_DEFAULT);
-        } 
-        catch (IOException e) 
-        {
-            this.ballImage=null;
-        }
+        // BufferedImage bufferedImage;
+        // try 
+        // {
+        //     bufferedImage = ImageIO.read(new File("ballImage.png"));
+        //     this.ballImage = bufferedImage.getScaledInstance(17, 17, Image.SCALE_DEFAULT);
+        // } 
+        // catch (IOException e) 
+        // {
+        //     this.ballImage=null;
+        // }
     }
 
     public Vector3 getDisplacement(){
@@ -80,8 +81,8 @@ public class Ball {
         this.angularVelocity = angularVelocity;
     }
 
-    public Image getImage()
-    {
-        return this.ballImage;
-    }
+    // public Image getImage()
+    // {
+    //     return this.ballImage;
+    // }
 }

@@ -1,8 +1,10 @@
-package gameobjects;
+package ui;
 
 import java.awt.Color;
 
 import javax.swing.JFrame;
+
+import gameobjects.Table;
 
 public class PoolFrame extends JFrame{
     Table table;
@@ -17,6 +19,6 @@ public class PoolFrame extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.getContentPane().setBackground(new Color(0, 170, 0));
-        this.add(table);
+        // this.add(table);
     }
 }
