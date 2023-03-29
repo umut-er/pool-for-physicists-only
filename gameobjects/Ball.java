@@ -2,21 +2,24 @@ package gameobjects;
 
 import vectormath.Vector3;
 
-enum BallType{
-    STRIPE, SOLID, CUE
-}
+// TODO: Documentation
 
 public class Ball {
-    private BallType type;
+    public static enum Type{
+        STRIPE, SOLID, CUE
+    }
+    public static final double BALL_RADIUS = 0.028575;
+
+    private Type type;
     private Vector3 displacement;
     private Vector3 velocity;
     private Vector3 angularVelocity;
 
-    public Ball(BallType type, String imageName){
-        this(type, imageName, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    public Ball(Type type){
+        this(type, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public Ball(BallType type, String imageName, double... data) throws IllegalArgumentException{
+    public Ball(Type type, double... data) throws IllegalArgumentException{
         if(data.length != 9) throw new IllegalArgumentException("9 arguments required for vector initialization, " + data.length + " given.");
         this.type = type;
         this.displacement = new Vector3(data[0], data[1], data[2]);
@@ -36,7 +39,7 @@ public class Ball {
         return this.angularVelocity;
     }
 
-    public BallType getType(){
+    public Type getType(){
         return this.type;
     }
 
@@ -51,7 +54,7 @@ public class Ball {
     public void setVelocity(double x, double y, double z){
         this.velocity.setAll(x, y, z);
     }
-    
+
     public void setVelocity(Vector3 velocity){
         this.velocity = velocity;
     }
@@ -64,4 +67,45 @@ public class Ball {
         this.angularVelocity = angularVelocity;
     }
 
+    public boolean isStationary(){
+        return velocity.getVectorLength() == 0 && angularVelocity.getVectorLength() == 0;
+    }
+
+    public boolean isSpinning(){
+        return velocity.getVectorLength() == 0 &&
+            angularVelocity.getAxis(0) == 0 &&
+            angularVelocity.getAxis(1) == 0 &&
+            angularVelocity.getAxis(2) != 0;
+    }
+
+    public boolean isRolling(){
+        Vector3 normalizedVector = new Vector3(0, 0, -BALL_RADIUS);
+        return Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
+    }
+
+    public boolean isSliding(){
+        Vector3 normalizedVector = new Vector3(0, 0, -BALL_RADIUS);
+        return !Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
+    }
+
+    @Override
+    public String toString(){
+        String ballTypeString = "";
+        if(type == Type.CUE)
+            ballTypeString = "cue";
+        else if(type == Type.SOLID)
+            ballTypeString = "solid";
+        else
+            ballTypeString = "stripe";
+        return String.format("Ball Type: %s\nPosition: %s\nVelocity: %s\nAngular Velocity: %s"
+                                , ballTypeString
+                                , getDisplacement()
+                                , getVelocity()
+                                , getAngularVelocity());
+    }
+
+    public static void main(String[] args) {
+        Ball testBall = new Ball(Ball.Type.CUE, 0, 0, 0, 20 * BALL_RADIUS, -20 * BALL_RADIUS, 0, 20, 20, 0);
+        System.out.println(testBall.isRolling());
+    }
 }

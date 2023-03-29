@@ -1,7 +1,6 @@
 package vectormath;
 
 // TODO: Testing
-// TODO: Better error messages / Custom Error Types (?)
 
 /**
  * A simple 3D Vector class capable of crucial vector operations such as cross multiplication.
@@ -9,7 +8,7 @@ package vectormath;
  * @author Bilkent 2023 Spring CS102 Section 2 Group 5
  */
 public class Vector3 extends Matrix{
-    
+
     public Vector3(double... data){
         super(3, 1, data);
     }
@@ -52,6 +51,78 @@ public class Vector3 extends Matrix{
     }
 
     /**
+     * Performs this = this + vector
+     * @param vector The non-modified vector.
+     */
+    public void inPlaceAdd(Vector3 vector){
+        setAll(this.getAxis(0) + vector.getAxis(0), this.getAxis(1) + vector.getAxis(1), this.getAxis(2) + vector.getAxis(2));
+    }
+
+    /**
+     * Returns vector1 + vector2.
+     * @param vector1 Unmodified vector.
+     * @param vector2 Unmodified vector.
+     * @return A new vector equal to vector1 + vector2.
+     */
+    public static Vector3 add(Vector3 vector1, Vector3 vector2){
+        return new Vector3(vector1.getAxis(0) + vector2.getAxis(0), vector1.getAxis(1) + vector2.getAxis(1), vector1.getAxis(2) + vector2.getAxis(2));
+    }   
+
+    /**
+     * Performs this = this - vector.
+     * @param vector The non-modified vector.
+     */
+    public void inPlaceSubtract(Vector3 vector){
+        setAll(this.getAxis(0) - vector.getAxis(0), this.getAxis(1) - vector.getAxis(1), this.getAxis(2) - vector.getAxis(2));
+    }
+
+    /**
+     * Returns vector1 - vector2.
+     * @param vector1 Unmodified vector.
+     * @param vector2 Unmodified vector.
+     * @return A new vector equal to vector1 - vector2.
+     */
+    public static Vector3 subtract(Vector3 vector1, Vector3 vector2){
+        return new Vector3(vector1.getAxis(0) - vector2.getAxis(0), vector1.getAxis(1) - vector2.getAxis(1), vector1.getAxis(2) - vector2.getAxis(2));
+    }
+
+    /**
+     * Performs this = this * vector (Element-vise multiplication).
+     * @param vector The non-modified vector.
+     */
+    public void inPlaceMultiply(Vector3 vector){
+        setAll(this.getAxis(0) * vector.getAxis(0), this.getAxis(1) * vector.getAxis(1), this.getAxis(2) * vector.getAxis(2));
+    }
+
+    /**
+     * Performs this = c * this.
+     * @param c A constant.
+     */
+    public void inPlaceMultiply(double c){
+        setAll(this.getAxis(0) * c, this.getAxis(1) * c, this.getAxis(2) * c);
+    }
+
+    /**
+     * Performs vector1 * vector2 (element-wise).
+     * @param vector1 Unmodified vector.
+     * @param vector2 Unmodified vector.
+     * @return A new vector equal to vector1 * vector2.
+     */
+    public static Vector3 multiply(Vector3 vector1, Vector3 vector2){
+        return new Vector3(vector1.getAxis(0) * vector2.getAxis(0), vector1.getAxis(1) * vector2.getAxis(1), vector1.getAxis(2) * vector2.getAxis(2));
+    }
+
+    /**
+     * Performs c * vector.
+     * @param c A constant
+     * @param vector A vector (unmodified)
+     * @return A new vector equal to c * vector.
+     */
+    public static Vector3 multiply(double c, Vector3 vector){
+        return new Vector3(vector.getAxis(0) * c, vector.getAxis(1) * c, vector.getAxis(2) * c);
+    }
+
+    /**
      * A method to convert a Matrix into a Vector3.
      * @param matrix The matrix to convert, this is not modified.
      * @return A new Vector3 constructed from the data on matrix.
@@ -61,10 +132,7 @@ public class Vector3 extends Matrix{
         if(matrix.getRowCount() != 3 || matrix.getColumnCount() != 1){
             throw new IllegalArgumentException("Matrix is not compatible with a vector");
         }
-        double[] empty_data = new double[3];
-        Vector3 res = new Vector3(empty_data);
-        res.setAll(matrix.getItem(0, 0), matrix.getItem(1, 0), matrix.getItem(2, 0));
-        return res;
+        return new Vector3(matrix.getItem(0, 0), matrix.getItem(1, 0), matrix.getItem(2, 0));
     }
 
     /**
@@ -89,8 +157,7 @@ public class Vector3 extends Matrix{
         double first_item = vector1.getAxis(1) * vector2.getAxis(2) - vector1.getAxis(2) * vector2.getAxis(1);
         double second_item = - (vector1.getAxis(0) * vector2.getAxis(2) - vector1.getAxis(2) * vector2.getAxis(0));
         double third_item = vector1.getAxis(0) * vector2.getAxis(1) - vector1.getAxis(1) * vector2.getAxis(0);
-        double[] new_data = new double[3]; new_data[0] = first_item; new_data[1] = second_item; new_data[2] = third_item;
-        return new Vector3(new_data);
+        return new Vector3(first_item, second_item, third_item);
     }
 
     /**
@@ -99,11 +166,11 @@ public class Vector3 extends Matrix{
      * @return A new Vector3, normalized vector.
      */
     public static Vector3 normalize(Vector3 vector){
-        return Vector3.vectorFromMatrix(Matrix.multiply(1/vector.getVectorLength(), vector));
+        return Vector3.multiply(1/vector.getVectorLength(), vector);
     }
 
     @Override
     public String toString(){
-        return "[" + getAxis(0) + ", " + getAxis(1) + ", " + getAxis(2) + "]";
+        return String.format("<%.4f, %.4f, %.4f>", getAxis(0), getAxis(1), getAxis(2));
     }
 }
