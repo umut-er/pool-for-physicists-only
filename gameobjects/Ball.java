@@ -1,6 +1,5 @@
 package gameobjects;
 
-import ui.BallUI;
 import vectormath.Vector3;
 
 enum BallType{
@@ -12,7 +11,6 @@ public class Ball {
     private Vector3 displacement;
     private Vector3 velocity;
     private Vector3 angularVelocity;
-    private BallUI ballui;
 
     public Ball(BallType type, String imageName){
         this(type, imageName, 0, 0, 0, 0, 0, 0, 0, 0, 0);
