@@ -1,8 +1,6 @@
 package gameobjects;
 
-// TODO: Complete.
-
-public class Table {
-    Ball[] ballsInPlay;
-    Cushion[] cushions;
+public class Table{
+    private Ball[] ballsInPlay;
+    private Cushion[] cushions;
 }
