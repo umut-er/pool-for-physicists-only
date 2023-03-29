@@ -14,11 +14,11 @@ public class Ball {
     private Vector3 angularVelocity;
     private BallUI ballui;
 
-    public Ball(BallType type, String imageName){
-        this(type, imageName, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    public Ball(BallType type){
+        this(type, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public Ball(BallType type, String imageName, double... data) throws IllegalArgumentException{
+    public Ball(BallType type, double... data) throws IllegalArgumentException{
         if(data.length != 9) throw new IllegalArgumentException("9 arguments required for vector initialization, " + data.length + " given.");
         this.type = type;
         this.displacement = new Vector3(data[0], data[1], data[2]);
