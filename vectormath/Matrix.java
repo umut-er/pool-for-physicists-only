@@ -45,25 +45,6 @@ public class Matrix{
     }
 
     /**
-     * A method to resize (reshape) a given 1D array into a 2D array.
-     * @param rows How many rows the resized array should have
-     * @param columns How many columns the resized array should have
-     * @param data The 1D double array to resize
-     * @return A 2d array resized according to the parameters.
-     * @throws ArrayIndexOutOfBoundsException When the resize is not appropriate for given array, i.e. rows * columns != data.length
-     *
-    private static double[][] resize(int rows, int columns, double[] data) throws ArrayIndexOutOfBoundsException{
-        if(data.length != rows * columns) throw new ArrayIndexOutOfBoundsException("Resize is not appropriate.");
-        double[][] res = new double[rows][columns];
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < columns; j++){
-                res[i][j] = data[i * columns + j];
-            }
-        }
-        return res;
-    }/
-
-    /**
      * An implementation of constant * Matrix, i.e. matrix[i, j] *= c. This method returns a new Matrix.
      * @param c The constant in the multiplication.
      * @param matrix The matrix in the multiplication.
@@ -170,7 +151,7 @@ public class Matrix{
     public void inPlaceMultiply(double c){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                data[i * this.columns + j] *= c;
+                this.setItem(i, j, this.getItem(i, j)*c);
             }
         }
     }
@@ -186,7 +167,7 @@ public class Matrix{
         }
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                data[i * this.columns + j] += matrix.getItem(i, j);
+                this.setItem(i, j, this.getItem(i, j) + matrix.getItem(i, j));
             }
         }
     }
@@ -202,7 +183,7 @@ public class Matrix{
         }
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
-                data[i * this.columns + j] -= matrix.getItem(i, j);
+                this.setItem(i, j, this.getItem(i, j) - matrix.getItem(i, j));
             }
         }
     }
@@ -212,7 +193,7 @@ public class Matrix{
         String s = "";
         for(int i = 0; i < this.rows; i++){
             for(int j = 0; j < this.columns; j++){
-                s += this.data[i * this.columns + j] + "\t";
+                s += this.getItem(j, i) + "\t";
             }
             s += "\n";
         }
