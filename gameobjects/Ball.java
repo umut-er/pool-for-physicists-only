@@ -1,18 +1,12 @@
 package gameobjects;
 
-import ui.BallUI;
 import vectormath.Vector3;
-
-enum BallType{
-    STRIPE, SOLID, CUE
-}
 
 public class Ball {
     private BallType type;
     private Vector3 displacement;
     private Vector3 velocity;
     private Vector3 angularVelocity;
-    private BallUI ballui;
 
     public Ball(BallType type){
         this(type, 0, 0, 0, 0, 0, 0, 0, 0, 0);
