@@ -39,6 +39,6 @@ public class BallUI {
     }
 
     public int getYPixel(double tableYLength, int pixelYLength){
-        return (int)((ball.getDisplacement().getAxis(0) / tableYLength) * pixelYLength);
+        return (int)((ball.getDisplacement().getAxis(1) / tableYLength) * pixelYLength);
     }
 }
