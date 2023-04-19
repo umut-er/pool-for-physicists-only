@@ -15,7 +15,7 @@ public class PoolFrame extends JFrame{
     public static final int FRAME_WIDTH=450;
 
     public PoolFrame(){
-        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 2, 0, 0, 0, 0);
         BallUI cueBallUI = new BallUI(cueBall, 0);
         Ball[] ballArray = {cueBall};
         BallUI[] ballUIs = {cueBallUI};
