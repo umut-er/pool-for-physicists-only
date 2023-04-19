@@ -2,6 +2,7 @@ package ui;
 
 public class Main {
     public static void main(String[] args) {
-        new PoolFrame();
+        PoolFrame frame = new PoolFrame();
+        frame.start();
     }
 }

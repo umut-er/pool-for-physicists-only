@@ -125,8 +125,8 @@ public class Physics{
     }
 
     public static void main(String[] args) {
-        Ball test = new Ball(Ball.Type.CUE, 0.5, 0.5, 0, 0, 1, 0, 0, 0, 0);
-        Ball test2 = new Ball(Ball.Type.CUE, 0.5, 1, 0, 0, 0, 0, 0, 0, 0);
+        Ball test = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 1, 0, 0, 0, 0);
+        Ball test2 = new Ball(BallType.CUE, 0.5, 1, 0, 0, 0, 0, 0, 0, 0);
         for(int i = 0; i < 5; i++){
             Physics.evolveBallMotion(test, 0.1);
             System.out.println("Ball 1");

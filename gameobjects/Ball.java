@@ -2,24 +2,19 @@ package gameobjects;
 
 import vectormath.Vector3;
 
-// TODO: Documentation
-
 public class Ball {
-    public static enum Type{
-        STRIPE, SOLID, CUE
-    }
     public static final double BALL_RADIUS = 0.028575;
 
-    private Type type;
+    private BallType type;
     private Vector3 displacement;
     private Vector3 velocity;
     private Vector3 angularVelocity;
 
-    public Ball(Type type){
+    public Ball(BallType type){
         this(type, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public Ball(Type type, double... data) throws IllegalArgumentException{
+    public Ball(BallType type, double... data) throws IllegalArgumentException{
         if(data.length != 9) throw new IllegalArgumentException("9 arguments required for vector initialization, " + data.length + " given.");
         this.type = type;
         this.displacement = new Vector3(data[0], data[1], data[2]);
@@ -39,7 +34,7 @@ public class Ball {
         return this.angularVelocity;
     }
 
-    public Type getType(){
+    public BallType getType(){
         return this.type;
     }
 
@@ -91,9 +86,9 @@ public class Ball {
     @Override
     public String toString(){
         String ballTypeString = "";
-        if(type == Type.CUE)
+        if(type == BallType.CUE)
             ballTypeString = "cue";
-        else if(type == Type.SOLID)
+        else if(type == BallType.SOLID)
             ballTypeString = "solid";
         else
             ballTypeString = "stripe";
@@ -105,7 +100,7 @@ public class Ball {
     }
 
     public static void main(String[] args) {
-        Ball testBall = new Ball(Ball.Type.CUE, 0, 0, 0, 20 * BALL_RADIUS, -20 * BALL_RADIUS, 0, 20, 20, 0);
+        Ball testBall = new Ball(BallType.CUE, 0, 0, 0, 20 * BALL_RADIUS, -20 * BALL_RADIUS, 0, 20, 20, 0);
         System.out.println(testBall.isRolling());
     }
 }
