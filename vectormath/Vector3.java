@@ -102,6 +102,11 @@ public class Vector3 extends Matrix{
         setAll(this.getAxis(0) * c, this.getAxis(1) * c, this.getAxis(2) * c);
     }
 
+    public void normalize(){
+        double length = getVectorLength();
+        setAll(getAxis(0) / length, getAxis(1) / length, getAxis(2) / length);
+    }
+
     /**
      * Performs vector1 * vector2 (element-wise).
      * @param vector1 Unmodified vector.
@@ -167,6 +172,12 @@ public class Vector3 extends Matrix{
      */
     public static Vector3 normalize(Vector3 vector){
         return Vector3.multiply(1/vector.getVectorLength(), vector);
+    }
+
+    public static double getAngleBetweenVectors(Vector3 vector1, Vector3 vector2){
+        double dotProductOfVectors = dotProduct(vector1, vector2);
+        double productOfMagnitudes = vector1.getVectorLength() * vector2.getVectorLength();
+        return Math.acos(dotProductOfVectors / productOfMagnitudes);
     }
 
     @Override

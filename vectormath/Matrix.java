@@ -154,11 +154,11 @@ public class Matrix{
      * @return An integer, result of the operation.
      * @throws IllegalArgumentException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
      */
-    public static int dotProduct(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
+    public static double dotProduct(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
             throw new IllegalArgumentException("Matrix shapes should be the same for dot product.");
         }
-        int sum = 0;
+        double sum = 0;
         for(int i = 0; i < matrix1.getRowCount(); i++){
             for(int j = 0; j < matrix1.getColumnCount(); j++){
                 sum += matrix1.getItem(i, j) * matrix2.getItem(i, j);
