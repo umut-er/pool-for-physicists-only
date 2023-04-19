@@ -3,7 +3,7 @@ package physics;
 // TODO: Testing
 
 public class PolynomialSolver{
-    
+
     /**
      * Returns a real root of the cubic equation.
      * Parameters describe a cubic equation ax^3 + bx^2 + cx + d = 0.
@@ -50,7 +50,7 @@ public class PolynomialSolver{
         for(int i = 0; i < 2; i++){
             for(int j = 0; j < 2; j++){
                 for(int k = 0; k < 2; k++){
-                    double answerDifferenceTerm = Math.sqrt(p[i] * p[i] - 8 * q[j]);                    
+                    double answerDifferenceTerm = Math.sqrt(p[i] * p[i] - 8 * q[j]);
                     if(i == 0) result = -p[i] - answerDifferenceTerm;
                     else result = -p[i] + answerDifferenceTerm;
 

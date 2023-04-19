@@ -3,8 +3,8 @@ package vectormath;
 import java.util.Arrays;
 
 // TODO: Testing
-// TODO: Better error messages / Custom error types (?)
 // TODO: Represent a matrix using 1d data array (?) (Big change) (Somewhat sure this only affects Matrix, power of abstraction. - Umut Erşahince).
+// TODO: Check for excess copies.
 
 /**
  * A simple matrix class (mainly) for vectors and related mathematical equations.
@@ -15,11 +15,11 @@ public class Matrix{
     private int rows;
     private int columns;
 
-    public Matrix(int rows, int columns, double[] data1d) throws ArrayIndexOutOfBoundsException{
-        if(rows * columns != data1d.length) throw new ArrayIndexOutOfBoundsException("Data length should be equal to row(= " + rows + ") * column(= " + columns + ")");
+    public Matrix(int rows, int columns, double... data) throws IllegalArgumentException{
+        if(rows * columns != data.length) throw new IllegalArgumentException("Data length should be equal to row(= " + rows + ") * column(= " + columns + ")");
         this.rows = rows;
         this.columns = columns;
-        this.data = data1d;
+        this.data = data;
     }
 
     public Matrix(Matrix matrix){
@@ -65,11 +65,11 @@ public class Matrix{
      * @param matrix1 First matrix, order matters.
      * @param matrix2 Second matrix, order matters.
      * @return A new Matrix of shape [matrix1.rows, matrix2.columns], result of the operation
-     * @throws ArrayIndexOutOfBoundsException When matrix1.columns != matrix2.rows.
+     * @throws IllegalArgumentException When matrix1.columns != matrix2.rows.
      */
-    public static Matrix multiply(Matrix matrix1, Matrix matrix2) throws ArrayIndexOutOfBoundsException{
+    public static Matrix multiply(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
         if(matrix1.getColumnCount() != matrix2.getRowCount()){
-            throw new ArrayIndexOutOfBoundsException("Matrix 1 column count must be equal to matrix 2 row count for matrix multiplication");
+            throw new IllegalArgumentException("Matrix 1 column count must be equal to matrix 2 row count for matrix multiplication");
         }
         int new_row = matrix1.getRowCount();
         int new_column = matrix2.getColumnCount();
@@ -89,11 +89,11 @@ public class Matrix{
      * @param matrix1 First matrix, order doesn't matter.
      * @param matrix2 Second matrix, order doesn't matter.
      * @return A new Matrix, result of the operation.
-     * @throws ArrayIndexOutOfBoundsException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
+     * @throws IllegalArgumentException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
      */
-    public static Matrix add(Matrix matrix1, Matrix matrix2) throws ArrayIndexOutOfBoundsException{
+    public static Matrix add(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
-            throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for addition.");
+            throw new IllegalArgumentException("Matrix shapes should be the same for addition.");
         }
         Matrix res = matrix1;
         for(int i = 0; i < matrix1.getRowCount(); i++){
@@ -109,11 +109,11 @@ public class Matrix{
      * @param matrix1 First matrix, order matters.
      * @param matrix2 Second matrix, order matters.
      * @return A new Matrix, result of the operation.
-     * @throws ArrayIndexOutOfBoundsException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
+     * @throws IllegalArgumentException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
      */
-    public static Matrix subtract(Matrix matrix1, Matrix matrix2) throws ArrayIndexOutOfBoundsException{
+    public static Matrix subtract(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
-            throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for subtraction.");
+            throw new IllegalArgumentException("Matrix shapes should be the same for subtraction.");
         }
         Matrix res = matrix1;
         for(int i = 0; i < matrix1.getRowCount(); i++){
@@ -122,20 +122,20 @@ public class Matrix{
             }
         }
         return res;
-    }    
+    }
 
     /**
      * An implementation of the dot product. This method returns a new Matrix.
      * @param matrix1 First matrix, order doesn't matter.
      * @param matrix2 Second matrix, order doesn't matter.
      * @return An integer, result of the operation.
-     * @throws ArrayIndexOutOfBoundsException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
+     * @throws IllegalArgumentException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
      */
-    public static int dotProduct(Matrix matrix1, Matrix matrix2) throws ArrayIndexOutOfBoundsException{
+    public static double dotProduct(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
-            throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for dot product.");
+            throw new IllegalArgumentException("Matrix shapes should be the same for dot product.");
         }
-        int sum = 0;
+        double sum = 0;
         for(int i = 0; i < matrix1.getRowCount(); i++){
             for(int j = 0; j < matrix1.getColumnCount(); j++){
                 sum += matrix1.getItem(i, j) * matrix2.getItem(i, j);
@@ -159,11 +159,11 @@ public class Matrix{
     /**
      * Same as add(Matrix matrix1, Matrix matrix2) but modifies the matrix on which it is called.
      * @param matrix The matrix to add. This is not modified.
-     * @throws ArrayIndexOutOfBoundsException When this.rows != matrix.rows or this.columns != matrix.columns.
+     * @throws IllegalArgumentException When this.rows != matrix.rows or this.columns != matrix.columns.
      */
-    public void inPlaceAdd(Matrix matrix) throws ArrayIndexOutOfBoundsException{
+    public void inPlaceAdd(Matrix matrix) throws IllegalArgumentException{
         if(matrix.getRowCount() != rows || matrix.getColumnCount() != columns){
-            throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for addition.");
+            throw new IllegalArgumentException("Matrix shapes should be the same for addition.");
         }
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
@@ -175,11 +175,11 @@ public class Matrix{
     /**
      * Same as subtract(Matrix matrix1, Matrix matrix2) but modifies the matrix on which it is called.
      * @param matrix matrix2 in the static method. This is not modified.
-     * @throws ArrayIndexOutOfBoundsException When this.rows != matrix.rows or this.columns != matrix.columns.
+     * @throws IllegalArgumentException When this.rows != matrix.rows or this.columns != matrix.columns.
      */
-    public void inPlaceSubtract(Matrix matrix) throws ArrayIndexOutOfBoundsException{
+    public void inPlaceSubtract(Matrix matrix) throws IllegalArgumentException{
         if(matrix.getRowCount() != rows || matrix.getColumnCount() != columns){
-            throw new ArrayIndexOutOfBoundsException("Matrix shapes should be the same for addition.");
+            throw new IllegalArgumentException("Matrix shapes should be the same for addition.");
         }
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
@@ -200,14 +200,21 @@ public class Matrix{
         return s;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        Matrix comp = (Matrix)obj;
+        if(this.getRowCount() != comp.getRowCount() || this.getColumnCount() != comp.getColumnCount()) return false;
+        for(int i = 0; i < getRowCount(); i++){
+            for(int j = 0; j < getColumnCount(); j++){
+                if(Math.abs(this.getItem(i, j) - comp.getItem(i, j)) > 1e-6) return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        double[][] vector3d = new double[1][3];
-        vector3d[0][0] = 0; vector3d[0][1] = 0; vector3d[0][2] = 1;
-        double[] data = {9, 5, 2, 1, 8, 5, 3, 1, 6};
-        double[] data2 = {3, 2, 1, 4, 5, 3};
-        Matrix matrix1 = new Matrix(3, 3, data);
-        Matrix matrix2 = new Matrix(3, 2, data2);
-        System.out.println(Matrix.multiply(matrix1, matrix2));
-        System.out.println(matrix1);
+        Matrix test1 = new Matrix(3, 1, 0, 1, 2);
+        Vector3 test2 = new Vector3(0, 1, 2);
+        System.out.println(test1.equals(test2));
     }
 }
