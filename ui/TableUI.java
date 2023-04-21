@@ -35,6 +35,7 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public void startAction(){
+        Physics.resolveBallBallCollision(table.getBallArray()[0], table.getBallArray()[1]);
         timer.start();
     }
 

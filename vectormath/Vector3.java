@@ -107,6 +107,10 @@ public class Vector3 extends Matrix{
         setAll(getAxis(0) / length, getAxis(1) / length, getAxis(2) / length);
     }
 
+    public boolean vectorLengthEquals(double length){
+        return Math.abs(getVectorLength() - length) < 1e-6;
+    }
+
     /**
      * Performs vector1 * vector2 (element-wise).
      * @param vector1 Unmodified vector.

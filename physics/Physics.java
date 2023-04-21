@@ -111,9 +111,11 @@ public class Physics{
         evolveSpinningBallMotion(ball, deltaTime);
     }
 
-    private static void resolveBallBallCollision(Ball ball1, Ball ball2){
+    public static void resolveBallBallCollision(Ball ball1, Ball ball2){
         Vector3 initialBall2Velocity = ball2.getVelocity();
         Vector3 initialVelocity = Vector3.subtract(ball1.getVelocity(), ball2.getVelocity());
+        if(initialVelocity.vectorLengthEquals(0))
+            return;
         Vector3 lineOfCollision = Vector3.subtract(ball2.getDisplacement(), ball1.getDisplacement());
         lineOfCollision.normalize();
         double angle = Vector3.getAngleBetweenVectors(initialVelocity, lineOfCollision);
