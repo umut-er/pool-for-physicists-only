@@ -11,6 +11,7 @@ public class BallUI {
     private Ball ball;
     private int ballNumber; // This will be used in selecting the image to load.
     private boolean visible; // Required later on when we implement pockets.
+    private int ballPixelRadius = 8;
 
     public BallUI(Ball ball, int ballNumber){
         this.ball = ball;
@@ -18,12 +19,16 @@ public class BallUI {
         this.visible = true;
         try{
             BufferedImage bufferedImage = ImageIO.read(getClass().getResource("ballImage.png"));
-            this.ballImage = bufferedImage.getScaledInstance(17, 17, Image.SCALE_DEFAULT);
+            this.ballImage = bufferedImage.getScaledInstance(2 * ballPixelRadius, 2 * ballPixelRadius, Image.SCALE_DEFAULT);
         } 
         catch (IOException e){
             this.ballImage=null;
             System.out.println(e.getMessage());
         }
+    }
+
+    public int getBallPixelRadius(){
+        return this.ballPixelRadius;
     }
 
     public Image getImage(){
@@ -39,6 +44,6 @@ public class BallUI {
     }
 
     public int getYPixel(double tableYLength, int pixelYLength){
-        return (int)((ball.getDisplacement().getAxis(1) / tableYLength) * pixelYLength);
+        return (int)(((tableYLength - ball.getDisplacement().getAxis(1)) / tableYLength) * pixelYLength);
     }
 }

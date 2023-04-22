@@ -63,14 +63,14 @@ public class Ball {
     }
 
     public boolean isStationary(){
-        return velocity.getVectorLength() == 0 && angularVelocity.getVectorLength() == 0;
+        return velocity.vectorLengthEquals(0) && angularVelocity.vectorLengthEquals(0);
     }
 
     public boolean isSpinning(){
-        return velocity.getVectorLength() == 0 &&
-            angularVelocity.getAxis(0) == 0 &&
-            angularVelocity.getAxis(1) == 0 &&
-            angularVelocity.getAxis(2) != 0;
+        return velocity.vectorLengthEquals(0) &&
+            angularVelocity.getAxis(0) <= 1e-6 &&
+            angularVelocity.getAxis(1) <= 1e-6 &&
+            angularVelocity.getAxis(2) > 1e-6;
     }
 
     public boolean isRolling(){

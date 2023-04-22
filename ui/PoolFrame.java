@@ -17,8 +17,8 @@ public class PoolFrame extends JFrame{
     public static final int FRAME_WIDTH=786;
 
     public PoolFrame(){
-        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.8, 0, 0, 0, 0, 0, -100, 0);
-        // Ball anotherBall = new Ball(BallType.CUE, 0.5 + Ball.BALL_RADIUS, 0.8, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall = new Ball(BallType.CUE, 0.45, 1.3, 0, -0.4, -0.9, 0, 0, 300, 0);
+        // Ball anotherBall = new Ball(BallType.CUE, 0.5 + 2 * Ball.BALL_RADIUS, 0.8, 0, 0, 0, 0, 0, 0, 0);
         BallUI cueBallUI = new BallUI(cueBall, 0);
         // BallUI anotherBallUI = new BallUI(anotherBall, 0);
         // Ball[] ballArray = {cueBall, anotherBall};
@@ -27,12 +27,15 @@ public class PoolFrame extends JFrame{
         BallUI[] ballUIs = {cueBallUI};
         Table table = new Table(ballArray);
         this.tableUI = new TableUI(table, ballUIs);
-
+        
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setTitle("8-Ball Pool");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.getContentPane().setBackground(new Color(0, 170, 0));
+        this.getContentPane().setBackground(new Color(255, 170, 0));
+        setLayout(null);
+        
+        tableUI.setBounds(0, 0, TableUI.getTableWidth(), TableUI.getTableHeight());
         this.add(tableUI);
         this.setVisible(true);
     }

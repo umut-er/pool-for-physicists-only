@@ -62,13 +62,7 @@ public class Physics{
         ball.getDisplacement().inPlaceSubtract(Vector3.multiply(ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedVelocity));
 
         normalizedVelocity.inPlaceMultiply(ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime);
-        if(ball.getVelocity().getVectorLength() < normalizedVelocity.getVectorLength()){
-            ball.getVelocity().setAxis(0, 0);
-            ball.getVelocity().setAxis(1, 0);
-        }
-        else{
-            ball.getVelocity().inPlaceSubtract(normalizedVelocity);
-        }
+        ball.getVelocity().inPlaceSubtract(normalizedVelocity);
 
         ball.getAngularVelocity().setAxis(0, -1 / Ball.BALL_RADIUS * ball.getVelocity().getAxis(1));
         ball.getAngularVelocity().setAxis(1, 1 / Ball.BALL_RADIUS * ball.getVelocity().getAxis(0));
@@ -93,7 +87,7 @@ public class Physics{
         ball.getDisplacement().inPlaceSubtract(Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedRelativeVelocity));
 
         Vector3 deltaVelocity = Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime, normalizedRelativeVelocity);
-        ball.getVelocity().inPlaceAdd(deltaVelocity);
+        ball.getVelocity().inPlaceSubtract(deltaVelocity);
 
         double constantMultiplier = (5 * SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime) / (2 * Ball.BALL_RADIUS);
         Vector3 deltaVector = Vector3.multiply(constantMultiplier, normalizedRelativeVelocity);
@@ -123,5 +117,13 @@ public class Physics{
         Vector3 ball1Velocity = Vector3.subtract(initialVelocity, ball2Velocity);
         ball1.setVelocity(Vector3.add(ball1Velocity, initialBall2Velocity));
         ball2.setVelocity(Vector3.add(ball2Velocity, initialBall2Velocity));
+    }
+
+    public static void main(String[] args) {
+        Ball test = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 0, 0, -100, 0, 0);
+        for(int i = 0; i < 10; i++){
+            System.out.println(test);
+            evolveBallMotion(test, 0.05);
+        }
     }
 }
