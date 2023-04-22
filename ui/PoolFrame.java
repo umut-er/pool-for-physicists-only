@@ -17,12 +17,14 @@ public class PoolFrame extends JFrame{
     public static final int FRAME_WIDTH=786;
 
     public PoolFrame(){
-        Ball cueBall = new Ball(BallType.CUE, 1.5, 0.8, 0, 0, 0, 0, 0, 0, 0);
-        Ball anotherBall = new Ball(BallType.CUE, 1.5 - 2 * Ball.BALL_RADIUS, 0.8 + Ball.BALL_RADIUS, 0, 1, 0, 0, 0, 0, 0);
+        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.8, 0, 0, 0, 0, 0, -100, 0);
+        // Ball anotherBall = new Ball(BallType.CUE, 0.5 + Ball.BALL_RADIUS, 0.8, 0, 0, 0, 0, 0, 0, 0);
         BallUI cueBallUI = new BallUI(cueBall, 0);
-        BallUI anotherBallUI = new BallUI(anotherBall, 0);
-        Ball[] ballArray = {cueBall, anotherBall};
-        BallUI[] ballUIs = {cueBallUI, anotherBallUI};
+        // BallUI anotherBallUI = new BallUI(anotherBall, 0);
+        // Ball[] ballArray = {cueBall, anotherBall};
+        // BallUI[] ballUIs = {cueBallUI, anotherBallUI};
+        Ball[] ballArray = {cueBall};
+        BallUI[] ballUIs = {cueBallUI};
         Table table = new Table(ballArray);
         this.tableUI = new TableUI(table, ballUIs);
 

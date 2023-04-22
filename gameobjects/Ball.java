@@ -98,9 +98,4 @@ public class Ball {
                                 , getVelocity()
                                 , getAngularVelocity());
     }
-
-    public static void main(String[] args) {
-        Ball testBall = new Ball(BallType.CUE, 0, 0, 0, 20 * BALL_RADIUS, -20 * BALL_RADIUS, 0, 20, 20, 0);
-        System.out.println(testBall.isRolling());
-    }
 }

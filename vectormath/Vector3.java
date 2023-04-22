@@ -102,11 +102,19 @@ public class Vector3 extends Matrix{
         setAll(this.getAxis(0) * c, this.getAxis(1) * c, this.getAxis(2) * c);
     }
 
+    /**
+     * Modifies vector to normalize it.
+     */
     public void normalize(){
         double length = getVectorLength();
         setAll(getAxis(0) / length, getAxis(1) / length, getAxis(2) / length);
     }
 
+    /**
+     * Check if the vector length is equal to given value with some tolerance.
+     * @param length The value to check for equality.
+     * @return A boolean, true if the vector length is within the tolerance.
+     */
     public boolean vectorLengthEquals(double length){
         return Math.abs(getVectorLength() - length) < 1e-6;
     }
@@ -178,6 +186,12 @@ public class Vector3 extends Matrix{
         return Vector3.multiply(1/vector.getVectorLength(), vector);
     }
 
+    /**
+     * Returns the angle between the vectors, order doesn't matter.
+     * @param vector1 First vector.
+     * @param vector2 Second vector.
+     * @return A double, the angle between the vectors in radians.
+     */
     public static double getAngleBetweenVectors(Vector3 vector1, Vector3 vector2){
         double dotProductOfVectors = dotProduct(vector1, vector2);
         double productOfMagnitudes = vector1.getVectorLength() * vector2.getVectorLength();

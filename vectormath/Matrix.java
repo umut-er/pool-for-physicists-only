@@ -1,9 +1,5 @@
 package vectormath;
 
-import java.util.Arrays;
-
-// TODO: Testing
-// TODO: Represent a matrix using 1d data array (?) (Big change) (Somewhat sure this only affects Matrix, power of abstraction. - Umut Erşahince).
 // TODO: Check for excess copies.
 
 /**
@@ -210,11 +206,5 @@ public class Matrix{
             }
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        Matrix test1 = new Matrix(3, 1, 0, 1, 2);
-        Vector3 test2 = new Vector3(0, 1, 2);
-        System.out.println(test1.equals(test2));
     }
 }

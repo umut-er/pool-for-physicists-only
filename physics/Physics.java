@@ -93,13 +93,7 @@ public class Physics{
         ball.getDisplacement().inPlaceSubtract(Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedRelativeVelocity));
 
         Vector3 deltaVelocity = Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime, normalizedRelativeVelocity);
-        if(ball.getVelocity().getVectorLength() < deltaVelocity.getVectorLength()){
-            ball.getVelocity().setAxis(0, 0);
-            ball.getVelocity().setAxis(1, 0);
-        }
-        else{
-            ball.getVelocity().inPlaceSubtract(deltaVelocity);
-        }
+        ball.getVelocity().inPlaceAdd(deltaVelocity);
 
         double constantMultiplier = (5 * SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime) / (2 * Ball.BALL_RADIUS);
         Vector3 deltaVector = Vector3.multiply(constantMultiplier, normalizedRelativeVelocity);
@@ -111,6 +105,11 @@ public class Physics{
         evolveSpinningBallMotion(ball, deltaTime);
     }
 
+    /**
+     * Resolves the ball-ball collision. Assumes no friction between balls.
+     * @param ball1 First ball.
+     * @param ball2 Second ball.
+     */
     public static void resolveBallBallCollision(Ball ball1, Ball ball2){
         Vector3 initialBall2Velocity = ball2.getVelocity();
         Vector3 initialVelocity = Vector3.subtract(ball1.getVelocity(), ball2.getVelocity());
@@ -124,25 +123,5 @@ public class Physics{
         Vector3 ball1Velocity = Vector3.subtract(initialVelocity, ball2Velocity);
         ball1.setVelocity(Vector3.add(ball1Velocity, initialBall2Velocity));
         ball2.setVelocity(Vector3.add(ball2Velocity, initialBall2Velocity));
-    }
-
-    public static void main(String[] args) {
-        Ball test = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 1, 0, 0, 0, 0);
-        Ball test2 = new Ball(BallType.CUE, 0.5, 1, 0, 0, 0, 0, 0, 0, 0);
-        for(int i = 0; i < 5; i++){
-            Physics.evolveBallMotion(test, 0.1);
-            System.out.println("Ball 1");
-            System.out.println(test);
-        }
-        Physics.resolveBallBallCollision(test, test2);
-        System.out.println("HANDLEDDDD");
-        for(int i = 0; i < 10; i++){
-            Physics.evolveBallMotion(test, 0.05);
-            Physics.evolveBallMotion(test2, 0.05);
-            System.out.println("Ball 1");
-            System.out.println(test);
-            System.out.println("Ball 2");
-            System.out.println(test2);
-        }
     }
 }
