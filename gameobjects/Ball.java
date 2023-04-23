@@ -75,12 +75,12 @@ public class Ball {
 
     public boolean isRolling(){
         Vector3 normalizedVector = new Vector3(0, 0, -BALL_RADIUS);
-        return Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
+        return !velocity.vectorLengthEquals(0) && Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
     }
 
     public boolean isSliding(){
         Vector3 normalizedVector = new Vector3(0, 0, -BALL_RADIUS);
-        return !Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
+        return !velocity.vectorLengthEquals(0) && !Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
     }
 
     @Override

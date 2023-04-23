@@ -16,7 +16,6 @@ public class PolynomialSolver{
      * @return a double, a real root of the equation. It is guaranteed that this exists.
      */
     public static double solveCubicEquation(double a, double b, double c, double d){
-        System.out.println(a + " " + b + " " + c + " " + d);
         double p = (3 * a * c - b * b) / (3 * a * a);
         double q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
 

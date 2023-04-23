@@ -48,19 +48,14 @@ public class TableUI extends JPanel implements ActionListener{
         super.paint(g);
         Graphics2D graphics=(Graphics2D)g;
         for(BallUI ball : ballUIs){
-            if(ball.isVisible())
-                graphics.drawImage(ball.getImage(), ball.getXPixel(TABLE_WIDTH_METERS, TABLE_WIDTH_PIXELS) - ball.getBallPixelRadius(), 
-                                    ball.getYPixel(TABLE_HEIGHT_METERS, TABLE_HEIGHT_PIXELS) - ball.getBallPixelRadius(), null);
+            graphics.drawImage(ball.getImage(), ball.getXPixel(TABLE_WIDTH_METERS, TABLE_WIDTH_PIXELS) - ball.getBallPixelRadius(), 
+                                ball.getYPixel(TABLE_HEIGHT_METERS, TABLE_HEIGHT_PIXELS) - ball.getBallPixelRadius(), null);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        // Tentative, this for loop will be implemented in Table class.
-        for(Ball ball : table.getBallArray()){
-            Physics.evolveBallMotion(ball, 0.033); 
-        }
-
+        table.evolveTable(0.033);
         repaint();
     }
 }

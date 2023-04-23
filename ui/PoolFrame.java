@@ -1,6 +1,8 @@
 package ui;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 
@@ -17,15 +19,15 @@ public class PoolFrame extends JFrame{
     public static final int FRAME_WIDTH=786;
 
     public PoolFrame(){
-        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.5, 0, 0.5, 0, 0, 0, 0, 0);
-        // Ball anotherBall = new Ball(BallType.CUE, 0.5 + 2 * Ball.BALL_RADIUS, 0.8, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.5, 0, 3, 0, 0, 0, 0, 0);
+        Ball anotherBall = new Ball(BallType.CUE, 1.5, 0.505, 0, 0, 0, 0, 0, 0, 0);
         BallUI cueBallUI = new BallUI(cueBall, 0);
-        // BallUI anotherBallUI = new BallUI(anotherBall, 0);
-        // Ball[] ballArray = {cueBall, anotherBall};
-        // BallUI[] ballUIs = {cueBallUI, anotherBallUI};
-        Ball[] ballArray = {cueBall};
-        BallUI[] ballUIs = {cueBallUI};
-        Table table = new Table(ballArray);
+        BallUI anotherBallUI = new BallUI(anotherBall, 0);
+        Ball[] ballArray = {cueBall, anotherBall};
+        BallUI[] ballUIs = {cueBallUI, anotherBallUI};
+        // Ball[] ballArray = {cueBall};
+        // BallUI[] ballUIs = {cueBallUI};
+        Table table = new Table(new ArrayList<Ball>(Arrays.asList(ballArray)));
         this.tableUI = new TableUI(table, ballUIs);
         
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);

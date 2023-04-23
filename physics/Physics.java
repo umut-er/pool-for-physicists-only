@@ -1,6 +1,9 @@
 package physics;
 
 import gameobjects.*;
+import physics.event.BallBallCollisionEvent;
+import physics.event.BallStateChangeEvent;
+import physics.event.Event;
 import vectormath.Vector3;
 
 public class Physics{
@@ -19,8 +22,46 @@ public class Physics{
      * @param table Table object to calculate the event on.
      * @return minimum time (in seconds) it will take for an event to happen.
      */
-    public static double pollEventQueue(Table table){
-        return 1.0;
+    public static Event pollEventQueue(Table table){
+        Event event = null;
+        double time;
+
+        for(Ball ball : table.getBallArray()){
+            if(ball.isSpinning()){
+                time = calculateSpinningTime(ball);
+                if(event == null || event.getTimeUntilEvent() > time)
+                    event = new BallStateChangeEvent(ball, time);
+            }
+            else if(ball.isRolling()){
+                time = calculateRollingTime(ball);
+                if(event == null || event.getTimeUntilEvent() > time)
+                    event = new BallStateChangeEvent(ball, time);
+            }
+            else if(ball.isSliding()){
+                time = calculateSlidingTime(ball);
+                if(event == null || event.getTimeUntilEvent() > time)
+                    event = new BallStateChangeEvent(ball, time);
+            }
+        }
+
+        for(int i = 0; i < (table.getBallArray().size()); i++){
+            for(int j = i + 1; j < (table.getBallArray().size()); j++){
+                Ball ball1 = table.getBallArray().get(i);
+                Ball ball2 = table.getBallArray().get(j);
+                time = calculateBallBallCollisionTime(ball1, ball2);
+                if(time > 0){
+                    if(event == null || event.getTimeUntilEvent() > time)
+                        event = new BallBallCollisionEvent(ball1, ball2, time);
+                }
+            } 
+        }
+
+        return event;
+    }
+
+    public static void updateTable(Table table, double dt){
+        for(Ball ball : table.getBallArray())
+            evolveBallMotion(ball, dt);
     }
 
     public static double calculateBallBallCollisionTime(Ball ball1, Ball ball2){
