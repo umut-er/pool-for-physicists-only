@@ -3,8 +3,7 @@ package physics.event;
 import gameobjects.Ball;
 import gameobjects.Cushion;
 
-public class BallCushionCollisionEvent extends Event{
-    
+public class BallCushionCollisionEvent extends Event{   
     private Ball ball;
     private Cushion cushion;
 

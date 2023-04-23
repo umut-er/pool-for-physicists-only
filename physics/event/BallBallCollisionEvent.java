@@ -4,7 +4,6 @@ import gameobjects.Ball;
 import physics.Physics;
 
 public class BallBallCollisionEvent extends Event{
-
     private Ball ball1;
     private Ball ball2;
 

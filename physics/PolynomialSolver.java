@@ -8,7 +8,7 @@ public class PolynomialSolver{
      * Returns a real root of the cubic equation.
      * Parameters describe a cubic equation ax^3 + bx^2 + cx + d = 0.
      * The equations are exact but a small error can be present due to floating point arithmetic.
-     * This uses the method explained in this link: https://math.vanderbilt.edu/schectex/courses/cubic/
+     * This uses the method explained in this link: https://en.wikipedia.org/wiki/Cubic_equation
      * @param a ax^3
      * @param b bx^2
      * @param c cx
@@ -16,14 +16,15 @@ public class PolynomialSolver{
      * @return a double, a real root of the equation. It is guaranteed that this exists.
      */
     public static double solveCubicEquation(double a, double b, double c, double d){
-        double p = -b / (3 * a);
-        double q = p * p * p + (b * c - 3 * a * d) / (6 * a * a);
-        double r = c / (3 * a);
+        System.out.println(a + " " + b + " " + c + " " + d);
+        double p = (3 * a * c - b * b) / (3 * a * a);
+        double q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
 
-        double differenceTerm = Math.sqrt(q * q + (r - p * p) * (r - p * p) * (r - p * p));
-        double firstTerm = Math.cbrt(q + differenceTerm);
-        double secondTerm = Math.cbrt(q - differenceTerm);
-        return firstTerm + secondTerm + p;
+        double diff_term = (q * q) / 4 + (p * p * p) / 27;
+        if(diff_term >= 0)
+            return Math.cbrt(-q / 2 + Math.sqrt(diff_term)) + Math.cbrt(-q / 2 - Math.sqrt(diff_term));
+        else
+            return 2 * Math.sqrt(-p / 3) * Math.cos(Math.acos((3 * q * Math.sqrt(-3 / p)) / (2 * p)) / 3) - b / (3 * a);
     }
 
     /**
@@ -53,7 +54,6 @@ public class PolynomialSolver{
                     double answerDifferenceTerm = Math.sqrt(p[i] * p[i] - 8 * q[j]);
                     if(i == 0) result = -p[i] - answerDifferenceTerm;
                     else result = -p[i] + answerDifferenceTerm;
-
                     if(!Double.isNaN(result) && result > 0 && (min == -4 || min > result)) min = result;
                 }
             }
