@@ -10,7 +10,7 @@ public class BallUI {
     private Image ballImage;
     private Ball ball;
     private int ballNumber; // This will be used in selecting the image to load.
-    private int ballPixelRadius = 8;
+    private int ballPixelRadius = (int)(Ball.BALL_RADIUS * TableUI.getTableWidthPixels() / TableUI.getTableWidthMeters());
 
     public BallUI(Ball ball, int ballNumber){
         this.ball = ball;

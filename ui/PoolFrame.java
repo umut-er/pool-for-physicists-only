@@ -19,8 +19,8 @@ public class PoolFrame extends JFrame{
     public static final int FRAME_WIDTH=786;
 
     public PoolFrame(){
-        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.5, 0, 2, 1, 0, 0, 0, 0);
-        Ball anotherBall = new Ball(BallType.CUE, 1.5, 0.5, 0, -1, 1, 0, 0, 0, 0);
+        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.1, 0, 1.3, 1.32, 0, 50, 0, 0);
+        Ball anotherBall = new Ball(BallType.CUE, 1.5, 0.1, 0, -1, 1, 0, 0, 100, 0);
 
         BallUI cueBallUI = new BallUI(cueBall, 0);
         BallUI anotherBallUI = new BallUI(anotherBall, 0);
@@ -36,7 +36,7 @@ public class PoolFrame extends JFrame{
         this.getContentPane().setBackground(new Color(255, 170, 0));
         setLayout(null);
         
-        tableUI.setBounds(0, 0, TableUI.getTableWidth(), TableUI.getTableHeight());
+        tableUI.setBounds(0, 0, TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
         this.setVisible(true);
     }

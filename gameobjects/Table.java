@@ -32,12 +32,12 @@ public class Table{
             dt = currentEvent.getTimeUntilEvent();
             Physics.updateTable(this, dt);
             currentEvent.resolveEvent();
+            Physics.updateTable(this, 0.0000001); // quick fix, probably leads to some issues in the break.
             currentEvent = null;
         }
         else{
             Physics.updateTable(this, dt);
             currentEvent.decreaseTimeUntilEvent(dt);
-            // System.out.println(currentEvent.getTimeUntilEvent());
         }
     }
 }

@@ -32,11 +32,19 @@ public class TableUI extends JPanel implements ActionListener{
         timer = new Timer(UPDATION_INTERVAL,this);
     }
 
-    public static int getTableWidth(){
+    public static double getTableWidthMeters(){
+        return TABLE_WIDTH_METERS;
+    }
+
+    public static double getTableHeightMeters(){
+        return TABLE_HEIGHT_METERS;
+    }
+
+    public static int getTableWidthPixels(){
         return TABLE_WIDTH_PIXELS;
     }
 
-    public static int getTableHeight(){
+    public static int getTableHeightPixels(){
         return TABLE_HEIGHT_PIXELS;
     }
 
