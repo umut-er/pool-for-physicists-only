@@ -9,9 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import gameobjects.Ball;
 import gameobjects.Table;
-import physics.Physics;
 
 public class TableUI extends JPanel implements ActionListener{
     private Timer timer;
@@ -23,13 +21,15 @@ public class TableUI extends JPanel implements ActionListener{
     private static final int TABLE_WIDTH_PIXELS = 672;
     private static final int TABLE_HEIGHT_PIXELS = 336;
 
+    private static final int UPDATION_INTERVAL = 5;
+
     public TableUI(Table table, BallUI... ballUIs){
         this.table = table;
         this.ballUIs = ballUIs;
         this.setBackground(new Color(0, 170, 0));
         // setLayout(null);
         // this.setPreferredSize(new Dimension(TABLE_WIDTH_PIXELS, TABLE_HEIGHT_PIXELS));
-        timer = new Timer(33,this);
+        timer = new Timer(UPDATION_INTERVAL,this);
     }
 
     public static int getTableWidth(){
@@ -55,7 +55,7 @@ public class TableUI extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e){
-        table.evolveTable(0.033);
+        table.evolveTable(UPDATION_INTERVAL / 1000.);
         repaint();
     }
 }

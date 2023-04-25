@@ -3,60 +3,65 @@ package physics;
 // TODO: Testing
 
 public class PolynomialSolver{
-
-    /**
-     * Returns a real root of the cubic equation.
-     * Parameters describe a cubic equation ax^3 + bx^2 + cx + d = 0.
-     * The equations are exact but a small error can be present due to floating point arithmetic.
-     * This uses the method explained in this link: https://en.wikipedia.org/wiki/Cubic_equation
-     * @param a ax^3
-     * @param b bx^2
-     * @param c cx
-     * @param d d
-     * @return a double, a real root of the equation. It is guaranteed that this exists.
-     */
-    public static double solveCubicEquation(double a, double b, double c, double d){
-        double p = (3 * a * c - b * b) / (3 * a * a);
-        double q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
-
-        double diff_term = (q * q) / 4 + (p * p * p) / 27;
-        if(diff_term >= 0)
-            return Math.cbrt(-q / 2 + Math.sqrt(diff_term)) + Math.cbrt(-q / 2 - Math.sqrt(diff_term));
-        else
-            return 2 * Math.sqrt(-p / 3) * Math.cos(Math.acos((3 * q * Math.sqrt(-3 / p)) / (2 * p)) / 3) - b / (3 * a);
+    public static double solveQuadraticEquation(double a, double b, double c){
+        double determinant = b * b - 4 * a * c;
+        if(determinant < 0)
+            return -1;
+        if(-b - Math.sqrt(determinant) > 0)
+            return (-b - Math.sqrt(determinant)) / (2 * a);
+        if(-b + Math.sqrt(determinant) > 0)
+            return (-b + Math.sqrt(determinant)) / (2 * a);
+        return -1;
     }
 
     /**
-     * Returns the minimum positive real root of the quartic equation. -1 if no such roots exist.
-     * Parameters describe the quartic equation ax^4 + bx^3 + cx^2 + dx + e = 0.
-     * The equations are exact but a small error can be present due to floating point arithmetic.
-     * This uses the method explained in this link: https://proofwiki.org/wiki/Ferrari%27s_Method
+     * This method is called Bairstow's method. It only uses real arithmetic to split the quartic into two quadratics.
+     * Source: https://mycareerwise.com/programming/category/numerical-analysis/baristow-method#c
      * @param a ax^4
      * @param b bx^3
      * @param c cx^2
      * @param d dx
      * @param e e
-     * @return a double, the smallest positive real root if exists, else -1.
+     * @return Minimum positive real root of the quartic equation if it exists, else -1.
      */
     public static double solveQuarticEquation(double a, double b, double c, double d, double e){
-        double y1 = solveCubicEquation(1, -c / a, b * d / (a * a) - 4 * e / a, 4 * c * e / (a * a) - b * b * e / (a * a * a) - d * d / (a * a));
-        double pDifferenceTerm = Math.sqrt(b * b / (a * a) - 4 * c / a + 4 * y1);
-        double[] p = {b / a + pDifferenceTerm, b / a - pDifferenceTerm};
-        double qDifferenceTerm = Math.sqrt(y1 * y1 - 4 * e / a);
-        double[] q = {y1 + qDifferenceTerm, y1 - qDifferenceTerm};
+        double p = 1;
+        double q = 5;
 
-        // To get the smallest positive real root. Probably suboptimal.
-        double min = -4, result;
-        for(int i = 0; i < 2; i++){
-            for(int j = 0; j < 2; j++){
-                for(int k = 0; k < 2; k++){
-                    double answerDifferenceTerm = Math.sqrt(p[i] * p[i] - 8 * q[j]);
-                    if(i == 0) result = -p[i] - answerDifferenceTerm;
-                    else result = -p[i] + answerDifferenceTerm;
-                    if(!Double.isNaN(result) && result > 0 && (min == -4 || min > result)) min = result;
-                }
+        double[] aa = {a, b, c, d, e};
+        double[] bb = new double[5];
+        double[] cc = new double[5];
+        double dp = 0, dq = 0, dn = 0;
+        
+        do {
+            // bb[0] = aa[0];
+            // cc[0] = bb[0];
+            cc[0] = bb[0] = aa[0];
+            bb[1] = aa[1] - p * bb[0];
+            cc[1] = bb[1] - p * cc[0];
+
+            for(int i = 2; i <= 4; i++){
+                bb[i] = aa[i] - p * bb[i - 1] - q * bb[i - 2];
+                cc[i] = bb[i] - p * cc[i - 1] - q * cc[i - 2];
             }
-        }
-        return min / 4;
+
+            dn = cc[2] * cc[2] - cc[1] * (cc[3] - bb[3]);
+            dp = (bb[3] * cc[2] - bb[4] * cc[1]) / dn;
+            dq = (bb[4] * cc[2] - bb[3] * (cc[3] - bb[3])) / dn;
+            p += dp;
+            q += dq;
+        } while (Math.abs(dp) > 1e-10 || Math.abs(dq) > 1e-10);
+
+        double r1 = solveQuadraticEquation(1, p, q);
+        double a2 = a;
+        double b2 = (b - p * a2);
+        double c2 = e / q;
+        double r2 = solveQuadraticEquation(a2, b2, c2);
+        double min = -1;
+        if(!Double.isNaN(r1) && r1 > 0 && (min == -1 || r1 < min))
+            min = r1;
+        if(!Double.isNaN(r2) && r2 > 0 && (min == -1 || r2 < min))
+            min = r2;
+        return min;
     }
 }

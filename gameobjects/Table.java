@@ -23,9 +23,10 @@ public class Table{
     }
 
     public void evolveTable(double dt){
-        if(currentEvent == null){
+        if(currentEvent == null)
             getNextEvent();
-        }
+        if(currentEvent == null)
+            return;
 
         if(dt > currentEvent.getTimeUntilEvent()){
             dt = currentEvent.getTimeUntilEvent();
@@ -36,6 +37,7 @@ public class Table{
         else{
             Physics.updateTable(this, dt);
             currentEvent.decreaseTimeUntilEvent(dt);
+            // System.out.println(currentEvent.getTimeUntilEvent());
         }
     }
 }

@@ -54,7 +54,7 @@ public class Vector3 extends Matrix{
      * Performs this = this + vector
      * @param vector The non-modified vector.
      */
-    public void inPlaceAdd(Vector3 vector){
+    public void inPlaceAdd(final Vector3 vector){
         setAll(this.getAxis(0) + vector.getAxis(0), this.getAxis(1) + vector.getAxis(1), this.getAxis(2) + vector.getAxis(2));
     }
 
@@ -64,7 +64,7 @@ public class Vector3 extends Matrix{
      * @param vector2 Unmodified vector.
      * @return A new vector equal to vector1 + vector2.
      */
-    public static Vector3 add(Vector3 vector1, Vector3 vector2){
+    public static Vector3 add(final Vector3 vector1, final Vector3 vector2){
         return new Vector3(vector1.getAxis(0) + vector2.getAxis(0), vector1.getAxis(1) + vector2.getAxis(1), vector1.getAxis(2) + vector2.getAxis(2));
     }   
 
@@ -72,7 +72,7 @@ public class Vector3 extends Matrix{
      * Performs this = this - vector.
      * @param vector The non-modified vector.
      */
-    public void inPlaceSubtract(Vector3 vector){
+    public void inPlaceSubtract(final Vector3 vector){
         setAll(this.getAxis(0) - vector.getAxis(0), this.getAxis(1) - vector.getAxis(1), this.getAxis(2) - vector.getAxis(2));
     }
 
@@ -82,7 +82,7 @@ public class Vector3 extends Matrix{
      * @param vector2 Unmodified vector.
      * @return A new vector equal to vector1 - vector2.
      */
-    public static Vector3 subtract(Vector3 vector1, Vector3 vector2){
+    public static Vector3 subtract(final Vector3 vector1, final Vector3 vector2){
         return new Vector3(vector1.getAxis(0) - vector2.getAxis(0), vector1.getAxis(1) - vector2.getAxis(1), vector1.getAxis(2) - vector2.getAxis(2));
     }
 
@@ -90,7 +90,7 @@ public class Vector3 extends Matrix{
      * Performs this = this * vector (Element-vise multiplication).
      * @param vector The non-modified vector.
      */
-    public void inPlaceMultiply(Vector3 vector){
+    public void inPlaceMultiply(final Vector3 vector){
         setAll(this.getAxis(0) * vector.getAxis(0), this.getAxis(1) * vector.getAxis(1), this.getAxis(2) * vector.getAxis(2));
     }
 
@@ -125,7 +125,7 @@ public class Vector3 extends Matrix{
      * @param vector2 Unmodified vector.
      * @return A new vector equal to vector1 * vector2.
      */
-    public static Vector3 multiply(Vector3 vector1, Vector3 vector2){
+    public static Vector3 multiply(final Vector3 vector1, final Vector3 vector2){
         return new Vector3(vector1.getAxis(0) * vector2.getAxis(0), vector1.getAxis(1) * vector2.getAxis(1), vector1.getAxis(2) * vector2.getAxis(2));
     }
 
@@ -135,7 +135,7 @@ public class Vector3 extends Matrix{
      * @param vector A vector (unmodified)
      * @return A new vector equal to c * vector.
      */
-    public static Vector3 multiply(double c, Vector3 vector){
+    public static Vector3 multiply(double c, final Vector3 vector){
         return new Vector3(vector.getAxis(0) * c, vector.getAxis(1) * c, vector.getAxis(2) * c);
     }
 
@@ -145,7 +145,7 @@ public class Vector3 extends Matrix{
      * @return A new Vector3 constructed from the data on matrix.
      * @throws IllegalArgumentException When matrix shape is not [1, 3].
      */
-    public static Vector3 vectorFromMatrix(Matrix matrix) throws IllegalArgumentException{
+    public static Vector3 vectorFromMatrix(final Matrix matrix) throws IllegalArgumentException{
         if(matrix.getRowCount() != 3 || matrix.getColumnCount() != 1){
             throw new IllegalArgumentException("Matrix is not compatible with a vector");
         }
@@ -158,7 +158,7 @@ public class Vector3 extends Matrix{
      * @param phi The angle of rotation (in radians) in the positive direction (counterclockwise).
      * @return A new Vector3, the rotated vector.
      */
-    public static Vector3 rotateAboutZAxis(Vector3 vector, double phi){
+    public static Vector3 rotateAboutZAxis(final Vector3 vector, double phi){
         double[] rotation_data = {Math.cos(phi), -Math.sin(phi), 0, Math.sin(phi), Math.cos(phi), 0, 0, 0, 1};
         Matrix rotation_matrix = new Matrix(3, 3, rotation_data);
         return Vector3.vectorFromMatrix(Matrix.multiply(rotation_matrix, vector));
@@ -170,7 +170,7 @@ public class Vector3 extends Matrix{
      * @param vector2 Second vector, order matters.
      * @return A new Vector3, the cross product.
      */
-    public static Vector3 crossProduct(Vector3 vector1, Vector3 vector2){
+    public static Vector3 crossProduct(final Vector3 vector1, final Vector3 vector2){
         double first_item = vector1.getAxis(1) * vector2.getAxis(2) - vector1.getAxis(2) * vector2.getAxis(1);
         double second_item = - (vector1.getAxis(0) * vector2.getAxis(2) - vector1.getAxis(2) * vector2.getAxis(0));
         double third_item = vector1.getAxis(0) * vector2.getAxis(1) - vector1.getAxis(1) * vector2.getAxis(0);
@@ -182,7 +182,7 @@ public class Vector3 extends Matrix{
      * @param vector The vector to be normalized.
      * @return A new Vector3, normalized vector.
      */
-    public static Vector3 normalize(Vector3 vector){
+    public static Vector3 normalize(final Vector3 vector){
         return Vector3.multiply(1/vector.getVectorLength(), vector);
     }
 
@@ -192,7 +192,7 @@ public class Vector3 extends Matrix{
      * @param vector2 Second vector.
      * @return A double, the angle between the vectors in radians.
      */
-    public static double getAngleBetweenVectors(Vector3 vector1, Vector3 vector2){
+    public static double getAngleBetweenVectors(final Vector3 vector1, final Vector3 vector2){
         double dotProductOfVectors = dotProduct(vector1, vector2);
         double productOfMagnitudes = vector1.getVectorLength() * vector2.getVectorLength();
         return Math.acos(dotProductOfVectors / productOfMagnitudes);

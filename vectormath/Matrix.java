@@ -46,7 +46,7 @@ public class Matrix{
      * @param matrix The matrix in the multiplication.
      * @return A new Matrix, the result of the operation.
      */
-    public static Matrix multiply(double c, Matrix matrix){
+    public static Matrix multiply(double c, final Matrix matrix){
         Matrix res = matrix;
         for(int i = 0; i < res.rows; i++){
             for(int j = 0; j < res.columns; j++){
@@ -63,7 +63,7 @@ public class Matrix{
      * @return A new Matrix of shape [matrix1.rows, matrix2.columns], result of the operation
      * @throws IllegalArgumentException When matrix1.columns != matrix2.rows.
      */
-    public static Matrix multiply(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
+    public static Matrix multiply(final Matrix matrix1, final Matrix matrix2) throws IllegalArgumentException{
         if(matrix1.getColumnCount() != matrix2.getRowCount()){
             throw new IllegalArgumentException("Matrix 1 column count must be equal to matrix 2 row count for matrix multiplication");
         }
@@ -87,7 +87,7 @@ public class Matrix{
      * @return A new Matrix, result of the operation.
      * @throws IllegalArgumentException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
      */
-    public static Matrix add(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
+    public static Matrix add(final Matrix matrix1, final Matrix matrix2) throws IllegalArgumentException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
             throw new IllegalArgumentException("Matrix shapes should be the same for addition.");
         }
@@ -107,7 +107,7 @@ public class Matrix{
      * @return A new Matrix, result of the operation.
      * @throws IllegalArgumentException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
      */
-    public static Matrix subtract(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
+    public static Matrix subtract(final Matrix matrix1, final Matrix matrix2) throws IllegalArgumentException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
             throw new IllegalArgumentException("Matrix shapes should be the same for subtraction.");
         }
@@ -121,13 +121,13 @@ public class Matrix{
     }
 
     /**
-     * An implementation of the dot product. This method returns a new Matrix.
+     * An implementation of the dot product. This method returns a double.
      * @param matrix1 First matrix, order doesn't matter.
      * @param matrix2 Second matrix, order doesn't matter.
-     * @return An integer, result of the operation.
+     * @return A double, result of the operation.
      * @throws IllegalArgumentException When matrix1.rows != matrix2.rows or matrix1.columns != matrix2.columns.
      */
-    public static double dotProduct(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException{
+    public static double dotProduct(final Matrix matrix1, final Matrix matrix2) throws IllegalArgumentException{
         if(matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()){
             throw new IllegalArgumentException("Matrix shapes should be the same for dot product.");
         }
