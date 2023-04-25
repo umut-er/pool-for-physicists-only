@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import gameobjects.Ball;
 import gameobjects.Table;
 
 public class TableUI extends JPanel implements ActionListener{
@@ -56,8 +57,12 @@ public class TableUI extends JPanel implements ActionListener{
         super.paint(g);
         Graphics2D graphics=(Graphics2D)g;
         for(BallUI ball : ballUIs){
-            graphics.drawImage(ball.getImage(), ball.getXPixel(TABLE_WIDTH_METERS, TABLE_WIDTH_PIXELS) - ball.getBallPixelRadius(), 
-                                ball.getYPixel(TABLE_HEIGHT_METERS, TABLE_HEIGHT_PIXELS) - ball.getBallPixelRadius(), null);
+            // graphics.drawImage(ball.getImage(), ball.getXPixel(TABLE_WIDTH_METERS, TABLE_WIDTH_PIXELS) - ball.getBallPixelRadius(), 
+            //                     ball.getYPixel(TABLE_HEIGHT_METERS, TABLE_HEIGHT_PIXELS) - ball.getBallPixelRadius(), null);
+            graphics.setColor(new Color(255, 255, 255));
+            graphics.fillOval(ball.getXPixel(TABLE_WIDTH_METERS, TABLE_WIDTH_PIXELS) - ball.getBallPixelRadius(), 
+                            ball.getYPixel(TABLE_HEIGHT_METERS, TABLE_HEIGHT_PIXELS) - ball.getBallPixelRadius(),
+                            2 * ball.getBallPixelRadius(), 2 * ball.getBallPixelRadius());
         }
     }
 
