@@ -19,13 +19,14 @@ public class PoolFrame extends JFrame{
     public static final int FRAME_WIDTH=786;
 
     public PoolFrame(){
-        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.1, 0, 1.3, 1.32, 0, 50, 0, 0);
-        Ball anotherBall = new Ball(BallType.CUE, 1.5, 0.1, 0, -1, 1, 0, 0, 100, 0);
+        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.5, 0, 5, 0.05, 0, 0, 0, 0);
+        Ball anotherBall = new Ball(BallType.CUE, 1.5, 0.5, 0, 0, 0, 0, 0, 0, 0);
+        Ball anotherBall2 = new Ball(BallType.CUE, 1.5 + 2 * Ball.BALL_RADIUS, 0.5, 0, 0, 0, 0, 0, 0, 0);
 
-        BallUI cueBallUI = new BallUI(cueBall, 0);
-        BallUI anotherBallUI = new BallUI(anotherBall, 0);
-        Ball[] ballArray = {cueBall, anotherBall};
-        BallUI[] ballUIs = {cueBallUI, anotherBallUI};
+        Ball[] ballArray = {cueBall, anotherBall, anotherBall2};
+        BallUI[] ballUIs = new BallUI[ballArray.length];
+        for(int i = 0; i < ballUIs.length; i++)
+            ballUIs[i] = new BallUI(ballArray[i], 0);
         Table table = new Table(new ArrayList<Ball>(Arrays.asList(ballArray)));
         this.tableUI = new TableUI(table, ballUIs);
         

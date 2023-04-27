@@ -48,8 +48,14 @@ public class Physics{
             for(int j = i + 1; j < (table.getBallArray().size()); j++){
                 Ball ball1 = table.getBallArray().get(i);
                 Ball ball2 = table.getBallArray().get(j);
+
+                // if(Vector3.subtract(ball1.getDisplacement(), ball2.getDisplacement()).getVectorLength() <= 2 * Ball.BALL_RADIUS + 1e-6){
+                //     Physics.resolveBallBallCollision(ball1, ball2);
+                //     continue;
+                // }
+
                 time = calculateBallBallCollisionTime(ball1, ball2);
-                if(time > 0){
+                if(time >= 0){
                     if(event == null || event.getTimeUntilEvent() > time)
                         event = new BallBallCollisionEvent(ball1, ball2, time);
                 }
@@ -65,9 +71,12 @@ public class Physics{
     }
 
     public static double calculateBallBallCollisionTime(Ball ball1, Ball ball2){
-        if(Vector3.subtract(ball1.getDisplacement(), ball2.getDisplacement()).vectorLengthEquals(2 * Ball.BALL_RADIUS) 
-        && Vector3.getAngleBetweenVectors(ball1.getVelocity(), ball2.getVelocity()) >= Math.PI / 2 -1e-6)
-            return -1;
+        Vector3 lineOfCenters = Vector3.subtract(ball2.getDisplacement(), ball1.getDisplacement());
+        if(lineOfCenters.getVectorLength() <= 2 * Ball.BALL_RADIUS + 1e-10){
+            Vector3 relativeVelocity = Vector3.subtract(ball1.getVelocity(), ball2.getVelocity());          
+            if(Vector3.getAngleBetweenVectors(relativeVelocity, lineOfCenters) >= Math.PI / 2 + 1e-6)
+                return -1;
+        }
 
         double ax1 = 0, bx1 = 0, cx1 = ball1.getDisplacement().getAxis(0);
         double ay1 = 0, by1 = 0, cy1 = ball1.getDisplacement().getAxis(1);

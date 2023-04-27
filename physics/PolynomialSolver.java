@@ -58,10 +58,10 @@ public class PolynomialSolver{
         double c2 = e / q;
         double r2 = solveQuadraticEquation(a2, b2, c2);
         double min = -1;
-        if(!Double.isNaN(r1) && r1 > 0 && (min == -1 || r1 < min))
+        if(!Double.isNaN(r1) && r1 >= 0 && (min == -1 || r1 < min))
             min = r1;
-        if(!Double.isNaN(r2) && r2 > 0 && (min == -1 || r2 < min))
+        if(!Double.isNaN(r2) && r2 >= 0 && (min == -1 || r2 < min))
             min = r2;
-        return min;
+            return min;
     }
 }

@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import gameobjects.Ball;
 import gameobjects.Table;
 
 public class TableUI extends JPanel implements ActionListener{
