@@ -1,10 +1,7 @@
 package ui;
 
-import javax.imageio.ImageIO;
 import gameobjects.Ball;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class BallUI {
     private Image ballImage;
@@ -15,14 +12,6 @@ public class BallUI {
     public BallUI(Ball ball, int ballNumber){
         this.ball = ball;
         this.ballNumber = ballNumber;
-        try{
-            BufferedImage bufferedImage = ImageIO.read(getClass().getResource("ballImage.png"));
-            this.ballImage = bufferedImage.getScaledInstance(2 * ballPixelRadius, 2 * ballPixelRadius, Image.SCALE_DEFAULT);
-        } 
-        catch (IOException e){
-            this.ballImage=null;
-            System.out.println(e.getMessage());
-        }
     }
 
     public int getBallPixelRadius(){
