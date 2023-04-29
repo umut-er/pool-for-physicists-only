@@ -10,12 +10,17 @@ public class Table{
     private Cushion[] cushions; // Will be implemented later.
     private Event currentEvent; // Useful for event-based updation algorithm
 
-    public Table(ArrayList<Ball> ballArray){
+    public Table(ArrayList<Ball> ballArray, Cushion... cushions){
         this.ballArray = ballArray;
+        this.cushions = cushions;
     }
 
     public ArrayList<Ball> getBallArray(){
         return this.ballArray;
+    }
+
+    public Cushion[] getCushionArray(){
+        return this.cushions;
     }
 
     public void getNextEvent(){
