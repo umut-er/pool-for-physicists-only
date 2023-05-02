@@ -28,7 +28,7 @@ public class PoolFrame extends JFrame{
         for(int i = 0; i < ballUIs.length; i++)
             ballUIs[i] = new BallUI(ballArray[i], 0);
         Table table = new Table(new ArrayList<Ball>(Arrays.asList(ballArray)));
-        this.tableUI = new TableUI(table, ballUIs);
+        this.tableUI = new TableUI("table2.png", table, ballUIs);
         
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setTitle("8-Ball Pool");
