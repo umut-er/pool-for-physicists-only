@@ -4,9 +4,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -17,6 +20,7 @@ public class TableUI extends JPanel implements ActionListener{
     private Timer timer;
     private Table table;
     private BallUI[] ballUIs;
+    private Image tableImage;
 
     private static final double TABLE_WIDTH_METERS = 2.7432;
     private static final double TABLE_HEIGHT_METERS = 1.3716;
@@ -25,7 +29,8 @@ public class TableUI extends JPanel implements ActionListener{
 
     private static final int UPDATION_INTERVAL = 5;
 
-    public TableUI(Table table, BallUI... ballUIs){
+    public TableUI(Table table, String imageFileName, BallUI... ballUIs){
+        changeTableImage(imageFileName);
         this.table = table;
         this.ballUIs = ballUIs;
         this.setBackground(new Color(0, 170, 0));
@@ -64,6 +69,19 @@ public class TableUI extends JPanel implements ActionListener{
 
     public void startAction(){
         timer.start();
+    }
+
+    public void changeTableImage(String imageFileName){
+        BufferedImage bufferedTableImage;
+        try 
+        {
+            bufferedTableImage=ImageIO.read(new File(imageFileName));
+            this.tableImage=bufferedTableImg.getScaledInstance(TABLE_WIDTH_PIXELS, TABLE_HEIGHT_PIXELS, Image.SCALE_DEFAULT);
+        } 
+        catch (IOException e) 
+        {
+            this.tableImage=null;
+        }
     }
 
     public void paint(Graphics g){
