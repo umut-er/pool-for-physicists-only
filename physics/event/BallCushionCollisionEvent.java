@@ -2,6 +2,7 @@ package physics.event;
 
 import gameobjects.Ball;
 import gameobjects.Cushion;
+import physics.Physics;
 
 public class BallCushionCollisionEvent extends Event{   
     private Ball ball;
@@ -14,7 +15,8 @@ public class BallCushionCollisionEvent extends Event{
     }
 
     public void resolveEvent(){
-        // Empty implementation
-        // Physics.resolveBallCushionCollision(ball, cushion);
+        Physics.resolveBallCushionCollision(ball, cushion);
+        // ball.setVelocity(0, 0, 0);
+        // ball.setAngularVelocity(0, 0, 0);
     }
 }

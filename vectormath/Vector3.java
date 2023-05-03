@@ -13,6 +13,10 @@ public class Vector3 extends Matrix{
         super(3, 1, data);
     }
 
+    public Vector3(Vector3 other){
+        super(other);
+    }
+
     /**
      * This method calls the getItem(int row, int column) method from Matrix class with column = 0.
      * @param index The axis: 0 -> x, 1 -> y, 2 -> z.
@@ -187,7 +191,7 @@ public class Vector3 extends Matrix{
     }
 
     /**
-     * Returns the angle between the vectors, order doesn't matter.
+     * Returns the smallest angle between the vectors, order doesn't matter.
      * @param vector1 First vector.
      * @param vector2 Second vector.
      * @return A double, the angle between the vectors in radians.
@@ -196,6 +200,12 @@ public class Vector3 extends Matrix{
         double dotProductOfVectors = dotProduct(vector1, vector2);
         double productOfMagnitudes = vector1.getVectorLength() * vector2.getVectorLength();
         return Math.acos(dotProductOfVectors / productOfMagnitudes);
+    }
+
+    public static double getSignedAngle2D(final Vector3 vector1, final Vector3 vector2){
+        double dotProduct = Vector3.dotProduct(vector1, vector2);
+        double determinant = vector1.getAxis(0) * vector2.getAxis(1) + vector1.getAxis(1) * vector2.getAxis(0);
+        return Math.atan2(determinant, dotProduct);
     }
 
     @Override

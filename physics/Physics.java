@@ -2,20 +2,16 @@ package physics;
 
 import gameobjects.*;
 import physics.event.BallBallCollisionEvent;
+import physics.event.BallCushionCollisionEvent;
 import physics.event.BallStateChangeEvent;
 import physics.event.Event;
 import vectormath.Vector3;
 
 public class Physics{
     private static final double GRAVITATIONAL_CONSTANT = 9.81;
-    // private static final double SPINNING_COEFFICIENT = 4 * Ball.BALL_RADIUS / 9; // I don't think this is needed.
-    private static final double SPINNING_COEFFICIENT = 10 * GRAVITATIONAL_CONSTANT / 9; // Derived by 5 * g * sp / (2 * r)
+    private static final double SPINNING_COEFFICIENT = 10 * GRAVITATIONAL_CONSTANT / 9;
     private static final double ROLLING_COEFFICIENT = 0.01;
     private static final double SLIDING_COEFFICIENT = 0.2;
-
-    // private static double getAngle(Vector3 vector){
-    //     return Vector3.getAngleBetweenVectors(vector, new Vector3(-1, 0, 0));
-    // }
 
     /**
      * This method calculates the event queue and returns the minimum time.
@@ -49,17 +45,23 @@ public class Physics{
                 Ball ball1 = table.getBallArray().get(i);
                 Ball ball2 = table.getBallArray().get(j);
 
-                // if(Vector3.subtract(ball1.getDisplacement(), ball2.getDisplacement()).getVectorLength() <= 2 * Ball.BALL_RADIUS + 1e-6){
-                //     Physics.resolveBallBallCollision(ball1, ball2);
-                //     continue;
-                // }
-
                 time = calculateBallBallCollisionTime(ball1, ball2);
                 if(time >= 0){
                     if(event == null || event.getTimeUntilEvent() > time)
                         event = new BallBallCollisionEvent(ball1, ball2, time);
                 }
             } 
+        }
+
+        for(Ball ball : table.getBallArray()){
+            for(Cushion cushion : table.getCushionArray()){
+                time = calculateBallCushionCollisionTime(ball, cushion);
+                if(time >= 0){
+                    if(event == null || event.getTimeUntilEvent() > time){
+                        event = new BallCushionCollisionEvent(ball, cushion, time);
+                    }
+                }
+            }
         }
 
         return event;
@@ -72,7 +74,7 @@ public class Physics{
 
     public static double calculateBallBallCollisionTime(Ball ball1, Ball ball2){
         Vector3 lineOfCenters = Vector3.subtract(ball2.getDisplacement(), ball1.getDisplacement());
-        if(lineOfCenters.getVectorLength() <= 2 * Ball.BALL_RADIUS + 1e-10){
+        if(lineOfCenters.getVectorLength() <= 2 * Ball.RADIUS + 1e-10){
             Vector3 relativeVelocity = Vector3.subtract(ball1.getVelocity(), ball2.getVelocity());          
             if(Vector3.getAngleBetweenVectors(relativeVelocity, lineOfCenters) >= Math.PI / 2 + 1e-6)
                 return -1;
@@ -94,7 +96,7 @@ public class Physics{
                 ay1 = - ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * normalizedVelocity.getAxis(1) / 2;
             }
             else if(ball1.isSliding()){
-                Vector3 radiusVector = new Vector3(0, 0, Ball.BALL_RADIUS);
+                Vector3 radiusVector = new Vector3(0, 0, Ball.RADIUS);
                 Vector3 relativeVelocity = Vector3.add(ball1.getVelocity(), Vector3.crossProduct(radiusVector, ball1.getAngularVelocity()));
                 relativeVelocity.normalize();
                 ax1 = - SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * relativeVelocity.getAxis(0) / 2;
@@ -118,7 +120,7 @@ public class Physics{
                 ay2 = - ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * normalizedVelocity.getAxis(1) / 2;
             }
             else if(ball2.isSliding()){
-                Vector3 radiusVector = new Vector3(0, 0, Ball.BALL_RADIUS);
+                Vector3 radiusVector = new Vector3(0, 0, Ball.RADIUS);
                 Vector3 relativeVelocity = Vector3.add(ball2.getVelocity(), Vector3.crossProduct(radiusVector, ball2.getAngularVelocity()));
                 relativeVelocity.normalize();
                 ax2 = - SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * relativeVelocity.getAxis(0) / 2;
@@ -135,12 +137,70 @@ public class Physics{
             2 * (Ax * Bx + Ay * By + Az * Bz), 
             Bx * Bx + By * By + Bz * Bz + 2 * (Ax * Cx + Ay * Cy + Az * Cz), 
             2 * (Bx * Cx + By * Cy + Bz * Cz), 
-            Cx * Cx + Cy * Cy + Cz * Cz - 4 * Ball.BALL_RADIUS * Ball.BALL_RADIUS
+            Cx * Cx + Cy * Cy + Cz * Cz - 4 * Ball.RADIUS * Ball.RADIUS
         );
     }
 
+    public static double calculateBallCushionCollisionTime(Ball ball, Cushion cushion){
+        double lx = -(cushion.getEnd().getAxis(1) - cushion.getStart().getAxis(1)) / (cushion.getEnd().getAxis(0) - cushion.getStart().getAxis(0));
+        double ly = 1;
+        double l0 = -lx * cushion.getStart().getAxis(0) - cushion.getStart().getAxis(1);
+
+        // Get ball movement coefficients
+        double ax = 0, bx = 0, cx = ball.getDisplacement().getAxis(0);
+        double ay = 0, by = 0, cy = ball.getDisplacement().getAxis(1);
+        if(ball.isSpinning() || ball.isStationary()){
+            ax = 0; bx = 0;
+            ay = 0; by = 0;
+        }
+        else{
+            bx = ball.getVelocity().getAxis(0);
+            by = ball.getVelocity().getAxis(1);
+            if(ball.isRolling()){
+                Vector3 normalizedVelocity = Vector3.normalize(ball.getVelocity());
+                ax = - ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * normalizedVelocity.getAxis(0) / 2;
+                ay = - ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * normalizedVelocity.getAxis(1) / 2;
+            }
+            else if(ball.isSliding()){
+                Vector3 radiusVector = new Vector3(0, 0, Ball.RADIUS);
+                Vector3 relativeVelocity = Vector3.add(ball.getVelocity(), Vector3.crossProduct(radiusVector, ball.getAngularVelocity()));
+                relativeVelocity.normalize();
+                ax = - SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * relativeVelocity.getAxis(0) / 2;
+                ay = - SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * relativeVelocity.getAxis(1) / 2;
+            }
+        }
+
+        double A = lx * ax + ly * ay;
+        double B = lx * bx + ly * by;
+        double C = l0 + lx * cx + ly * cy;
+        double s;
+        double min = -1;
+        double[] solutions = new double[4];
+        double[] firstTwoSolutions;
+        double[] secondTwoSolutions;
+        if(cushion.getEnd().getAxis(0) - cushion.getStart().getAxis(0) == 0){
+            firstTwoSolutions = PolynomialSolver.solveQuadraticEquationAllRoots(ax, bx, cx - cushion.getStart().getAxis(0) + Ball.RADIUS);
+            secondTwoSolutions = PolynomialSolver.solveQuadraticEquationAllRoots(ax, bx, cx - cushion.getStart().getAxis(0) - Ball.RADIUS);
+        }
+        else{
+            firstTwoSolutions = PolynomialSolver.solveQuadraticEquationAllRoots(A, B, C + Ball.RADIUS * Math.sqrt(lx * lx + ly * ly));
+            secondTwoSolutions = PolynomialSolver.solveQuadraticEquationAllRoots(A, B, C - Ball.RADIUS * Math.sqrt(lx * lx + ly * ly));
+        }
+        solutions[0] = firstTwoSolutions[0]; solutions[1] = firstTwoSolutions[1]; solutions[2] = secondTwoSolutions[0]; solutions[3] = secondTwoSolutions[1];
+        for(int i = 0; i < 4; i++){
+            if(!Double.isNaN(solutions[i])){
+                s = - Vector3.dotProduct(Vector3.subtract(cushion.getStart(), returnPosition(ball, solutions[i])), Vector3.subtract(cushion.getEnd(), cushion.getStart())) / 
+                    Vector3.dotProduct(Vector3.subtract(cushion.getEnd(), cushion.getStart()), Vector3.subtract(cushion.getEnd(), cushion.getStart()));
+                if(s >= 0 && s <= 1 && (min == -1 || solutions[i] < min))
+                    min = solutions[i];
+            }
+        }
+
+        return min;
+    }
+
     public static double calculateSpinningTime(Ball ball){
-        return 2 * Ball.BALL_RADIUS * ball.getAngularVelocity().getAxis(2) / (5 * SPINNING_COEFFICIENT * GRAVITATIONAL_CONSTANT);
+        return 2 * Ball.RADIUS * ball.getAngularVelocity().getAxis(2) / (5 * SPINNING_COEFFICIENT * GRAVITATIONAL_CONSTANT);
     }
 
     public static double calculateRollingTime(Ball ball){
@@ -148,8 +208,24 @@ public class Physics{
     }
 
     public static double calculateSlidingTime(Ball ball){
-        Vector3 uVector = Vector3.add(ball.getVelocity(), Vector3.crossProduct(new Vector3(0, 0, Ball.BALL_RADIUS), ball.getAngularVelocity()));
+        Vector3 uVector = Vector3.add(ball.getVelocity(), Vector3.crossProduct(new Vector3(0, 0, Ball.RADIUS), ball.getAngularVelocity()));
         return (2 * uVector.getVectorLength()) / (7 * SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT);
+    }
+
+    public static Vector3 returnPosition(Ball ball, double dt){
+        Vector3 res = new Vector3(ball.getDisplacement());
+        res.inPlaceAdd(Vector3.multiply(dt, ball.getVelocity()));        
+        if(ball.isRolling()){
+            Vector3 normalizedVelocity = Vector3.normalize(ball.getVelocity());                    
+            res.inPlaceSubtract(Vector3.multiply(ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * dt * dt / 2, normalizedVelocity));
+        }
+        else if(ball.isSliding()){
+            Vector3 radiusVector = new Vector3(0, 0, Ball.RADIUS);
+            Vector3 relativeVelocity = Vector3.add(ball.getVelocity(), Vector3.crossProduct(radiusVector, ball.getAngularVelocity()));
+            Vector3 normalizedRelativeVelocity = Vector3.normalize(relativeVelocity);
+            res.inPlaceSubtract(Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * dt * dt / 2, normalizedRelativeVelocity));
+        }
+        return res;
     }
 
     /**
@@ -195,8 +271,8 @@ public class Physics{
         normalizedVelocity.inPlaceMultiply(ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime);
         ball.getVelocity().inPlaceSubtract(normalizedVelocity);
 
-        ball.getAngularVelocity().setAxis(0, -1 / Ball.BALL_RADIUS * ball.getVelocity().getAxis(1));
-        ball.getAngularVelocity().setAxis(1, 1 / Ball.BALL_RADIUS * ball.getVelocity().getAxis(0));
+        ball.getAngularVelocity().setAxis(0, -1 / Ball.RADIUS * ball.getVelocity().getAxis(1));
+        ball.getAngularVelocity().setAxis(1, 1 / Ball.RADIUS * ball.getVelocity().getAxis(0));
 
         evolveSpinningBallMotion(ball, deltaTime);
     }
@@ -210,7 +286,7 @@ public class Physics{
         if(slideTimeLeft < deltaTime)
             deltaTime = slideTimeLeft;
 
-        Vector3 radiusVector = new Vector3(0, 0, Ball.BALL_RADIUS);
+        Vector3 radiusVector = new Vector3(0, 0, Ball.RADIUS);
         Vector3 relativeVelocity = Vector3.add(ball.getVelocity(), Vector3.crossProduct(radiusVector, ball.getAngularVelocity()));
         Vector3 normalizedRelativeVelocity = Vector3.normalize(relativeVelocity);
 
@@ -220,7 +296,7 @@ public class Physics{
         Vector3 deltaVelocity = Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime, normalizedRelativeVelocity);
         ball.getVelocity().inPlaceSubtract(deltaVelocity);
 
-        double constantMultiplier = (5 * SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime) / (2 * Ball.BALL_RADIUS);
+        double constantMultiplier = (5 * SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime) / (2 * Ball.RADIUS);
         Vector3 deltaVector = Vector3.multiply(constantMultiplier, normalizedRelativeVelocity);
         double deltaXAngularVelocity = - deltaVector.getAxis(1);
         double deltaYAngularVelocity = deltaVector.getAxis(0);
@@ -248,5 +324,45 @@ public class Physics{
         Vector3 ball1Velocity = Vector3.subtract(initialVelocity, ball2Velocity);
         ball1.setVelocity(Vector3.add(ball1Velocity, initialBall2Velocity));
         ball2.setVelocity(Vector3.add(ball2Velocity, initialBall2Velocity));
+    }
+    
+    // TODO: Work on this later
+    public static void resolveBallCushionCollision(Ball ball, Cushion cushion){
+        double angle = Vector3.getAngleBetweenVectors(new Vector3(1, 0, 0), Vector3.subtract(cushion.getEnd(), cushion.getStart()));
+        ball.setDisplacement(Vector3.rotateAboutZAxis(ball.getDisplacement(), -angle));
+        ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), -angle));
+        ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), -angle));
+        // double e = 0.85;
+        // double sx = ball.getVelocity().getAxis(0) * Math.sin(Cushion.THETA) - ball.getVelocity().getAxis(1) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(1);
+        // double sy = -ball.getVelocity().getAxis(1) - Ball.RADIUS * ball.getAngularVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(0) * Math.sin(Cushion.THETA);
+        // double c = ball.getVelocity().getAxis(0) * Math.cos(Cushion.THETA);
+        // double I = 2 * Ball.MASS * Ball.RADIUS * Ball.RADIUS / 5;
+        // double PzE = Ball.MASS * c * (1 + e);
+        // double PzS = 2 * Ball.MASS * Math.sqrt(sx * sx + sy * sy) / 7;
+
+        // // Velocity
+        // if(PzS <= PzE){
+        //     ball.setVelocity(-2 * sx * Math.sin(Cushion.THETA) / 7 - (1 + e) * c * Math.cos(Cushion.THETA), 2 * sy / 7, 0);
+        // }
+        // else{
+        //     double phi = Vector3.getAngleBetweenVectors(ball.getVelocity(), new Vector3(1, 0, 0));
+        //     double mu = 0.2;
+        //     if(phi > Math.PI / 2)
+        //         phi = Math.PI - phi;
+
+        //     ball.setVelocity(-c * (1 + e) * (mu * Math.cos(phi) * Math.sin(Cushion.THETA) + Math.cos(Cushion.THETA)),
+        //                     c * (1 + e) * mu * Math.sin(phi), 0);
+        // }
+
+        // // Angular Velocity
+        // ball.setAngularVelocity(-Ball.MASS * Ball.RADIUS * ball.getVelocity().getAxis(1) * Math.sin(Cushion.THETA) / I,
+        //                         Ball.MASS * Ball.RADIUS * ball.getVelocity().getAxis(0) * Math.sin(Cushion.THETA) / I,
+        //                         Ball.MASS * Ball.RADIUS * ball.getVelocity().getAxis(1) * Math.cos(Cushion.THETA) / I);
+
+        ball.setVelocity(ball.getVelocity().getAxis(0), -ball.getVelocity().getAxis(1), ball.getVelocity().getAxis(2));
+
+        ball.setDisplacement(Vector3.rotateAboutZAxis(ball.getDisplacement(), angle));
+        ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), angle));
+        ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), angle));
     }
 }

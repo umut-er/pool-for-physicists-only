@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import gameobjects.Ball;
 import gameobjects.BallType;
+import gameobjects.Cushion;
 import gameobjects.Table;
 
 public class PoolFrame extends JFrame{
@@ -19,16 +20,16 @@ public class PoolFrame extends JFrame{
     public static final int FRAME_WIDTH=786;
 
     public PoolFrame(){
-        Ball cueBall = new Ball(BallType.CUE, 0.5, 0.5, 0, 5, 0.05, 0, 0, 0, 0);
-        Ball anotherBall = new Ball(BallType.CUE, 1.5, 0.5, 0, 0, 0, 0, 0, 0, 0);
-        Ball anotherBall2 = new Ball(BallType.CUE, 1.5 + 2 * Ball.BALL_RADIUS, 0.5, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall = new Ball(BallType.CUE, 0.5, 1, 0, 4, 1, 0, 0, 0, 0);
+        Ball cueBall2 = new Ball(BallType.CUE, 1.5, 1, 0, -1, 1, 0, 0, 0, 0);
 
-        Ball[] ballArray = {cueBall, anotherBall, anotherBall2};
+        Ball[] ballArray = {cueBall, cueBall2};
         BallUI[] ballUIs = new BallUI[ballArray.length];
         for(int i = 0; i < ballUIs.length; i++)
             ballUIs[i] = new BallUI(ballArray[i], 0);
-        Table table = new Table(new ArrayList<Ball>(Arrays.asList(ballArray)));
-        this.tableUI = new TableUI("table2.png", table, ballUIs);
+        Cushion[] cushions = Cushion.getStandartCushionArray();
+        Table table = new Table(new ArrayList<Ball>(Arrays.asList(ballArray)), cushions);
+        this.tableUI = new TableUI("table7.png", table, ballUIs);
         
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setTitle("8-Ball Pool");

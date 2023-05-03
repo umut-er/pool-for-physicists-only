@@ -3,7 +3,8 @@ package gameobjects;
 import vectormath.Vector3;
 
 public class Ball {
-    public static final double BALL_RADIUS = 0.028575;
+    public static final double RADIUS = 0.028575;
+    public static final double MASS = 0.170097;
 
     private BallType type;
     private Vector3 displacement;
@@ -74,13 +75,13 @@ public class Ball {
     }
 
     public boolean isRolling(){
-        Vector3 normalizedVector = new Vector3(0, 0, -BALL_RADIUS);
-        return !velocity.vectorLengthEquals(0) && Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
+        Vector3 normalizedVector = new Vector3(0, 0, -RADIUS);
+        return !angularVelocity.vectorLengthEquals(0) && Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
     }
 
     public boolean isSliding(){
-        Vector3 normalizedVector = new Vector3(0, 0, -BALL_RADIUS);
-        return !velocity.vectorLengthEquals(0) && !Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
+        Vector3 normalizedVector = new Vector3(0, 0, -RADIUS);
+        return !Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
     }
 
     @Override

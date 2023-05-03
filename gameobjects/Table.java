@@ -9,6 +9,7 @@ public class Table{
     private ArrayList<Ball> ballArray;
     private Cushion[] cushions; // Will be implemented later.
     private Event currentEvent; // Useful for event-based updation algorithm
+    private boolean turnDone = false;
 
     public Table(ArrayList<Ball> ballArray, Cushion... cushions){
         this.ballArray = ballArray;
@@ -30,8 +31,9 @@ public class Table{
     public void evolveTable(double dt){
         if(currentEvent == null)
             getNextEvent();
-        if(currentEvent == null)
+        if(currentEvent == null){
             return;
+        }
 
         if(dt > currentEvent.getTimeUntilEvent()){
             dt = currentEvent.getTimeUntilEvent();

@@ -1,6 +1,5 @@
 package ui;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import gameobjects.Cushion;
 import gameobjects.Table;
 
 public class TableUI extends JPanel implements ActionListener{
@@ -23,10 +23,10 @@ public class TableUI extends JPanel implements ActionListener{
     private BallUI[] ballUIs;
     private Image tableImage;
 
-    private static final double TABLE_WIDTH_METERS = 2.7432;
-    private static final double TABLE_HEIGHT_METERS = 1.3716;
-    private static final int TABLE_WIDTH_PIXELS = 672;
-    private static final int TABLE_HEIGHT_PIXELS = 336;
+    private static final double TABLE_WIDTH_METERS = 3.0534;
+    private static final double TABLE_HEIGHT_METERS = 1.6818;
+    private static final int TABLE_WIDTH_PIXELS = 748;
+    private static final int TABLE_HEIGHT_PIXELS = 412;
 
     private static final int UPDATION_INTERVAL = 5;
 
@@ -34,9 +34,6 @@ public class TableUI extends JPanel implements ActionListener{
         changeTableImage(imageFileName);
         this.table = table;
         this.ballUIs = ballUIs;
-        // this.setBackground(new Color(0, 170, 0));
-        // setLayout(null);
-        // this.setPreferredSize(new Dimension(TABLE_WIDTH_PIXELS, TABLE_HEIGHT_PIXELS));
         timer = new Timer(UPDATION_INTERVAL,this);
     }
 
@@ -87,6 +84,12 @@ public class TableUI extends JPanel implements ActionListener{
         super.paint(g);
         Graphics2D graphics=(Graphics2D)g;
         graphics.drawImage(tableImage, 0, 0, TABLE_WIDTH_PIXELS, TABLE_HEIGHT_PIXELS, null);
+
+        graphics.setColor(Color.BLACK);
+        for(Cushion cushion : table.getCushionArray()){
+            graphics.drawLine(getPixelFromMeters(cushion.getStart().getAxis(0), false), getPixelFromMeters(cushion.getStart().getAxis(1), true), 
+                                getPixelFromMeters(cushion.getEnd().getAxis(0), false), getPixelFromMeters(cushion.getEnd().getAxis(1), true));
+        }
 
         for(BallUI ball : ballUIs){
             graphics.setColor(new Color(255, 255, 255));

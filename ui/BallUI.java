@@ -5,7 +5,7 @@ import gameobjects.Ball;
 public class BallUI {
     private Ball ball;
     private int ballNumber; // This will be used in selecting the image to load.
-    private int ballPixelRadius = (int)(Ball.BALL_RADIUS * TableUI.getTableWidthPixels() / TableUI.getTableWidthMeters());
+    private int ballPixelRadius = (int)(Ball.RADIUS * TableUI.getTableWidthPixels() / TableUI.getTableWidthMeters());
 
     public BallUI(Ball ball, int ballNumber){
         this.ball = ball;
