@@ -41,42 +41,53 @@ public class Cushion{
 
     public static Cushion[] getStandartCushionArray(){
         Cushion[] cushions = new Cushion[18];
-        cushions[0] = new Cushion(24. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 44. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                38. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 58. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[1] = new Cushion(38. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 58. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                38. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 354. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[2] = new Cushion(38. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 354. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                24. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 368. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[3] = new Cushion(44. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 388. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                58. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[4] = new Cushion(58. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                354. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[5] = new Cushion(354. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                359. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 388. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[6] = new Cushion(389. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 388. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                394. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[7] = new Cushion(394. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                690. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[8] = new Cushion(690. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                704. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 388. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[9] = new Cushion(724. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 368. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                710. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 354. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[10] = new Cushion(710. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 354. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                710. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 58. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[11] = new Cushion(710. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 58. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                724. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 44. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[12] = new Cushion(704. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 24. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                690. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[13] = new Cushion(690. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                394. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[14] = new Cushion(394. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                389. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 24. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[15] = new Cushion(359. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 24. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                354. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[16] = new Cushion(354. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                58. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
-        cushions[17] = new Cushion(58. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
-                                44. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 24. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        Double[] numbers1 = {24.,38.,38.,44.,58.,354.,389.,394.,690.,724.,710.,710.,704.,690.,394.,359.,354.,58.};
+        Double[] numbers2 = {44.,58.,354.,388.,374.,374.,388.,374.,374.,368.,354.,58.,24.,38.,38.,24.,38.,38.};
+        Double[] numbers3 = {38.,38.,24.,58.,354.,359.,394.,690.,704.,710.,710.,724.,690.,394.,389.,354.,58.,44.};
+        Double[] numbers4 = {58.,354.,368.,374.,374.,388.,374.,374.,388.,354.,58.,44.,38.,38.,24.,38.,38.,24.};
+
+        for(int i = 0; i < cushions.length; i++)
+        {
+            cushions[i] = new Cushion(numbers1[i]/TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(),numbers2[i]/TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(),0,
+            numbers3[i]/TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), numbers4[i]/TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(),0);
+        }
+
+        // cushions[0] = new Cushion(24. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 44. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         38. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 58. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[1] = new Cushion(38. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 58. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         38. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 354. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[2] = new Cushion(38. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 354. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         24. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 368. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[3] = new Cushion(44. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 388. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         58. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[4] = new Cushion(58. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         354. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[5] = new Cushion(354. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         359. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 388. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[6] = new Cushion(389. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 388. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         394. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[7] = new Cushion(394. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         690. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[8] = new Cushion(690. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 374. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         704. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 388. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[9] = new Cushion(724. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 368. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         710. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 354. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[10] = new Cushion(710. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 354. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         710. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 58. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[11] = new Cushion(710. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 58. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         724. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 44. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[12] = new Cushion(704. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 24. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         690. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[13] = new Cushion(690. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         394. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[14] = new Cushion(394. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         389. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 24. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[15] = new Cushion(359. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 24. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         354. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[16] = new Cushion(354. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         58. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
+        // cushions[17] = new Cushion(58. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 38. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0,
+        //                         44. / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 24. / TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(), 0);
         
         return cushions;
     }
