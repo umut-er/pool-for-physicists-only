@@ -20,10 +20,12 @@ public class PoolFrame extends JFrame{
     public static final int FRAME_WIDTH=786;
 
     public PoolFrame(){
-        Ball cueBall = new Ball(BallType.CUE, 0.5, 1, 0, 4, 1, 0, 0, 0, 0);
-        Ball cueBall2 = new Ball(BallType.CUE, 1.5, 1, 0, -1, 1, 0, 0, 0, 0);
+        // Ball cueBall = new Ball(BallType.CUE, 0.5, 1.1, 0, 0, 1, 0, 0, 0, 100); // circular cushion?
+        Ball cueBall2 = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 5, 0, 0, 0, -100);
+        // Ball cueBall3 = new Ball(BallType.CUE, 0.5, 0.5, 0, 3, 0, 0, 0, 1000, 0); // investigate
+        // Ball cueBall4 = new Ball(BallType.CUE, 0.5, 0.5, 0, 4, 3, 0, 0, 0, 0);
 
-        Ball[] ballArray = {cueBall, cueBall2};
+        Ball[] ballArray = {cueBall2};
         BallUI[] ballUIs = new BallUI[ballArray.length];
         for(int i = 0; i < ballUIs.length; i++)
             ballUIs[i] = new BallUI(ballArray[i], 0);

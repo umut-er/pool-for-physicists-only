@@ -146,6 +146,19 @@ public class Physics{
         double ly = 1;
         double l0 = -lx * cushion.getStart().getAxis(0) - cushion.getStart().getAxis(1);
 
+        double d;
+        if(cushion.getEnd().getAxis(0) - cushion.getStart().getAxis(0) == 0)
+            d = Math.abs(ball.getDisplacement().getAxis(0) - cushion.getStart().getAxis(0));
+        else
+            d = Math.abs(lx * ball.getDisplacement().getAxis(0) + ly * ball.getDisplacement().getAxis(1) + l0) / Math.sqrt(lx * lx + ly * ly);
+        
+        if(d <= Ball.RADIUS + 1e-8 && d >= Ball.RADIUS - 1e-8){
+            double s = - Vector3.dotProduct(Vector3.subtract(cushion.getStart(), ball.getDisplacement()), Vector3.subtract(cushion.getEnd(), cushion.getStart())) / 
+                        Vector3.dotProduct(Vector3.subtract(cushion.getEnd(), cushion.getStart()), Vector3.subtract(cushion.getEnd(), cushion.getStart()));
+                        if(s >= 0 && s <= 1)
+                            return -1;
+        }
+
         // Get ball movement coefficients
         double ax = 0, bx = 0, cx = ball.getDisplacement().getAxis(0);
         double ay = 0, by = 0, cy = ball.getDisplacement().getAxis(1);
@@ -326,43 +339,55 @@ public class Physics{
         ball2.setVelocity(Vector3.add(ball2Velocity, initialBall2Velocity));
     }
     
-    // TODO: Work on this later
     public static void resolveBallCushionCollision(Ball ball, Cushion cushion){
-        double angle = Vector3.getAngleBetweenVectors(new Vector3(1, 0, 0), Vector3.subtract(cushion.getEnd(), cushion.getStart()));
-        ball.setDisplacement(Vector3.rotateAboutZAxis(ball.getDisplacement(), -angle));
-        ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), -angle));
-        ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), -angle));
-        // double e = 0.85;
-        // double sx = ball.getVelocity().getAxis(0) * Math.sin(Cushion.THETA) - ball.getVelocity().getAxis(1) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(1);
-        // double sy = -ball.getVelocity().getAxis(1) - Ball.RADIUS * ball.getAngularVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(0) * Math.sin(Cushion.THETA);
-        // double c = ball.getVelocity().getAxis(0) * Math.cos(Cushion.THETA);
-        // double I = 2 * Ball.MASS * Ball.RADIUS * Ball.RADIUS / 5;
-        // double PzE = Ball.MASS * c * (1 + e);
-        // double PzS = 2 * Ball.MASS * Math.sqrt(sx * sx + sy * sy) / 7;
+        Vector3 leftmostCushionPoint = cushion.getEnd(), rightmostCushionPoint = cushion.getStart();
+        if(cushion.getStart().getAxis(0) < cushion.getEnd().getAxis(0) || (cushion.getStart().getAxis(0) == cushion.getEnd().getAxis(0) && cushion.getStart().getAxis(1) > cushion.getEnd().getAxis(1))){
+            leftmostCushionPoint = cushion.getStart();
+            rightmostCushionPoint = cushion.getEnd();
+        }
+        Vector3 relativeBallPosition = Vector3.subtract(ball.getDisplacement(), rightmostCushionPoint);
+        Vector3 cushionVector = Vector3.subtract(leftmostCushionPoint, rightmostCushionPoint);
+        double vectorAngle = Vector3.getSignedAngle2D(new Vector3(0, 1, 0), cushionVector);
+        if(Vector3.getSignedAngle2D(cushionVector, relativeBallPosition) < 0)
+            vectorAngle = -(Math.PI - vectorAngle);
 
-        // // Velocity
-        // if(PzS <= PzE){
-        //     ball.setVelocity(-2 * sx * Math.sin(Cushion.THETA) / 7 - (1 + e) * c * Math.cos(Cushion.THETA), 2 * sy / 7, 0);
-        // }
-        // else{
-        //     double phi = Vector3.getAngleBetweenVectors(ball.getVelocity(), new Vector3(1, 0, 0));
-        //     double mu = 0.2;
-        //     if(phi > Math.PI / 2)
-        //         phi = Math.PI - phi;
+        ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), -vectorAngle));
+        ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), -vectorAngle));
 
-        //     ball.setVelocity(-c * (1 + e) * (mu * Math.cos(phi) * Math.sin(Cushion.THETA) + Math.cos(Cushion.THETA)),
-        //                     c * (1 + e) * mu * Math.sin(phi), 0);
-        // }
+        double e = 0.85;
+        double sx = ball.getVelocity().getAxis(0) * Math.sin(Cushion.THETA) - ball.getVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(1);
+        double sy = -ball.getVelocity().getAxis(1) - Ball.RADIUS * ball.getAngularVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(0) * Math.sin(Cushion.THETA);
+        double c = ball.getVelocity().getAxis(0) * Math.cos(Cushion.THETA);
+        double I = 2 * Ball.MASS * Ball.RADIUS * Ball.RADIUS / 5;
+        double PzE = Ball.MASS * c * (1 + e);
+        double PzS = 2 * Ball.MASS * Math.sqrt(sx * sx + sy * sy) / 7;
 
-        // // Angular Velocity
-        // ball.setAngularVelocity(-Ball.MASS * Ball.RADIUS * ball.getVelocity().getAxis(1) * Math.sin(Cushion.THETA) / I,
-        //                         Ball.MASS * Ball.RADIUS * ball.getVelocity().getAxis(0) * Math.sin(Cushion.THETA) / I,
-        //                         Ball.MASS * Ball.RADIUS * ball.getVelocity().getAxis(1) * Math.cos(Cushion.THETA) / I);
+        // Velocity
+        double deltaX = 0, deltaY = 0, deltaZ = 0;
+        if(PzS <= PzE){
+            deltaX = -2 * sx * Math.sin(Cushion.THETA) / 7 - (1 + e) * c * Math.cos(Cushion.THETA);
+            deltaY = 2 * sy / 7;
+            deltaZ = 2 * sx / 7 * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
+        }
+        else{
+            double phi = Vector3.getSignedAngle2D(ball.getVelocity(), new Vector3(1, 0, 0));
+            double mu = 0.2;
+            if(phi > Math.PI / 2)
+                phi = Math.PI - phi;
 
-        ball.setVelocity(ball.getVelocity().getAxis(0), -ball.getVelocity().getAxis(1), ball.getVelocity().getAxis(2));
+            deltaX = -c * (1 + e) * (mu * Math.cos(phi) * Math.sin(Cushion.THETA) + Math.cos(Cushion.THETA));
+            deltaY = c * (1 + e) * mu * Math.sin(phi);
+            deltaZ = mu * (1 + e) * c * Math.cos(phi) * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
+        }
 
-        ball.setDisplacement(Vector3.rotateAboutZAxis(ball.getDisplacement(), angle));
-        ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), angle));
-        ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), angle));
+        ball.setVelocity(ball.getVelocity().getAxis(0) + deltaX, 
+                        ball.getVelocity().getAxis(1) + deltaY, 
+                        ball.getVelocity().getAxis(2));
+        ball.setAngularVelocity(ball.getAngularVelocity().getAxis(0) - Ball.MASS * Ball.RADIUS * deltaY * Math.sin(Cushion.THETA) / I,
+                                ball.getAngularVelocity().getAxis(1) + Ball.MASS * Ball.RADIUS * (deltaX * Math.sin(Cushion.THETA) - deltaZ * Math.cos(Cushion.THETA)) / I,
+                                ball.getAngularVelocity().getAxis(2) + Ball.MASS * Ball.RADIUS * deltaY * Math.cos(Cushion.THETA) / I);
+
+        ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), vectorAngle));
+        ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), vectorAngle));
     }
 }

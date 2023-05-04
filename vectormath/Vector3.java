@@ -204,7 +204,7 @@ public class Vector3 extends Matrix{
 
     public static double getSignedAngle2D(final Vector3 vector1, final Vector3 vector2){
         double dotProduct = Vector3.dotProduct(vector1, vector2);
-        double determinant = vector1.getAxis(0) * vector2.getAxis(1) + vector1.getAxis(1) * vector2.getAxis(0);
+        double determinant = vector1.getAxis(0) * vector2.getAxis(1) - vector1.getAxis(1) * vector2.getAxis(0);
         return Math.atan2(determinant, dotProduct);
     }
 
