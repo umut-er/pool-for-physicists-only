@@ -9,18 +9,20 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import gameobjects.Cushion;
+import gameobjects.Pocket;
 import gameobjects.Table;
 
 public class TableUI extends JPanel implements ActionListener{
     private Timer timer;
     private Table table;
-    private BallUI[] ballUIs;
+    private ArrayList<BallUI> ballUIs;
     private Image tableImage;
 
     private static final double TABLE_WIDTH_METERS = 3.0534;
@@ -30,7 +32,7 @@ public class TableUI extends JPanel implements ActionListener{
 
     private static final int UPDATION_INTERVAL = 5;
 
-    public TableUI(String imageFileName, Table table, BallUI... ballUIs){
+    public TableUI(String imageFileName, Table table, ArrayList<BallUI> ballUIs){
         changeTableImage(imageFileName);
         this.table = table;
         this.ballUIs = ballUIs;
@@ -91,6 +93,14 @@ public class TableUI extends JPanel implements ActionListener{
                                 getPixelFromMeters(cushion.getEnd().getAxis(0), false), getPixelFromMeters(cushion.getEnd().getAxis(1), true));
         }
 
+        // graphics.setColor(Color.CYAN);
+        // for(Pocket pocket : table.getPocketArray()){
+        //     graphics.fillOval(getPixelFromMeters(pocket.getX() - pocket.getRadius(), false), 
+        //                         getPixelFromMeters(pocket.getY() + pocket.getRadius(), true), 
+        //                         getPixelFromMeters(2 * pocket.getRadius(), false), 
+        //                         getPixelFromMeters(2 * pocket.getRadius(), false));
+        // }
+
         for(BallUI ball : ballUIs){
             graphics.setColor(new Color(255, 255, 255));
             graphics.fillOval(getPixelFromMeters(ball.getBallXPosition(), false) - ball.getBallPixelRadius(), 
@@ -101,7 +111,13 @@ public class TableUI extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e){
-        table.evolveTable(UPDATION_INTERVAL / 1000.);
+        int idx = table.evolveTable(UPDATION_INTERVAL / 1000.);
+        if(idx == -2){
+            timer.stop();
+        }
+        if(idx >= 0){
+            ballUIs.remove(idx);
+        }
         repaint();
     }
 }

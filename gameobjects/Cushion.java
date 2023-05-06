@@ -39,7 +39,7 @@ public class Cushion{
         this.startPosition = end;
     }
 
-    public static Cushion[] getStandartCushionArray(){
+    public static Cushion[] getStandardCushionArray(){
         Cushion[] cushions = new Cushion[18];
         Double[] numbers1 = {24.,38.,38.,44.,58.,354.,389.,394.,690.,724.,710.,710.,704.,690.,394.,359.,354.,58.};
         Double[] numbers2 = {44.,58.,354.,388.,374.,374.,388.,374.,374.,368.,354.,58.,24.,38.,38.,24.,38.,38.};

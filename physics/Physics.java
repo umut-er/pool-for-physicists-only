@@ -3,6 +3,7 @@ package physics;
 import gameobjects.*;
 import physics.event.BallBallCollisionEvent;
 import physics.event.BallCushionCollisionEvent;
+import physics.event.BallPocketCollisionEvent;
 import physics.event.BallStateChangeEvent;
 import physics.event.Event;
 import vectormath.Vector3;
@@ -59,6 +60,18 @@ public class Physics{
                 if(time >= 0){
                     if(event == null || event.getTimeUntilEvent() > time){
                         event = new BallCushionCollisionEvent(ball, cushion, time);
+                    }
+                }
+            }
+        }
+
+        for(int i = 0; i < table.getBallArray().size(); i++){
+            for(Pocket pocket : table.getPocketArray()){
+                Ball ball = table.getBallArray().get(i);
+                time = calculateBallPocketCollisionTime(ball, pocket);
+                if(time >= 0){
+                    if(event == null || event.getTimeUntilEvent() > time){
+                        event = new BallPocketCollisionEvent(table, ball, i, time);
                     }
                 }
             }
@@ -210,6 +223,35 @@ public class Physics{
         }
 
         return min;
+    }
+
+    public static double calculateBallPocketCollisionTime(Ball ball, Pocket pocket){
+        if(ball.isSpinning() || ball.isStationary())
+            return -1;
+        
+        // Get movement coefficients.
+        double ax = 0, bx = ball.getVelocity().getAxis(0), cx = ball.getDisplacement().getAxis(0);
+        double ay = 0, by = ball.getVelocity().getAxis(1), cy = ball.getDisplacement().getAxis(1);
+        if(ball.isRolling()){
+            Vector3 normalizedVelocity = Vector3.normalize(ball.getVelocity());
+            ax = - ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * normalizedVelocity.getAxis(0) / 2;
+            ay = - ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * normalizedVelocity.getAxis(1) / 2;
+        }
+        else if(ball.isSliding()){
+            Vector3 radiusVector = new Vector3(0, 0, Ball.RADIUS);
+            Vector3 relativeVelocity = Vector3.add(ball.getVelocity(), Vector3.crossProduct(radiusVector, ball.getAngularVelocity()));
+            relativeVelocity.normalize();
+            ax = - SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * relativeVelocity.getAxis(0) / 2;
+            ay = - SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * relativeVelocity.getAxis(1) / 2;
+        }
+
+        double A = (ax * ax + ay * ay) / 2;
+        double B = ax * bx + ay * by;
+        double C = ax * (cx - pocket.getX()) + ay * (cy - pocket.getY()) + (bx * bx + by * by) / 2;
+        double D = bx * (cx - pocket.getX()) + by * (cy - pocket.getY());
+        double E = (pocket.getX() * pocket.getX() + pocket.getY() * pocket.getY() + cx * cx + cy * cy - pocket.getRadius() * pocket.getRadius()) / 2 - (cx * pocket.getX() + cy * pocket.getY());
+        return PolynomialSolver.solveQuarticEquation(A, B, C, D, E);
+
     }
 
     public static double calculateSpinningTime(Ball ball){
