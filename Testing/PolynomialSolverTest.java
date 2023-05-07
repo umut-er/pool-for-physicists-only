@@ -1,8 +1,9 @@
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import physics.PolynomialSolver;
 
 //Testing for PolynomialSolver methods solveQuadraticEquation and solveQuarticEquation
 public class PolynomialSolverTest{
@@ -11,7 +12,7 @@ public class PolynomialSolverTest{
     @Test
     public void shouldTwoOverThree()
     {
-         assertEquals(2/3.0,  PolynomialSolver.solveQuadraticEquation(6,5,-6),0.01);
+        assertEquals(2/3.0,  PolynomialSolver.solveQuadraticEquation(6,5,-6),0.01);
     }
     @Test
     public void shouldReturnTwo()
