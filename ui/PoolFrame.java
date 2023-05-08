@@ -13,16 +13,17 @@ import gameobjects.Table;
 public class PoolFrame extends JFrame{
     private TableUI tableUI;
 
-    public static final int FRAME_HEIGHT=450;
-    public static final int FRAME_WIDTH=786;
+    public static final int FRAME_HEIGHT=700;
+    public static final int FRAME_WIDTH=1200;
 
     public PoolFrame(){
-        // Ball cueBall = new Ball(BallType.CUE, 0.5, 1.1, 0, 0, 1, 0, 0, 0, 100); // circular cushion?
-        Ball cueBall2 = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 5, 0, 0, 0, -50);
-        // Ball cueBall3 = new Ball(BallType.CUE, 0.5, 0.3, 0, 3, 0, 0, 0, 1000, 0); // investigate
-        Ball cueBall4 = new Ball(BallType.CUE, 0.2, 0.6, 0, 2.91, 1, 0, 0, 0, 0);
+        Ball cueBall = new Ball(BallType.CUE, 0.65, 0.5, 0, 0, 1.5, 0, 0, 0, 150); // circular cushion?
+        // Ball cueBall2 = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 5, 0, 0, 0, -50);
+        // Ball cueBall4 = new Ball(BallType.CUE, 0.2, 0.6, 0, 2.91, 1, 0, 0, 0, 0);
+        // Ball cueBall5 = new Ball(BallType.CUE, 0.5, 0.5, 0, 5, 0, 0, 0, -200, 0);
+        // Ball cueBall6 = new Ball(BallType.CUE, 1.5, 0.5, 0, 0, 0, 0, 0, 0, 0);
 
-        Ball[] ballArray = {cueBall4, cueBall2};
+        Ball[] ballArray = {cueBall};
         ArrayList<BallUI> ballUIs = new ArrayList<BallUI>();
         for(int i = 0; i < ballArray.length; i++)
             ballUIs.add(new BallUI(ballArray[i], i));
@@ -36,7 +37,7 @@ public class PoolFrame extends JFrame{
         this.getContentPane().setBackground(new Color(255, 170, 0));
         setLayout(null);
         
-        tableUI.setBounds(0, 0, TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
+        tableUI.setBounds(100, 100, TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
         this.setVisible(true);
     }

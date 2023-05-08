@@ -217,7 +217,7 @@ public class Physics{
             if(!Double.isNaN(solutions[i])){
                 s = - Vector3.dotProduct(Vector3.subtract(cushion.getStart(), returnPosition(ball, solutions[i])), Vector3.subtract(cushion.getEnd(), cushion.getStart())) / 
                     Vector3.dotProduct(Vector3.subtract(cushion.getEnd(), cushion.getStart()), Vector3.subtract(cushion.getEnd(), cushion.getStart()));
-                if(s >= 0 && s <= 1 && (min == -1 || solutions[i] < min))
+                if(s >= 0 && s <= 1 && (min == -1 || solutions[i] < min && solutions[i] > 0))
                     min = solutions[i];
             }
         }
