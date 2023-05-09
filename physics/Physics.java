@@ -4,6 +4,7 @@ import gameobjects.*;
 import physics.event.BallBallCollisionEvent;
 import physics.event.BallCushionCollisionEvent;
 import physics.event.BallPocketCollisionEvent;
+import physics.event.BallPointCushionCollisionEvent;
 import physics.event.BallStateChangeEvent;
 import physics.event.Event;
 import vectormath.Vector3;
@@ -60,6 +61,17 @@ public class Physics{
                 if(time >= 0){
                     if(event == null || event.getTimeUntilEvent() > time){
                         event = new BallCushionCollisionEvent(ball, cushion, time);
+                    }
+                }
+            }
+        }
+
+        for(Ball ball : table.getBallArray()){
+            for(PointCushion pointCushion : table.getPointCushionArray()){
+                time = calculateBallPointCushionCollisionTime(ball, pointCushion);
+                if(time >= 0){
+                    if(event == null || event.getTimeUntilEvent() > time){
+                        event = new BallPointCushionCollisionEvent(ball, pointCushion, time);
                     }
                 }
             }
@@ -223,6 +235,42 @@ public class Physics{
         }
 
         return min;
+    }
+
+    public static double calculateBallPointCushionCollisionTime(Ball ball, PointCushion pointCushion){
+        // Get ball movement coefficients
+        double ax = 0, bx = 0, cx = ball.getDisplacement().getAxis(0);
+        double ay = 0, by = 0, cy = ball.getDisplacement().getAxis(1);
+        if(ball.isSpinning() || ball.isStationary()){
+            ax = 0; bx = 0;
+            ay = 0; by = 0;
+        }
+        else{
+            bx = ball.getVelocity().getAxis(0);
+            by = ball.getVelocity().getAxis(1);
+            if(ball.isRolling()){
+                Vector3 normalizedVelocity = Vector3.normalize(ball.getVelocity());
+                ax = - ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * normalizedVelocity.getAxis(0) / 2;
+                ay = - ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * normalizedVelocity.getAxis(1) / 2;
+            }
+            else if(ball.isSliding()){
+                Vector3 radiusVector = new Vector3(0, 0, Ball.RADIUS);
+                Vector3 relativeVelocity = Vector3.add(ball.getVelocity(), Vector3.crossProduct(radiusVector, ball.getAngularVelocity()));
+                relativeVelocity.normalize();
+                ax = - SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * relativeVelocity.getAxis(0) / 2;
+                ay = - SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * relativeVelocity.getAxis(1) / 2;
+            }
+        }
+
+        double Cx = cx - pointCushion.getX();
+        double Cy = cy - pointCushion.getY();
+        return PolynomialSolver.solveQuarticEquation(
+            ax * ax + ay * ay, 
+            2 * (ax * bx + ay * by), 
+            bx * bx + by * by + 2 * ax * Cx + 2 * ay * Cy,
+            2 * bx * Cx + 2 * by * Cy,
+            Cx * Cx + Cy * Cy - Ball.RADIUS * Ball.RADIUS
+        );
     }
 
     public static double calculateBallPocketCollisionTime(Ball ball, Pocket pocket){
@@ -392,6 +440,50 @@ public class Physics{
         double vectorAngle = Vector3.getSignedAngle2D(new Vector3(0, 1, 0), cushionVector);
         if(Vector3.getSignedAngle2D(cushionVector, relativeBallPosition) < 0)
             vectorAngle = -(Math.PI - vectorAngle);
+
+        ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), -vectorAngle));
+        ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), -vectorAngle));
+
+        double e = 0.85;
+        double sx = ball.getVelocity().getAxis(0) * Math.sin(Cushion.THETA) - ball.getVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(1);
+        double sy = -ball.getVelocity().getAxis(1) - Ball.RADIUS * ball.getAngularVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(0) * Math.sin(Cushion.THETA);
+        double c = ball.getVelocity().getAxis(0) * Math.cos(Cushion.THETA);
+        double I = 2 * Ball.MASS * Ball.RADIUS * Ball.RADIUS / 5;
+        double PzE = Ball.MASS * c * (1 + e);
+        double PzS = 2 * Ball.MASS * Math.sqrt(sx * sx + sy * sy) / 7;
+
+        // Velocity
+        double deltaX = 0, deltaY = 0, deltaZ = 0;
+        if(PzS <= PzE){
+            deltaX = -2 * sx * Math.sin(Cushion.THETA) / 7 - (1 + e) * c * Math.cos(Cushion.THETA);
+            deltaY = 2 * sy / 7;
+            deltaZ = 2 * sx / 7 * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
+        }
+        else{
+            double phi = Vector3.getSignedAngle2D(ball.getVelocity(), new Vector3(1, 0, 0));
+            double mu = 0.2;
+            if(phi > Math.PI / 2)
+                phi = Math.PI - phi;
+
+            deltaX = -c * (1 + e) * (mu * Math.cos(phi) * Math.sin(Cushion.THETA) + Math.cos(Cushion.THETA));
+            deltaY = c * (1 + e) * mu * Math.sin(phi);
+            deltaZ = mu * (1 + e) * c * Math.cos(phi) * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
+        }
+
+        ball.setVelocity(ball.getVelocity().getAxis(0) + deltaX, 
+                        ball.getVelocity().getAxis(1) + deltaY, 
+                        ball.getVelocity().getAxis(2));
+        ball.setAngularVelocity(ball.getAngularVelocity().getAxis(0) - Ball.MASS * Ball.RADIUS * deltaY * Math.sin(Cushion.THETA) / I,
+                                ball.getAngularVelocity().getAxis(1) + Ball.MASS * Ball.RADIUS * (deltaX * Math.sin(Cushion.THETA) - deltaZ * Math.cos(Cushion.THETA)) / I,
+                                ball.getAngularVelocity().getAxis(2) + Ball.MASS * Ball.RADIUS * deltaY * Math.cos(Cushion.THETA) / I);
+
+        ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), vectorAngle));
+        ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), vectorAngle));
+    }
+
+    public static void resolveBallPointCushionCollision(Ball ball, PointCushion pointCushion){
+        Vector3 relativeVector = Vector3.subtract(ball.getDisplacement(), pointCushion.getPosition());
+        double vectorAngle = Vector3.getSignedAngle2D(new Vector3(0, 1, 0), relativeVector) - Math.PI / 2;
 
         ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), -vectorAngle));
         ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), -vectorAngle));

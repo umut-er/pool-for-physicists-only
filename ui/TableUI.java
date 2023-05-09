@@ -17,6 +17,7 @@ import javax.swing.Timer;
 
 import gameobjects.Cushion;
 import gameobjects.Pocket;
+import gameobjects.PointCushion;
 import gameobjects.Table;
 
 public class TableUI extends JPanel implements ActionListener{
@@ -99,6 +100,12 @@ public class TableUI extends JPanel implements ActionListener{
         //                         getPixelFromMeters(pocket.getY() + pocket.getRadius(), true), 
         //                         getPixelFromMeters(2 * pocket.getRadius(), false), 
         //                         getPixelFromMeters(2 * pocket.getRadius(), false));
+        // }
+
+        // graphics.setColor(Color.MAGENTA);
+        // for(PointCushion pointCushion : table.getPointCushionArray()){
+        //     graphics.drawLine(getPixelFromMeters(pointCushion.getX(), false), getPixelFromMeters(pointCushion.getY(), true), 
+        //                         getPixelFromMeters(pointCushion.getX(), false) + 5, getPixelFromMeters(pointCushion.getY(), true) + 5);
         // }
 
         for(BallUI ball : ballUIs){

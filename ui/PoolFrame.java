@@ -17,13 +17,13 @@ public class PoolFrame extends JFrame{
     public static final int FRAME_WIDTH=1200;
 
     public PoolFrame(){
-        Ball cueBall = new Ball(BallType.CUE, 0.65, 0.5, 0, 0, 1.5, 0, 0, 0, 150); // circular cushion?
-        // Ball cueBall2 = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 5, 0, 0, 0, -50);
-        // Ball cueBall4 = new Ball(BallType.CUE, 0.2, 0.6, 0, 2.91, 1, 0, 0, 0, 0);
-        // Ball cueBall5 = new Ball(BallType.CUE, 0.5, 0.5, 0, 5, 0, 0, 0, -200, 0);
-        // Ball cueBall6 = new Ball(BallType.CUE, 1.5, 0.5, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall = new Ball(BallType.CUE, 0.65, 1, 0, 0, 1.5, 0, 0, 0, 150); // circular cushion?
+        Ball cueBall2 = new Ball(BallType.CUE, 0.5, 0.8, 0, 0, 5, 0, 0, 0, -50);
+        Ball cueBall4 = new Ball(BallType.CUE, 0.2, 0.6, 0, 2.91, 1, 0, 0, 0, 0);
+        Ball cueBall5 = new Ball(BallType.CUE, 0.5, 0.5, 0, 5, 0.2, 0, 0, -50, 0);
+        Ball cueBall6 = new Ball(BallType.CUE, 1.5, 0.5, 0, 0, 0, 0, 0, 0, 0);
 
-        Ball[] ballArray = {cueBall};
+        Ball[] ballArray = {cueBall, cueBall2, cueBall4, cueBall5, cueBall6};
         ArrayList<BallUI> ballUIs = new ArrayList<BallUI>();
         for(int i = 0; i < ballArray.length; i++)
             ballUIs.add(new BallUI(ballArray[i], i));

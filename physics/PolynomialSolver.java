@@ -70,6 +70,6 @@ public class PolynomialSolver{
             min = r1;
         if(!Double.isNaN(r2) && r2 >= 0 && (min == -1 || r2 < min))
             min = r2;
-            return min;
+        return min;
     }
 }

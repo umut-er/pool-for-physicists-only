@@ -8,14 +8,16 @@ import physics.event.Event;
 
 public class Table{
     private ArrayList<Ball> ballArray;
-    private Cushion[] cushions; // Will be implemented later.
+    private Cushion[] cushions;
+    private PointCushion[] pointCushions;
     private Pocket[] pockets;
-    private Event currentEvent; // Useful for event-based updation algorithm
+    private Event currentEvent;
 
     public Table(ArrayList<Ball> ballArray){
         this.ballArray = ballArray;
         this.cushions = Cushion.getStandardCushionArray();
         this.pockets = Pocket.getStandardPocketArray();
+        this.pointCushions = PointCushion.getStandardPointCushionArray();
     }
 
     public ArrayList<Ball> getBallArray(){
@@ -24,6 +26,10 @@ public class Table{
 
     public Cushion[] getCushionArray(){
         return this.cushions;
+    }
+
+    public PointCushion[] getPointCushionArray(){
+        return this.pointCushions;
     }
 
     public Pocket[] getPocketArray(){
