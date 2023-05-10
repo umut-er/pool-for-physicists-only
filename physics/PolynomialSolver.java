@@ -34,13 +34,15 @@ public class PolynomialSolver{
      */
     public static double solveQuarticEquation(double a, double b, double c, double d, double e){
         double p = 1;
-        double q = 5;
+        double q = 10;
 
         double[] aa = {a, b, c, d, e};
         double[] bb = new double[5];
         double[] cc = new double[5];
         double dp = 0, dq = 0, dn = 0;
         
+        // TODO: Conditional p and q selection necessary, for slow shots choose p and q small.
+        int count = 0;
         do {
             // bb[0] = aa[0];
             // cc[0] = bb[0];
@@ -58,7 +60,8 @@ public class PolynomialSolver{
             dq = (bb[4] * cc[2] - bb[3] * (cc[3] - bb[3])) / dn;
             p += dp;
             q += dq;
-        } while (Math.abs(dp) > 1e-10 || Math.abs(dq) > 1e-10);
+            count++;
+        } while ((Math.abs(dp) > 1e-6 || Math.abs(dq) > 1e-6) && count < 100000);
 
         double r1 = solveQuadraticEquation(1, p, q);
         double a2 = a;

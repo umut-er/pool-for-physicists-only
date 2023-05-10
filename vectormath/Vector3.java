@@ -192,20 +192,23 @@ public class Vector3 extends Matrix{
 
     /**
      * Returns the smallest angle between the vectors, order doesn't matter.
+     * @deprecated There are some bugs with this, and getSignedAngle2D() is a much better implementation for the purposes of this program.
      * @param vector1 First vector.
      * @param vector2 Second vector.
      * @return A double, the angle between the vectors in radians.
      */
+    @Deprecated
     public static double getAngleBetweenVectors(final Vector3 vector1, final Vector3 vector2){
         double dotProductOfVectors = dotProduct(vector1, vector2);
         double productOfMagnitudes = vector1.getVectorLength() * vector2.getVectorLength();
         return Math.acos(dotProductOfVectors / productOfMagnitudes);
     }
 
+    // TODO: Check
     public static double getSignedAngle2D(final Vector3 vector1, final Vector3 vector2){
         double dotProduct = Vector3.dotProduct(vector1, vector2);
         double determinant = vector1.getAxis(0) * vector2.getAxis(1) - vector1.getAxis(1) * vector2.getAxis(0);
-        return Math.atan2(determinant, dotProduct);
+        return  Math.atan2(determinant, dotProduct);
     }
 
     @Override

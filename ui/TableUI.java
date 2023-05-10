@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import gameobjects.Cushion;
-import gameobjects.Pocket;
-import gameobjects.PointCushion;
 import gameobjects.Table;
 
 public class TableUI extends JPanel implements ActionListener{
@@ -94,22 +92,9 @@ public class TableUI extends JPanel implements ActionListener{
                                 getPixelFromMeters(cushion.getEnd().getAxis(0), false), getPixelFromMeters(cushion.getEnd().getAxis(1), true));
         }
 
-        // graphics.setColor(Color.CYAN);
-        // for(Pocket pocket : table.getPocketArray()){
-        //     graphics.fillOval(getPixelFromMeters(pocket.getX() - pocket.getRadius(), false), 
-        //                         getPixelFromMeters(pocket.getY() + pocket.getRadius(), true), 
-        //                         getPixelFromMeters(2 * pocket.getRadius(), false), 
-        //                         getPixelFromMeters(2 * pocket.getRadius(), false));
-        // }
-
-        // graphics.setColor(Color.MAGENTA);
-        // for(PointCushion pointCushion : table.getPointCushionArray()){
-        //     graphics.drawLine(getPixelFromMeters(pointCushion.getX(), false), getPixelFromMeters(pointCushion.getY(), true), 
-        //                         getPixelFromMeters(pointCushion.getX(), false) + 5, getPixelFromMeters(pointCushion.getY(), true) + 5);
-        // }
-
         for(BallUI ball : ballUIs){
-            graphics.setColor(new Color(255, 255, 255));
+            // graphics.setColor(new Color(255, 255, 255));
+            graphics.setColor(ball.getColor());
             graphics.fillOval(getPixelFromMeters(ball.getBallXPosition(), false) - ball.getBallPixelRadius(), 
                             getPixelFromMeters(ball.getBallYPosition(), true) - ball.getBallPixelRadius(),
                             2 * ball.getBallPixelRadius(), 2 * ball.getBallPixelRadius());

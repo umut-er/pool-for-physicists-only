@@ -15,9 +15,6 @@ public class BallPointCushionCollisionEvent extends Event{
     }
 
     public void resolveEvent(){
-        // ball.setVelocity(0,0,0);
-        // ball.setAngularVelocity(0,0,0);
-
         Physics.resolveBallPointCushionCollision(ball, pointCushion);
     }
 }

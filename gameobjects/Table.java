@@ -42,8 +42,9 @@ public class Table{
 
     // -2 -> no event found, -1 -> no ball pocketed, >=0 -> index of pocketed ball
     public int evolveTable(double dt){
-        if(currentEvent == null)
+        if(currentEvent == null){
             getNextEvent();
+        }
         if(currentEvent == null){
             return -2;
         }
@@ -58,6 +59,9 @@ public class Table{
                 ret = convertedEvent.getIndex();
             }
             currentEvent = null;
+
+            if(dt <= 1e-6)
+                evolveTable(0.05);
         }
         else{
             Physics.updateTable(this, dt);
