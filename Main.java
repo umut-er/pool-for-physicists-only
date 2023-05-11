@@ -10,8 +10,7 @@ public class Main {
         //PoolDatabase.createAccount("User1", "user1234");
         //PoolDatabase.createAccount("User2", "player1234");
         //PoolDatabase.levelUpAccount("User1");
-        System.out.println(PoolDatabase.loginAccount("za", "user1234"));
-        //PoolFrame frame = new PoolFrame("User1", "User2");
-        //frame.start();
+        PoolFrame frame = new PoolFrame("User1", "User2");
+        frame.start();
     }
 }
