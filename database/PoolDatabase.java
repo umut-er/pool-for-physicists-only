@@ -53,9 +53,9 @@ public class PoolDatabase {
         return Integer.parseInt(object.get("Number").toString());
     }
 
-    public static void levelUpAccount(String username, int levelUp) throws UnsupportedEncodingException, FirebaseException, JacksonUtilityException{
+    public static void levelUpAccount(String username, int levelUpCount) throws UnsupportedEncodingException, FirebaseException, JacksonUtilityException{
         int level=getAccountLevel(username);
-        level=level+levelUp;
+        level=level+levelUpCount;
         Map<String, Object> userData = firebase.get(username).getBody();
         userData.put("Level", level);
         firebase.put(username, userData);
