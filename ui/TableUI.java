@@ -19,8 +19,7 @@ import gameobjects.Cushion;
 import gameobjects.Table;
 
 public class TableUI extends JPanel implements ActionListener{
-    static double total = 0;
-    static int amount = 0;
+    static long start = 0;
 
     private Timer timer;
     private Table table;
@@ -32,7 +31,7 @@ public class TableUI extends JPanel implements ActionListener{
     private static final int TABLE_WIDTH_PIXELS = 748;
     private static final int TABLE_HEIGHT_PIXELS = 412;
 
-    private static final int UPDATION_INTERVAL = 5;
+    public static final int UPDATION_INTERVAL = 33;
 
     public TableUI(String imageFileName, Table table, ArrayList<BallUI> ballUIs){
         changeTableImage(imageFileName);
@@ -71,6 +70,11 @@ public class TableUI extends JPanel implements ActionListener{
 
     public void startAction(){
         timer.start();
+        start = System.currentTimeMillis();
+    }
+
+    public ArrayList<BallUI> getBallUIArray(){
+        return this.ballUIs;
     }
 
     public void changeTableImage(String imageFileName){
@@ -85,7 +89,7 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public void paint(Graphics g){
-        long start = System.nanoTime();
+        // long start = System.nanoTime();
         super.paint(g);
         Graphics2D graphics=(Graphics2D)g;
         graphics.drawImage(tableImage, 0, 0, TABLE_WIDTH_PIXELS, TABLE_HEIGHT_PIXELS, null);
@@ -103,21 +107,19 @@ public class TableUI extends JPanel implements ActionListener{
                             getPixelFromMeters(ball.getBallYPosition(), true) - ball.getBallPixelRadius(),
                             2 * ball.getBallPixelRadius(), 2 * ball.getBallPixelRadius());
         }
-        long finish = System.nanoTime();
-        System.out.println((finish - start) / 1000000. + " ms");
-        total += finish - start;
-        amount++;
-        System.out.println("Average: " + total / (amount * 1000000) + " ms");
+        // long finish = System.nanoTime();
+        // System.out.println((finish - start) / 1000000. + " ms");
+        // total += finish - start;
+        // amount++;
+        // System.out.println("Average: " + total / (amount * 1000000) + " ms");
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        int idx = table.evolveTable(UPDATION_INTERVAL / 1000.);
+        int idx = table.evolveTable(this, UPDATION_INTERVAL / 1000.);
         if(idx == -2){
             timer.stop();
-        }
-        if(idx >= 0){
-            ballUIs.remove(idx);
+            System.out.println((System.currentTimeMillis() - start) / 1000.);
         }
         repaint();
     }

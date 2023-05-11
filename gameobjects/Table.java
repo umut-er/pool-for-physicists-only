@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import physics.Physics;
 import physics.event.BallPocketCollisionEvent;
 import physics.event.Event;
+import ui.TableUI;
 
 public class Table{
     private ArrayList<Ball> ballArray;
@@ -12,6 +13,8 @@ public class Table{
     private PointCushion[] pointCushions;
     private Pocket[] pockets;
     private Event currentEvent;
+
+    private double timeThisTurn = 0;
 
     public Table(ArrayList<Ball> ballArray){
         this.ballArray = ballArray;
@@ -41,34 +44,33 @@ public class Table{
     }
 
     // -2 -> no event found, -1 -> no ball pocketed, >=0 -> index of pocketed ball
-    public int evolveTable(double dt){  
-        if(currentEvent == null){         
-            
+    public int evolveTable(TableUI tableUI, double dt){
+        if(currentEvent == null){               
             getNextEvent();
-            
         }
         if(currentEvent == null){
             return -2;
         }
 
-        int ret = -1;
         if(dt > currentEvent.getTimeUntilEvent()){
             dt = currentEvent.getTimeUntilEvent();
             Physics.updateTable(this, dt);
             currentEvent.resolveEvent();
             if(currentEvent instanceof BallPocketCollisionEvent){
                 BallPocketCollisionEvent convertedEvent = (BallPocketCollisionEvent)currentEvent;
-                ret = convertedEvent.getIndex();
+                int idx = convertedEvent.getIndex();
+                tableUI.getBallUIArray().remove(idx);
             }
             currentEvent = null;
-
-            if(dt <= 1e-6)
-                evolveTable(0.05);
+            timeThisTurn += dt;
+            if(timeThisTurn <= TableUI.UPDATION_INTERVAL / 1000.)
+                evolveTable(tableUI, TableUI.UPDATION_INTERVAL / 1000.);
         }
         else{
             Physics.updateTable(this, dt);
             currentEvent.decreaseTimeUntilEvent(dt);
         }
-        return ret;
+        timeThisTurn = 0;
+        return -1;
     }
 }
