@@ -84,8 +84,6 @@ public class PoolDatabase {
 
     public static boolean loginAccount(String username, String password) throws UnsupportedEncodingException, FirebaseException{
         FirebaseResponse response=firebase.get(username);
-        System.out.println(response);
-        System.out.println(response.getRawBody());
         if(!response.getRawBody().equals("null"))
         {
             String correctPassword=getAccountPassword(username);
