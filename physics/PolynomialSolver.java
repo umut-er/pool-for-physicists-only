@@ -3,6 +3,10 @@ package physics;
 // TODO: Testing
 
 public class PolynomialSolver{
+    static int total = 0;
+    static int amount = 0;
+    static int max = -1;
+
     public static double[] solveQuadraticEquationAllRoots(double a, double b, double c){
         double determinant = b * b - 4 * a * c;
         double[] res = new double[2];
@@ -33,15 +37,14 @@ public class PolynomialSolver{
      * @return Minimum positive real root of the quartic equation if it exists, else -1.
      */
     public static double solveQuarticEquation(double a, double b, double c, double d, double e){
-        double p = 1;
-        double q = 10;
+        double p = 10;
+        double q = 20;
 
         double[] aa = {a, b, c, d, e};
         double[] bb = new double[5];
         double[] cc = new double[5];
         double dp = 0, dq = 0, dn = 0;
         
-        // TODO: Conditional p and q selection necessary, for slow shots choose p and q small.
         int count = 0;
         do {
             // bb[0] = aa[0];
@@ -61,7 +64,7 @@ public class PolynomialSolver{
             p += dp;
             q += dq;
             count++;
-        } while ((Math.abs(dp) > 1e-6 || Math.abs(dq) > 1e-6) && count < 100000);
+        } while ((Math.abs(dp) > 1e-6 || Math.abs(dq) > 1e-6) && count < 10000);
 
         double r1 = solveQuadraticEquation(1, p, q);
         double a2 = a;
