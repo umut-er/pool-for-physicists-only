@@ -37,20 +37,32 @@ public class PoolDatabase {
 
     public static String getAccountPassword(String username) throws UnsupportedEncodingException, FirebaseException{
         FirebaseResponse response=firebase.get(username);
-        JSONObject object = new JSONObject(response.getRawBody());
-        return object.get("Password").toString();
+        if(!response.getRawBody().equals("null"))
+        {
+            JSONObject object = new JSONObject(response.getRawBody());
+            return object.get("Password").toString();
+        }
+        return "";
     }
 
     public static int getAccountLevel(String username) throws UnsupportedEncodingException, FirebaseException{
         FirebaseResponse response=firebase.get(username);
-        JSONObject object = new JSONObject(response.getRawBody());
-        return Integer.parseInt(object.get("Level").toString());
+        if(!response.getRawBody().equals("null"))
+        {
+            JSONObject object = new JSONObject(response.getRawBody());
+            return Integer.parseInt(object.get("Level").toString());
+        }
+        return -1;
     }
 
     public static int getAccountNumber(String username) throws UnsupportedEncodingException, FirebaseException{
         FirebaseResponse response=firebase.get(username);
-        JSONObject object = new JSONObject(response.getRawBody());
-        return Integer.parseInt(object.get("Number").toString());
+        if(!response.getRawBody().equals("null"))
+        {
+            JSONObject object = new JSONObject(response.getRawBody());
+            return Integer.parseInt(object.get("Number").toString());
+        }
+        return -1;
     }
 
     public static void levelUpAccount(String username, int levelUpCount) throws UnsupportedEncodingException, FirebaseException, JacksonUtilityException{
@@ -68,5 +80,20 @@ public class PoolDatabase {
     public static void deleteAccount(String username) throws UnsupportedEncodingException, FirebaseException{
         accountCount--;
         firebase.delete(username);
+    }
+
+    public static boolean loginAccount(String username, String password) throws UnsupportedEncodingException, FirebaseException{
+        FirebaseResponse response=firebase.get(username);
+        System.out.println(response);
+        System.out.println(response.getRawBody());
+        if(!response.getRawBody().equals("null"))
+        {
+            String correctPassword=getAccountPassword(username);
+            if(correctPassword.equals(password))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
