@@ -29,7 +29,7 @@ public class PoolFrame extends JFrame{
         Ball cueBall10 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.996 + 4 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
         
         Ball cueBall1 = new Ball(BallType.CUE, 0.825, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0); // circular cushion?
-        Vector3 shot = new Vector3(7, 0.01, 0);
+        Vector3 shot = new Vector3(11, 0.01, 0);
         double angle = Vector3.getSignedAngle2D(Vector3.subtract(cueBall2.getDisplacement(), cueBall1.getDisplacement()), new Vector3(1, 0, 0));
         shot = Vector3.rotateAboutZAxis(shot, -angle); // +angle causes bugs 
         cueBall1.setVelocity(shot);

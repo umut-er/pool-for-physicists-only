@@ -3,10 +3,6 @@ package physics;
 // TODO: Testing
 
 public class PolynomialSolver{
-    static int total = 0;
-    static int amount = 0;
-    static int max = -1;
-
     public static double[] solveQuadraticEquationAllRoots(double a, double b, double c){
         double determinant = b * b - 4 * a * c;
         double[] res = new double[2];

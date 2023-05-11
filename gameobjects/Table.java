@@ -7,6 +7,9 @@ import physics.event.BallPocketCollisionEvent;
 import physics.event.Event;
 
 public class Table{
+    static double total = 0;
+    static int amount = 0; 
+
     private ArrayList<Ball> ballArray;
     private Cushion[] cushions;
     private PointCushion[] pointCushions;
@@ -41,9 +44,15 @@ public class Table{
     }
 
     // -2 -> no event found, -1 -> no ball pocketed, >=0 -> index of pocketed ball
-    public int evolveTable(double dt){
-        if(currentEvent == null){
+    public int evolveTable(double dt){  
+        if(currentEvent == null){         
+            long start = System.nanoTime();
             getNextEvent();
+            long finish = System.nanoTime();
+            System.out.println((finish - start) / 1000000. + " ms");
+            total += finish - start;
+            amount++;
+            System.out.println("Average: " + total / (amount * 1000000) + " ms");
         }
         if(currentEvent == null){
             return -2;
