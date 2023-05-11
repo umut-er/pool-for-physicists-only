@@ -19,6 +19,9 @@ import gameobjects.Cushion;
 import gameobjects.Table;
 
 public class TableUI extends JPanel implements ActionListener{
+    static double total = 0;
+    static int amount = 0;
+
     private Timer timer;
     private Table table;
     private ArrayList<BallUI> ballUIs;
@@ -82,6 +85,7 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public void paint(Graphics g){
+        long start = System.nanoTime();
         super.paint(g);
         Graphics2D graphics=(Graphics2D)g;
         graphics.drawImage(tableImage, 0, 0, TABLE_WIDTH_PIXELS, TABLE_HEIGHT_PIXELS, null);
@@ -99,6 +103,11 @@ public class TableUI extends JPanel implements ActionListener{
                             getPixelFromMeters(ball.getBallYPosition(), true) - ball.getBallPixelRadius(),
                             2 * ball.getBallPixelRadius(), 2 * ball.getBallPixelRadius());
         }
+        long finish = System.nanoTime();
+        System.out.println((finish - start) / 1000000. + " ms");
+        total += finish - start;
+        amount++;
+        System.out.println("Average: " + total / (amount * 1000000) + " ms");
     }
 
     @Override
