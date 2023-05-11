@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Color;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -9,14 +10,17 @@ import javax.swing.JFrame;
 import gameobjects.Ball;
 import gameobjects.BallType;
 import gameobjects.Table;
+import net.thegreshams.firebase4j.error.FirebaseException;
 
 public class PoolFrame extends JFrame{
     private TableUI tableUI;
+    private AccountUI player1;
+    private AccountUI player2;
 
     public static final int FRAME_HEIGHT=700;
     public static final int FRAME_WIDTH=1200;
 
-    public PoolFrame(){
+    public PoolFrame(String username1, String username2) throws UnsupportedEncodingException, FirebaseException{
         //Ball cueBall = new Ball(BallType.CUE, 0.65, 0.5, 0, 0, 1.5, 0, 0, 0, 150); // circular cushion?
         Ball cueBall2 = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 5, 0, 0, 0, -50);
         //Ball cueBall4 = new Ball(BallType.CUE, 0.2, 0.6, 0, 2.91, 1, 0, 0, 0, 0);
@@ -29,6 +33,14 @@ public class PoolFrame extends JFrame{
             ballUIs.add(new BallUI(ballArray[i], i));
         Table table = new Table(new ArrayList<Ball>(Arrays.asList(ballArray)));
         this.tableUI = new TableUI("table7.png", table, ballUIs);
+
+        //Adding AccountUIs
+        this.player1=new AccountUI(username1);
+        this.player2=new AccountUI(username2);
+        this.add(player1);
+        this.add(player2);
+        this.player1.setBounds(AccountUI.X_COORDINATE_1, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
+        this.player2.setBounds(AccountUI.X_COORDINATE_2, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
         
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setTitle("8-Ball Pool");

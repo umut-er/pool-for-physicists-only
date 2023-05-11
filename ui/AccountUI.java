@@ -11,16 +11,22 @@ import net.thegreshams.firebase4j.error.FirebaseException;
 public class AccountUI extends JLabel{
     private String accountNameUI;
     private int accountLevelUI;
+    public static final int Y_COORDINATE=30;
+    public static final int WIDTH=100;
+    public static final int HEIGHT=50;
+    public static final int X_COORDINATE_1=365;
+    public static final int X_COORDINATE_2=485;
 
     public AccountUI(String username) throws UnsupportedEncodingException, FirebaseException{
         this.accountNameUI=username;
         this.accountLevelUI=PoolDatabase.getAccountLevel(username);
-        this.setText(accountNameUI+" Level: "+accountLevelUI);
+        this.setText(accountNameUI+"  Level: "+accountLevelUI);
+        this.setOpaque(true);
         if(accountLevelUI<10){
-            this.changeAccountLabel(null, null, null);
+            this.changeAccountLabel(Color.CYAN, Color.BLACK, null);
         }
         else if(accountLevelUI<20 && accountLevelUI>=10){
-            this.changeAccountLabel(null, null, null);
+            this.changeAccountLabel(Color.BLUE, Color.CYAN, null);
         }
         else if(accountLevelUI<30 && accountLevelUI>=20){
             this.changeAccountLabel(null, null, null);
@@ -51,7 +57,6 @@ public class AccountUI extends JLabel{
         }
         this.setVerticalAlignment(JLabel.CENTER);
         this.setHorizontalAlignment(JLabel.CENTER);
-        this.setBounds(0,0,100,50); //Considered later
     }
 
     public String getAccountName(){
