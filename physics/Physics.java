@@ -49,6 +49,8 @@ public class Physics{
                 double dist = Vector3.subtract(ball1.getDisplacement(), ball2.getDisplacement()).getVectorLength();
                 if(dist < 2 * Ball.RADIUS - 1e-4){
                     System.out.println("Ball collision is not detected between: " + i + " " + j);
+                    Physics.resolveBallBallCollision(ball1, ball2);
+                    continue;
                 }
 
                 time = calculateBallBallCollisionTime(ball1, ball2);

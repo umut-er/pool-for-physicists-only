@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -19,8 +20,6 @@ import gameobjects.Cushion;
 import gameobjects.Table;
 
 public class TableUI extends JPanel implements ActionListener{
-    static long start = 0;
-
     private Timer timer;
     private Table table;
     private ArrayList<BallUI> ballUIs;
@@ -32,6 +31,8 @@ public class TableUI extends JPanel implements ActionListener{
     private static final int TABLE_HEIGHT_PIXELS = 412;
 
     public static final int UPDATION_INTERVAL = 33;
+
+    private boolean numbersOn = true;
 
     public TableUI(String imageFileName, Table table, ArrayList<BallUI> ballUIs){
         changeTableImage(imageFileName);
@@ -69,8 +70,24 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public void startAction(){
+        numbersOn = false;
         timer.start();
-        start = System.currentTimeMillis();
+    }
+
+    public void stopAction(){
+        numbersOn = true;
+        timer.stop();
+        paint(getGraphics());
+        shootBall();
+    }
+
+    public void shootBall(){
+        Scanner in = new Scanner(System.in);
+        System.out.print("Give velocity values (x, y); (0, 0) to enable quitting: ");
+        double x = in.nextDouble(), y = in.nextDouble();
+        table.getBallArray().get(0).setVelocity(x, y, 0);
+        if(x != 0 || y != 0)
+            startAction();
     }
 
     public ArrayList<BallUI> getBallUIArray(){
@@ -89,7 +106,6 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public void paint(Graphics g){
-        // long start = System.nanoTime();
         super.paint(g);
         Graphics2D graphics=(Graphics2D)g;
         graphics.drawImage(tableImage, 0, 0, TABLE_WIDTH_PIXELS, TABLE_HEIGHT_PIXELS, null);
@@ -106,14 +122,24 @@ public class TableUI extends JPanel implements ActionListener{
                             getPixelFromMeters(ball.getBallYPosition(), true) - ball.getBallPixelRadius(),
                             2 * ball.getBallPixelRadius(), 2 * ball.getBallPixelRadius());
         }
+
+        if(numbersOn){
+            graphics.setColor(new Color(134, 74, 154));
+            for(BallUI ball : ballUIs){
+                if(ball.getBall().getNumber() != 0){
+                    graphics.drawString(String.valueOf(ball.getBall().getNumber()), 
+                                        getPixelFromMeters(ball.getBallXPosition(), false) - (int)(ball.getBallPixelRadius() / 1.5),
+                                        getPixelFromMeters(ball.getBallYPosition(), true) + (int)(ball.getBallPixelRadius() / 1.5));
+                }
+            }
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
         int idx = table.evolveTable(this, UPDATION_INTERVAL / 1000.);
         if(idx == -2){
-            timer.stop();
-            System.out.println((System.currentTimeMillis() - start) / 1000.);
+            stopAction();
         }
         repaint();
     }

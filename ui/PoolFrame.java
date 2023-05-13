@@ -19,7 +19,7 @@ public class PoolFrame extends JFrame{
         Ball[] ballArray = Ball.getStandardBallArray(); 
         ArrayList<BallUI> ballUIs = new ArrayList<BallUI>();
         for(int i = 0; i < ballArray.length; i++)
-            ballUIs.add(new BallUI(ballArray[i], i));
+            ballUIs.add(new BallUI(ballArray[i]));
         Table table = new Table(new ArrayList<Ball>(Arrays.asList(ballArray)));
         this.tableUI = new TableUI("table7.png", table, ballUIs);
         
@@ -36,6 +36,6 @@ public class PoolFrame extends JFrame{
     }
 
     public void start(){
-        tableUI.startAction();
+        tableUI.shootBall();
     }
 }
