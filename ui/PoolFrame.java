@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import javax.swing.JFrame;
 
+import database.PoolDatabase;
 import gameobjects.Ball;
 import gameobjects.BallType;
 import gameobjects.Table;
@@ -14,13 +15,14 @@ import net.thegreshams.firebase4j.error.FirebaseException;
 
 public class PoolFrame extends JFrame{
     private TableUI tableUI;
+    private PoolDatabase database;
     private AccountUI player1;
     private AccountUI player2;
 
     public static final int FRAME_HEIGHT=700;
     public static final int FRAME_WIDTH=1200;
 
-    public PoolFrame(String username1, String username2) throws UnsupportedEncodingException, FirebaseException{
+    public PoolFrame(String username1, String username2, PoolDatabase database) throws UnsupportedEncodingException, FirebaseException{
         //Ball cueBall = new Ball(BallType.CUE, 0.65, 0.5, 0, 0, 1.5, 0, 0, 0, 150); // circular cushion?
         Ball cueBall2 = new Ball(BallType.CUE, 0.5, 0.5, 0, 0, 5, 0, 0, 0, -50);
         //Ball cueBall4 = new Ball(BallType.CUE, 0.2, 0.6, 0, 2.91, 1, 0, 0, 0, 0);
@@ -34,7 +36,7 @@ public class PoolFrame extends JFrame{
         Table table = new Table(new ArrayList<Ball>(Arrays.asList(ballArray)));
         this.tableUI = new TableUI("table7.png", table, ballUIs);
 
-        //Adding AccountUIs
+        this.database=database;
         this.player1=new AccountUI(username1);
         this.player2=new AccountUI(username2);
         this.add(player1);
