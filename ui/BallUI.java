@@ -5,7 +5,7 @@ import java.awt.Color;
 import gameobjects.Ball;
 
 public class BallUI {
-    private static final Color[] BALL_COLORS = {Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE};
+    private static final Color[] BALL_COLORS = {Color.WHITE, Color.YELLOW, Color.BLUE, Color.RED, new Color(128, 0, 128), new Color(255, 89, 0), new Color(0, 100, 0), new Color(70, 23, 11), Color.BLACK, new Color(255, 233, 0)};
     private int ballNumber;
     private Ball ball;
     private Color color;

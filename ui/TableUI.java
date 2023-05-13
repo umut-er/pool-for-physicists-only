@@ -101,17 +101,11 @@ public class TableUI extends JPanel implements ActionListener{
         }
 
         for(BallUI ball : ballUIs){
-            // graphics.setColor(new Color(255, 255, 255));
             graphics.setColor(ball.getColor());
             graphics.fillOval(getPixelFromMeters(ball.getBallXPosition(), false) - ball.getBallPixelRadius(), 
                             getPixelFromMeters(ball.getBallYPosition(), true) - ball.getBallPixelRadius(),
                             2 * ball.getBallPixelRadius(), 2 * ball.getBallPixelRadius());
         }
-        // long finish = System.nanoTime();
-        // System.out.println((finish - start) / 1000000. + " ms");
-        // total += finish - start;
-        // amount++;
-        // System.out.println("Average: " + total / (amount * 1000000) + " ms");
     }
 
     @Override

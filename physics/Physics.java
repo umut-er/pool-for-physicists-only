@@ -46,6 +46,10 @@ public class Physics{
             for(int j = i + 1; j < (table.getBallArray().size()); j++){
                 Ball ball1 = table.getBallArray().get(i);
                 Ball ball2 = table.getBallArray().get(j);
+                double dist = Vector3.subtract(ball1.getDisplacement(), ball2.getDisplacement()).getVectorLength();
+                if(dist < 2 * Ball.RADIUS - 1e-4){
+                    System.out.println("Ball collision is not detected between: " + i + " " + j);
+                }
 
                 time = calculateBallBallCollisionTime(ball1, ball2);
                 if(time >= 0){
@@ -98,13 +102,6 @@ public class Physics{
     }
 
     public static double calculateBallBallCollisionTime(Ball ball1, Ball ball2){
-        Vector3 lineOfCenters = Vector3.subtract(ball2.getDisplacement(), ball1.getDisplacement());
-        if(lineOfCenters.getVectorLength() <= 2 * Ball.RADIUS + 1e-10){
-            Vector3 relativeVelocity = Vector3.subtract(ball1.getVelocity(), ball2.getVelocity()); 
-            if(Math.abs(Vector3.getSignedAngle2D(relativeVelocity, lineOfCenters)) >= Math.PI / 2 + 1e-6)
-                return -1;
-        }
-
         double ax1 = 0, bx1 = 0, cx1 = ball1.getDisplacement().getAxis(0);
         double ay1 = 0, by1 = 0, cy1 = ball1.getDisplacement().getAxis(1);
         double az1 = 0, bz1 = 0, cz1 = 0;
@@ -156,6 +153,13 @@ public class Physics{
         double Ax = ax1 - ax2, Ay = ay1 - ay2, Az = az1 - az2;
         double Bx = bx1 - bx2, By = by1 - by2, Bz = bz1 - bz2;
         double Cx = cx1 - cx2, Cy = cy1 - cy2, Cz = cz1 - cz2;
+
+        Vector3 lineOfCenters = Vector3.subtract(ball2.getDisplacement(), ball1.getDisplacement());
+        if(Cx * Cx + Cy * Cy + Cz * Cz - 4 * Ball.RADIUS * Ball.RADIUS < 1e-3){
+            Vector3 relativeVelocity = Vector3.subtract(ball1.getVelocity(), ball2.getVelocity()); 
+            if(Math.abs(Vector3.getSignedAngle2D(relativeVelocity, lineOfCenters)) >= Math.PI / 2 + 1e-6)
+                return -1;
+        }
 
         return PolynomialSolver.solveQuarticEquation(
             Ax * Ax + Ay * Ay + Az * Az, 

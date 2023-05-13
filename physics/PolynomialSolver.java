@@ -15,6 +15,9 @@ public class PolynomialSolver{
         double determinant = b * b - 4 * a * c;
         if(determinant < 0)
             return -1;
+        if(c <= 1e-6 && c >= -1e-6){
+            return 0;
+        }
         if(-b - Math.sqrt(determinant) > 0)
             return (-b - Math.sqrt(determinant)) / (2 * a);
         if(-b + Math.sqrt(determinant) > 0)
@@ -60,7 +63,7 @@ public class PolynomialSolver{
             p += dp;
             q += dq;
             count++;
-        } while ((Math.abs(dp) > 1e-6 || Math.abs(dq) > 1e-6) && count < 10000);
+        } while ((Math.abs(dp) > 1e-10 || Math.abs(dq) > 1e-10) && count < 10000);
 
         double r1 = solveQuadraticEquation(1, p, q);
         double a2 = a;

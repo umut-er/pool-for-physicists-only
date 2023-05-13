@@ -87,22 +87,24 @@ public class Ball {
 
     public static Ball[] getStandardBallArray(){
         Ball cueBall2 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 1, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall3 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.999 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS + 0.0001, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall4 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.999 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS - 0.0001, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall5 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.998 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + 2 * Ball.RADIUS + 0.0002, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall3 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.999 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall4 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.999 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall5 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.998 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
         Ball cueBall6 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.998 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall7 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.998 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - 2 * Ball.RADIUS - 0.0002, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall8 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.997 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS + 0.0001, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall9 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.997 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS - 0.0001, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall7 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.998 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall8 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.997 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall9 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.997 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
         Ball cueBall10 = new Ball(BallType.CUE, TableUI.getTableWidthMeters() - 0.996 + 4 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
         
-        Ball cueBall1 = new Ball(BallType.CUE, 0.825, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0); // circular cushion?
-        Vector3 shot = new Vector3(11, 0.01, 0);
+        Ball cueBall1 = new Ball(BallType.CUE, 0.825, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 90, 0); // circular cushion?
+        Vector3 shot = new Vector3(11, 0, 0);
         double angle = Vector3.getSignedAngle2D(Vector3.subtract(cueBall2.getDisplacement(), cueBall1.getDisplacement()), new Vector3(1, 0, 0));
         shot = Vector3.rotateAboutZAxis(shot, -angle); // +angle causes bugs 
         cueBall1.setVelocity(shot);
 
         Ball[] ret = {cueBall1, cueBall2, cueBall3, cueBall4, cueBall5, cueBall6, cueBall7, cueBall8, cueBall9, cueBall10};
+        // Ball[] ret = {cueBall1, cueBall2, cueBall3, cueBall6};
+
         return ret;
     }
 
