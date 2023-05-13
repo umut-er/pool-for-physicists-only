@@ -7,10 +7,6 @@ import ui.PoolFrame;
 public class Main {
     public static void main(String[] args) throws UnsupportedEncodingException, JacksonUtilityException, FirebaseException{
         PoolDatabase database=new PoolDatabase();
-        //PoolDatabase.createAccount("User1", "user1234");
-        //PoolDatabase.createAccount("User2", "player1234");
-        //PoolDatabase.levelUpAccount("User1");
-        //System.out.println(PoolDatabase.loginAccount("za", "sexworkers"));
         PoolFrame frame = new PoolFrame("User1", "User2");
         frame.start();
     }
