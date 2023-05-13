@@ -68,10 +68,12 @@ public class MenuFrame extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==loginButton){
-            LoginFrame login=new LoginFrame();
+            new LoginFrame();
+            this.setVisible(false);
         }
         else if(e.getSource()==signUpButton){
-            SignUpFrame signup=new SignUpFrame();
+            new SignUpFrame();
+            this.setVisible(false);
         }
         else{
             System.exit(0);
