@@ -5,7 +5,7 @@ import ui.MenuFrame;
 
 public class Main {
     public static void main(String[] args) throws UnsupportedEncodingException, JacksonUtilityException, FirebaseException{
-        MenuFrame menu=new MenuFrame();
+        new MenuFrame();
         // Existing accounts
         // User1 / user1234
         // User2 / player1234

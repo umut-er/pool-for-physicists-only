@@ -4,6 +4,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -14,17 +15,19 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.UnsupportedEncodingException;
 
-public class LoginFrame extends JFrame implements ActionListener{
+public class LoginFrame extends JFrame implements ActionListener, KeyListener{
     private JLabel player1;
     private JLabel player2;
     private JLabel username1;
     private JLabel password1;
     private JTextField usernameText1;
-    private JTextField passwordText1;
+    private JPasswordField passwordText1;
     private JTextField usernameText2;
-    private JTextField passwordText2;
+    private JPasswordField passwordText2;
     private JButton play;
     private JButton back;
     private MenuFrame menuFrame;
@@ -46,9 +49,9 @@ public class LoginFrame extends JFrame implements ActionListener{
         this.player1=new JLabel("Player 1");
         this.player2=new JLabel("Player 2");
         this.usernameText1=new JTextField();
-        this.passwordText1=new JTextField();
+        this.passwordText1=new JPasswordField();
         this.usernameText2=new JTextField();
-        this.passwordText2=new JTextField();
+        this.passwordText2=new JPasswordField();
         this.play=new JButton("Play");
         this.back=new JButton("Back");
         this.username1=new JLabel("Username :");
@@ -142,6 +145,11 @@ public class LoginFrame extends JFrame implements ActionListener{
         this.warning2.setFont(font2);
         this.warning2.setVisible(false);
         this.add(warning2);
+
+        this.usernameText1.addKeyListener(this);
+        this.usernameText2.addKeyListener(this);
+        this.passwordText1.addKeyListener(this);
+        this.passwordText2.addKeyListener(this);
     }
 
     @Override
@@ -149,15 +157,25 @@ public class LoginFrame extends JFrame implements ActionListener{
         if(e.getSource()==play){
             try
             {
+                String passwordPlayer1="";
+                String passwordPlayer2="";
+                for(char i:this.passwordText1.getPassword())
+                {
+                    passwordPlayer1+=i;
+                }
+                for(char i:this.passwordText2.getPassword())
+                {
+                    passwordPlayer2+=i;
+                }
                 if(this.usernameText1.getText().equals("")
-                ||this.passwordText1.getText().equals("")
+                ||passwordPlayer1.equals("")
                 ||this.usernameText2.getText().equals("")
-                ||this.passwordText2.getText().equals(""))
+                ||passwordPlayer2.equals(""))
                 {
                     this.warning1.setVisible(true);
                 }
-                else if(PoolDatabase.loginAccount(this.usernameText1.getText(), this.passwordText1.getText())
-                && PoolDatabase.loginAccount(this.usernameText2.getText(), this.passwordText2.getText()))
+                else if(PoolDatabase.loginAccount(this.usernameText1.getText(), passwordPlayer1)
+                && PoolDatabase.loginAccount(this.usernameText2.getText(), passwordPlayer2))
                 {
                     this.setVisible(false);
                     PoolFrame frame=new PoolFrame(this.usernameText1.getText(), this.usernameText2.getText(), this.database);
@@ -178,6 +196,19 @@ public class LoginFrame extends JFrame implements ActionListener{
             this.menuFrame.setVisible(true);
             this.warning1.setVisible(false);
             this.warning2.setVisible(false);
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {}
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ENTER ) {
+            this.play.doClick();
         }
     }
 }

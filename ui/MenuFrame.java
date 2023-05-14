@@ -81,7 +81,7 @@ public class MenuFrame extends JFrame implements ActionListener{
             this.setVisible(false);
         }
         else if(e.getSource()==signUpButton){
-            new SignUpFrame(this, this.database);
+            new SignUpFrame(this);
             this.setVisible(false);
         }
         else{
