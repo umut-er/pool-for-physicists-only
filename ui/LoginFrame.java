@@ -33,6 +33,7 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
     private MenuFrame menuFrame;
     private JLabel warning1;
     private JLabel warning2;
+    private JLabel warning3;
     private PoolDatabase database;
     public static final int FRAME_HEIGHT=700;
     public static final int FRAME_WIDTH=1200;
@@ -146,6 +147,15 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
         this.warning2.setVisible(false);
         this.add(warning2);
 
+        this.warning3=new JLabel("Could not play with the same account.");
+        this.warning3.setForeground(Color.RED);
+        this.warning3.setVerticalAlignment(JLabel.CENTER);
+        this.warning3.setHorizontalAlignment(JLabel.CENTER);
+        this.warning3.setBounds(400, 550, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.warning3.setFont(font2);
+        this.warning3.setVisible(false);
+        this.add(warning3);
+
         this.usernameText1.addKeyListener(this);
         this.usernameText2.addKeyListener(this);
         this.passwordText1.addKeyListener(this);
@@ -177,9 +187,16 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
                 else if(PoolDatabase.loginAccount(this.usernameText1.getText(), passwordPlayer1)
                 && PoolDatabase.loginAccount(this.usernameText2.getText(), passwordPlayer2))
                 {
-                    this.setVisible(false);
-                    PoolFrame frame=new PoolFrame(this.usernameText1.getText(), this.usernameText2.getText(), this.database);
-                    frame.start();
+                    if(!this.usernameText1.getText().equals(this.usernameText2.getText()))
+                    {
+                        this.setVisible(false);
+                        PoolFrame frame=new PoolFrame(this.usernameText1.getText(), this.usernameText2.getText(), this.database);
+                        frame.start();
+                    }
+                    else
+                    {
+                        this.warning3.setVisible(true);
+                    }
                 }
                 else
                 {
@@ -196,6 +213,7 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
             this.menuFrame.setVisible(true);
             this.warning1.setVisible(false);
             this.warning2.setVisible(false);
+            this.warning3.setVisible(false);
         }
     }
 
