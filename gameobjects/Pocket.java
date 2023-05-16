@@ -20,6 +20,10 @@ public class Pocket {
         return position.getAxis(1);
     }
 
+    public Vector3 getPosition(){
+        return this.position;
+    }
+
     public double getRadius(){
         return this.radius;
     }
