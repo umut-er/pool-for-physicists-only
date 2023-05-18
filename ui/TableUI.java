@@ -37,6 +37,8 @@ public class TableUI extends JPanel implements ActionListener{
 
     private boolean numbersOn = true;
 
+    private boolean clicked = false;
+
     public TableUI(String imageFileName, Table table, ArrayList<BallUI> ballUIs){
         changeTableImage(imageFileName);
         this.table = table;
@@ -50,7 +52,8 @@ public class TableUI extends JPanel implements ActionListener{
      * @param axis false -> x, true -> y
      * @return An int, the pixel location of object.
      */
-    private static int getPixelFromMeters(double meters, boolean axis){
+    private static int
+     getPixelFromMeters(double meters, boolean axis){
         if(axis)
             return (int)((TABLE_HEIGHT_METERS -  meters) / TABLE_HEIGHT_METERS * TABLE_HEIGHT_PIXELS);
         return (int)(meters / TABLE_WIDTH_METERS * TABLE_WIDTH_PIXELS);    
@@ -70,6 +73,16 @@ public class TableUI extends JPanel implements ActionListener{
 
     public static int getTableHeightPixels(){
         return TABLE_HEIGHT_PIXELS;
+    }
+
+    // This function returns cue ball x axis pixel position assuming (0, 0) is at leftmost corner of the table.
+    public double getCueBallXPixels(){
+        return getPixelFromMeters(ballUIs.get(0).getBallXPosition(), false);
+    }
+
+    // This function returns cue ball y axis pixel position assuming (0, 0) is at leftmost corner of the table.
+    public double getCueBallYPixels(){
+        return getPixelFromMeters(ballUIs.get(0).getBallYPosition(), true);
     }
 
     public void startAction(){
@@ -191,6 +204,7 @@ public class TableUI extends JPanel implements ActionListener{
                                         getPixelFromMeters(ball.getBallYPosition(), true) + (int)(BallUI.BALL_PIXEL_RADIUS / 1.5));
                 }
             }
+           
         }
 
         // Aiming aid visuals
