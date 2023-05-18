@@ -72,6 +72,16 @@ public class TableUI extends JPanel implements ActionListener{
         return TABLE_HEIGHT_PIXELS;
     }
 
+    // This function returns cue ball x axis pixel position assuming (0, 0) is at leftmost corner of the table.
+    public int getCueBallXPixels(){
+        return getPixelFromMeters(ballUIs.get(0).getBallXPosition(), false);
+    }
+
+    // This function returns cue ball y axis pixel position assuming (0, 0) is at leftmost corner of the table.
+    public int getCueBallYPixels(){
+        return getPixelFromMeters(ballUIs.get(0).getBallYPosition(), true);
+    }
+
     public void startAction(){
         numbersOn = false;
         timer.start();
