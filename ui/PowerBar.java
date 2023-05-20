@@ -17,21 +17,17 @@ public class PowerBar extends JSlider{
         this.setMinimum(MIN);
         this.setValue(INITIAL_VALUE);
         this.setOrientation(JSlider.HORIZONTAL);
-        this.setBackground(new Color(255, 170, 0));
-
-
+        // this.setBackground(new Color(255, 170, 0));
     }
-    class PowerListener implements ChangeListener{
 
+    class PowerListener implements ChangeListener{
         @Override
-        public void stateChanged(ChangeEvent e) {
+        public void stateChanged(ChangeEvent e){
             power = PowerBar.this.getValue();
         }
-
     }
     
-    public static int getPowerValue()
-    {
+    public static int getPowerValue(){
         return power;  
     }
     

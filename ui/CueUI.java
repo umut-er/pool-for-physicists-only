@@ -3,43 +3,47 @@ package ui;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class CueUI {
-    private final double CUE_HEIGHT = 420;
-    private final double CUE_UPPER_WIDTH = 5;
-    private final double CUE_LOWER_WIDTH = 11;
-    private final double CUE_BALL_RADIUS = BallUI.BALL_PIXEL_RADIUS;
+import javax.swing.JPanel;
+
+public class CueUI extends JPanel{
+    private final int CUE_HEIGHT = 420;
+    private final int CUE_UPPER_WIDTH = 5;
+    private final int CUE_LOWER_WIDTH = 11;
+    private final int CUE_BALL_RADIUS = BallUI.BALL_PIXEL_RADIUS;
     
-    private double cueBallX;
-    private double cueBallY;
-    private double mouseX;
-    private double mouseY;
-    private double shotDistance = 5;
+    private int cueBallX;
+    private int cueBallY;
+    private int mouseX;
+    private int mouseY;
+    private int shotDistance = 5;
     
     CueUI(){
     }
 
     //getters
-    public double getCueStickHeight() {return this.CUE_HEIGHT;}
-    public double getCueUpperWidth() {return this.CUE_UPPER_WIDTH;}
-    public double getCueLowerWidth() {return this.CUE_LOWER_WIDTH;}
-    public double getCueBallRadius() {return this.CUE_BALL_RADIUS;}
-    public double getShotDistance() {return this.shotDistance;}
-    public double getMouseX() {return this.mouseX;}
-    public double getMouseY() {return this.mouseY;}
-    public double getCueBallX() {return this.cueBallX;}
-    public double getCueBallY() {return this.cueBallY;}
+    public int getCueStickHeight() {return this.CUE_HEIGHT;}
+    public int getCueUpperWidth() {return this.CUE_UPPER_WIDTH;}
+    public int getCueLowerWidth() {return this.CUE_LOWER_WIDTH;}
+    public int getCueBallRadius() {return this.CUE_BALL_RADIUS;}
+    public int getShotDistance() {return this.shotDistance;}
+    public int getMouseX() {return this.mouseX;}
+    public int getMouseY() {return this.mouseY;}
+    public int getCueBallX() {return this.cueBallX;}
+    public int getCueBallY() {return this.cueBallY;}
 
 
     //setters
-    public void setShotDistance(double distance) {this.shotDistance = distance;}
-    public void setMouseX(double newMouseX) {this.mouseX = newMouseX;}
-    public void setMouseY(double newMouseY) {this.mouseY = newMouseY;}
-    public void setCueBallX(double newCueBallX) {this.cueBallX = newCueBallX;}
-    public void setCueBallY(double newCueBallY) {this.cueBallY = newCueBallY;}
+    public void setShotDistance(int distance) {this.shotDistance = distance;}
+    public void setMouseX(int newMouseX) {this.mouseX = newMouseX;}
+    public void setMouseY(int newMouseY) {this.mouseY = newMouseY;}
+    public void setCueBallX(int newCueBallX) {this.cueBallX = newCueBallX;}
+    public void setCueBallY(int newCueBallY) {this.cueBallY = newCueBallY;}
   
-
-    public void draw(Graphics2D g2){
+    @Override
+    public void paintComponent(Graphics g){
         //the angle of the line that passes through mouse cursor and cueBall center 
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D)g;
         double angle = Math.atan2(this.cueBallY - this.mouseY, this.cueBallX - this.mouseX );
         
         //central points of upper and lower edges 

@@ -35,6 +35,4 @@ public class HitButton extends JButton implements ActionListener{
         angleValue = ElevationBar.getAngleValue();
 
     }
-    
-
 }

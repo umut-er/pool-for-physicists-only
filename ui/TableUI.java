@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -32,12 +31,9 @@ public class TableUI extends JPanel implements ActionListener{
     private static final double TABLE_HEIGHT_METERS = 1.6818;
     private static final int TABLE_WIDTH_PIXELS = 748;
     private static final int TABLE_HEIGHT_PIXELS = 412;
-
     public static final int UPDATION_INTERVAL = 33;
 
     private boolean numbersOn = true;
-
-    private boolean clicked = false;
 
     public TableUI(String imageFileName, Table table, ArrayList<BallUI> ballUIs){
         changeTableImage(imageFileName);
@@ -47,13 +43,12 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     /**
-     * Returns the pixel location from the location measured in meters.
+     * Returns the pixel location, (0, 0) being the top left corner, from the location measured in meters.
      * @param meters Location in meters
      * @param axis false -> x, true -> y
      * @return An int, the pixel location of object.
      */
-    private static int
-     getPixelFromMeters(double meters, boolean axis){
+    private static int getPixelFromMeters(double meters, boolean axis){
         if(axis)
             return (int)((TABLE_HEIGHT_METERS -  meters) / TABLE_HEIGHT_METERS * TABLE_HEIGHT_PIXELS);
         return (int)(meters / TABLE_WIDTH_METERS * TABLE_WIDTH_PIXELS);    
@@ -75,12 +70,10 @@ public class TableUI extends JPanel implements ActionListener{
         return TABLE_HEIGHT_PIXELS;
     }
 
-    // This function returns cue ball x axis pixel position assuming (0, 0) is at leftmost corner of the table.
     public int getCueBallXPixels(){
         return getPixelFromMeters(ballUIs.get(0).getBallXPosition(), false);
     }
 
-    // This function returns cue ball y axis pixel position assuming (0, 0) is at leftmost corner of the table.
     public int getCueBallYPixels(){
         return getPixelFromMeters(ballUIs.get(0).getBallYPosition(), true);
     }
@@ -97,40 +90,8 @@ public class TableUI extends JPanel implements ActionListener{
         shootBall();
     }
 
-    // Currently terminal output for aiming aid.
     public void shootBall(){
-        Scanner in = new Scanner(System.in);
-        Vector3 position = getOptimalPosition();
-        if(position == null){
-            System.out.print("No possible pocket found! Give your (x, y) velocity values, (0, 0) to enable quitting: ");
-            double x = in.nextDouble(), y = in.nextDouble();
-            table.getBallArray().get(0).setVelocity(x, y, 0);
-            if(x != 0 || y != 0)
-                startAction();
-        }
-        Vector3 v = new Vector3(position.getAxis(0) - ballUIs.get(0).getBallXPosition(), position.getAxis(1) - ballUIs.get(0).getBallYPosition(), 0);
-        v.normalize();
-        System.out.println("Suggested shot: " + v);
-        System.out.print("This shot is currently at 1m/s. Enter a positive value to multiply this by (negatives will do nothing): ");
-        double mul = in.nextDouble();
-        if(mul > 0){
-            v.inPlaceMultiply(mul);
-        }
-        in.nextLine();
-        double x, y;
-        System.out.println("New shot: " + v);
-        System.out.print("Do you want to execute this shot (y or n)?: ");
-        String ans = in.nextLine();
-        if(ans.toLowerCase().equals("y")){
-            x = v.getAxis(0); y = v.getAxis(1);
-        }
-        else{
-            System.out.print("Give your (x, y) velocity values, (0, 0) to enable quitting: ");
-            x = in.nextDouble(); y = in.nextDouble();
-        }
-        table.getBallArray().get(0).setVelocity(x, y, 0);
-        if(x != 0 || y != 0)
-            startAction();
+
     }
 
     // Part of aiming aid
@@ -177,8 +138,8 @@ public class TableUI extends JPanel implements ActionListener{
         }
     }
 
-    public void paint(Graphics g){
-        super.paint(g);
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
         Graphics2D graphics=(Graphics2D)g;
         graphics.drawImage(tableImage, 0, 0, TABLE_WIDTH_PIXELS, TABLE_HEIGHT_PIXELS, null);
 
@@ -203,8 +164,7 @@ public class TableUI extends JPanel implements ActionListener{
                                         getPixelFromMeters(ball.getBallXPosition(), false) - (int)(BallUI.BALL_PIXEL_RADIUS / 1.5),
                                         getPixelFromMeters(ball.getBallYPosition(), true) + (int)(BallUI.BALL_PIXEL_RADIUS / 1.5));
                 }
-            }
-           
+            }    
         }
 
         // Aiming aid visuals

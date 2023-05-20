@@ -15,7 +15,7 @@ public class HitPosition extends JPanel implements MouseListener{
    {
         this.setFocusable(true);
         addMouseListener(this);
-        this.setBackground(new Color(255, 170, 0));
+        // this.setBackground(new Color(255, 170, 0));
    }
    
     @Override
