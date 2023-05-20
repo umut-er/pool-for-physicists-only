@@ -1,7 +1,5 @@
 package ui;
 
-import java.awt.Color;
-
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

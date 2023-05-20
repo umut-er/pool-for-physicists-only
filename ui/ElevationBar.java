@@ -26,7 +26,7 @@ public class ElevationBar extends JSlider{
         this.setPaintTrack(true);
         this.setPaintLabels(true);
         this.setFont(new Font("MV Boli",Font.PLAIN,15));
-        this.setBackground(new Color(255, 170, 0));
+        // this.setBackground(new Color(255, 170, 0));
         
 
     }

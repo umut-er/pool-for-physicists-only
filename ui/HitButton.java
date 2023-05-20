@@ -12,7 +12,6 @@ public class HitButton extends JButton implements ActionListener{
     private int yPosition;
     private int powerValue;
     private double angleValue;
-    
 
     public HitButton()
     {
@@ -20,7 +19,6 @@ public class HitButton extends JButton implements ActionListener{
         this.setText("HIT");
         this.setBackground(Color.RED);
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
