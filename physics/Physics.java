@@ -179,10 +179,12 @@ public class Physics{
         double l0 = -lx * cushion.getStart().getAxis(0) - cushion.getStart().getAxis(1);
 
         double d;
-        if(cushion.getEnd().getAxis(0) - cushion.getStart().getAxis(0) == 0)
+        if(cushion.getEnd().getAxis(0) - cushion.getStart().getAxis(0) == 0){
             d = Math.abs(ball.getDisplacement().getAxis(0) - cushion.getStart().getAxis(0));
-        else
+        }
+        else{
             d = Math.abs(lx * ball.getDisplacement().getAxis(0) + ly * ball.getDisplacement().getAxis(1) + l0) / Math.sqrt(lx * lx + ly * ly);
+        }
         
         if(d <= Ball.RADIUS + 1e-8 && d >= Ball.RADIUS - 1e-8){
             double s = - Vector3.dotProduct(Vector3.subtract(cushion.getStart(), ball.getDisplacement()), Vector3.subtract(cushion.getEnd(), cushion.getStart())) / 
@@ -236,7 +238,7 @@ public class Physics{
             if(!Double.isNaN(solutions[i])){
                 s = - Vector3.dotProduct(Vector3.subtract(cushion.getStart(), returnPosition(ball, solutions[i])), Vector3.subtract(cushion.getEnd(), cushion.getStart())) / 
                     Vector3.dotProduct(Vector3.subtract(cushion.getEnd(), cushion.getStart()), Vector3.subtract(cushion.getEnd(), cushion.getStart()));
-                if(s >= 0 && s <= 1 && (min == -1 || solutions[i] < min && solutions[i] > 0))
+                if(s >= 0 && s <= 1 && ((min == -1 || solutions[i] < min) && solutions[i] > 0))
                     min = solutions[i];
             }
         }
@@ -474,7 +476,7 @@ public class Physics{
             deltaZ = 2 * sx / 7 * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
         }
         else{
-            double phi = Vector3.getSignedAngle2D(ball.getVelocity(), new Vector3(0, 1, 0));
+            double phi = Vector3.getSignedAngle2D(ball.getVelocity(), new Vector3(1, 0, 0));
             double mu = 0.2;
             if(phi > Math.PI / 2)
                 phi = Math.PI - phi;
@@ -491,6 +493,8 @@ public class Physics{
                                 ball.getAngularVelocity().getAxis(1) + Ball.MASS * Ball.RADIUS * (deltaX * Math.sin(Cushion.THETA) - deltaZ * Math.cos(Cushion.THETA)) / I,
                                 ball.getAngularVelocity().getAxis(2) + Ball.MASS * Ball.RADIUS * deltaY * Math.cos(Cushion.THETA) / I);
 
+        Vector3 correctionTerm = Vector3.rotateAboutZAxis(new Vector3(-1e-5, 0, 0), vectorAngle); // unnoticable in game but useful to seperate ball from cushion after impact for calculations.
+        ball.setDisplacement(Vector3.add(ball.getDisplacement(), correctionTerm));
         ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), vectorAngle));
         ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), vectorAngle));
     }
@@ -537,7 +541,9 @@ public class Physics{
         ball.setAngularVelocity(ball.getAngularVelocity().getAxis(0) - Ball.MASS * Ball.RADIUS * deltaY * Math.sin(Cushion.THETA) / I,
                                 ball.getAngularVelocity().getAxis(1) + Ball.MASS * Ball.RADIUS * (deltaX * Math.sin(Cushion.THETA) - deltaZ * Math.cos(Cushion.THETA)) / I,
                                 ball.getAngularVelocity().getAxis(2) + Ball.MASS * Ball.RADIUS * deltaY * Math.cos(Cushion.THETA) / I);
-
+        
+        Vector3 correctionTerm = Vector3.rotateAboutZAxis(new Vector3(-1e-5, 0, 0), vectorAngle); // unnoticable in game but useful to seperate ball from cushion after impact for calculations.
+        ball.setDisplacement(Vector3.add(ball.getDisplacement(), correctionTerm));
         ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), vectorAngle));
         ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), vectorAngle));
     }

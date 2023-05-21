@@ -98,7 +98,8 @@ public class TableUI extends JPanel implements ActionListener{
         mainPanel.getCue().setCueBallY(getCueBallYPixels() + 100);
         mainPanel.getCue().setActive(true);
         timer.stop();
-        paint(getGraphics());
+        // paint(getGraphics());
+        mainPanel.repaint();
     }
 
     public void hitBall(double cueSpeed, double directionAngle, double elevationAngle, double horizontalSpin, double verticalSpin){
