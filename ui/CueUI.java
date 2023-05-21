@@ -5,6 +5,8 @@ import java.awt.geom.*;
 
 import javax.swing.JPanel;
 
+import vectormath.Vector3;
+
 public class CueUI extends JPanel{
     private final int CUE_HEIGHT = 420;
     private final int CUE_UPPER_WIDTH = 5;
@@ -16,9 +18,10 @@ public class CueUI extends JPanel{
     private int mouseX;
     private int mouseY;
     private int shotDistance = 5;
+
+    private boolean isActive = true;
     
-    CueUI(){
-    }
+    CueUI(){}
 
     //getters
     public int getCueStickHeight() {return this.CUE_HEIGHT;}
@@ -30,7 +33,12 @@ public class CueUI extends JPanel{
     public int getMouseY() {return this.mouseY;}
     public int getCueBallX() {return this.cueBallX;}
     public int getCueBallY() {return this.cueBallY;}
+    public boolean getActive() {return isActive;}
 
+    public double getAngle(){
+        Vector3 direction = new Vector3(cueBallX - mouseX, -(cueBallY - mouseY), 0);
+        return Vector3.getSignedAngle2D(new Vector3(0, -1, 0), direction);
+    }
 
     //setters
     public void setShotDistance(int distance) {this.shotDistance = distance;}
@@ -38,9 +46,13 @@ public class CueUI extends JPanel{
     public void setMouseY(int newMouseY) {this.mouseY = newMouseY;}
     public void setCueBallX(int newCueBallX) {this.cueBallX = newCueBallX;}
     public void setCueBallY(int newCueBallY) {this.cueBallY = newCueBallY;}
+    public void setActive(boolean active) {isActive = active;}
   
     @Override
     public void paintComponent(Graphics g){
+        if(!isActive)
+            return;
+
         //the angle of the line that passes through mouse cursor and cueBall center 
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;

@@ -5,17 +5,17 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class PowerBar extends JSlider{
-    private final int MIN = 0;
-    private final int MAX = 100;
-    private final int INITIAL_VALUE = 50;
-    private static int power;
+    private static final int MIN = 0;
+    private static final int MAX = 1000;
+    private static final int INITIAL_VALUE = 300;
+    private static int power = INITIAL_VALUE;
     public PowerBar(){
         this.setToolTipText("Power Bar");
         this.setMaximum(MAX);
         this.setMinimum(MIN);
         this.setValue(INITIAL_VALUE);
         this.setOrientation(JSlider.HORIZONTAL);
-        // this.setBackground(new Color(255, 170, 0));
+        this.addChangeListener(new PowerListener());
     }
 
     class PowerListener implements ChangeListener{
@@ -25,8 +25,7 @@ public class PowerBar extends JSlider{
         }
     }
     
-    public static int getPowerValue(){
-        return power;  
+    public static double getPowerValue(){
+        return power / 150.;  
     }
-    
 }

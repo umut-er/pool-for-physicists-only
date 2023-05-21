@@ -19,9 +19,11 @@ import gameobjects.Ball;
 import gameobjects.Cushion;
 import gameobjects.Pocket;
 import gameobjects.Table;
+import physics.Physics;
 import vectormath.Vector3;
 
 public class TableUI extends JPanel implements ActionListener{
+    private PoolPanel mainPanel;
     private Timer timer;
     private Table table;
     private ArrayList<BallUI> ballUIs;
@@ -35,7 +37,8 @@ public class TableUI extends JPanel implements ActionListener{
 
     private boolean numbersOn = true;
 
-    public TableUI(String imageFileName, Table table, ArrayList<BallUI> ballUIs){
+    public TableUI(String imageFileName, Table table, ArrayList<BallUI> ballUIs, PoolPanel mainPanel){
+        this.mainPanel = mainPanel;
         changeTableImage(imageFileName);
         this.table = table;
         this.ballUIs = ballUIs;
@@ -78,20 +81,29 @@ public class TableUI extends JPanel implements ActionListener{
         return getPixelFromMeters(ballUIs.get(0).getBallYPosition(), true);
     }
 
+    public Table getTable(){
+        return this.table;
+    }
+
     public void startAction(){
         numbersOn = false;
+        mainPanel.getCue().setActive(false);
+        mainPanel.repaint();
         timer.start();
     }
 
     public void stopAction(){
         numbersOn = true;
+        mainPanel.getCue().setCueBallX(getCueBallXPixels() + 100);
+        mainPanel.getCue().setCueBallY(getCueBallYPixels() + 100);
+        mainPanel.getCue().setActive(true);
         timer.stop();
         paint(getGraphics());
-        shootBall();
     }
 
-    public void shootBall(){
-
+    public void hitBall(double cueSpeed, double directionAngle, double elevationAngle, double horizontalSpin, double verticalSpin){
+        Physics.hitBall(table.getBallArray().get(0), cueSpeed, directionAngle, elevationAngle, horizontalSpin, verticalSpin);
+        startAction();
     }
 
     // Part of aiming aid

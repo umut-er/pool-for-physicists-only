@@ -7,14 +7,19 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 public class HitButton extends JButton implements ActionListener{
+    TableUI table;
+    HitPosition hitPositionElement;
+    ElevationBar elevationElement;
+    CueUI cueElement;
+    PowerBar powerElement;
 
-    private int xPosition;
-    private int yPosition;
-    private int powerValue;
-    private double angleValue;
 
-    public HitButton()
-    {
+    public HitButton(TableUI table, HitPosition hitPosition, ElevationBar elevation, CueUI cue, PowerBar powerBar){
+        this.table = table;
+        hitPositionElement = hitPosition;
+        elevationElement = elevation;
+        cueElement = cue;
+        powerElement = powerBar;
         this.addActionListener(this);
         this.setText("HIT");
         this.setBackground(Color.RED);
@@ -25,12 +30,12 @@ public class HitButton extends JButton implements ActionListener{
         hit();
     }
 
-    public void hit()
-    {
-        xPosition = HitPosition.getXPos();
-        yPosition = HitPosition.getYPos();
-        powerValue = PowerBar.getPowerValue();
-        angleValue = ElevationBar.getAngleValue();
-
+    public void hit(){
+        double xPosition = HitPosition.getXPos();
+        double yPosition = HitPosition.getYPos();
+        double powerValue = PowerBar.getPowerValue();
+        double elevationAngle = ElevationBar.getAngleValue();
+        double directionAngle = cueElement.getAngle();
+        table.hitBall(powerValue, directionAngle, elevationAngle, xPosition, yPosition);
     }
 }

@@ -11,9 +11,10 @@ import vectormath.Vector3;
 
 public class Physics{
     private static final double GRAVITATIONAL_CONSTANT = 9.81;
-    private static final double SPINNING_COEFFICIENT = 10 * GRAVITATIONAL_CONSTANT / 9;
+    private static final double SPINNING_COEFFICIENT = 4 * Ball.RADIUS / 9;
     private static final double ROLLING_COEFFICIENT = 0.01;
     private static final double SLIDING_COEFFICIENT = 0.2;
+    private static final double CUE_MASS = 0.567;
 
     /**
      * This method calculates the event queue and returns the minimum time.
@@ -48,7 +49,7 @@ public class Physics{
                 Ball ball2 = table.getBallArray().get(j);
                 double dist = Vector3.subtract(ball1.getDisplacement(), ball2.getDisplacement()).getVectorLength();
                 if(dist < 2 * Ball.RADIUS - 1e-4){
-                    System.out.println("Ball collision is not detected between: " + i + " " + j);
+                    // System.out.println("Ball collision is not detected between: " + i + " " + j);
                     Physics.resolveBallBallCollision(ball1, ball2);
                     continue;
                 }
@@ -473,7 +474,7 @@ public class Physics{
             deltaZ = 2 * sx / 7 * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
         }
         else{
-            double phi = Vector3.getSignedAngle2D(ball.getVelocity(), new Vector3(1, 0, 0));
+            double phi = Vector3.getSignedAngle2D(ball.getVelocity(), new Vector3(0, 1, 0));
             double mu = 0.2;
             if(phi > Math.PI / 2)
                 phi = Math.PI - phi;
@@ -539,5 +540,32 @@ public class Physics{
 
         ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), vectorAngle));
         ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), vectorAngle));
+    }
+
+    // See Evan Kiefl's implementation.
+    public static void hitBall(Ball ball, double cueSpeed, double directionAngle, double elevationAngle, double horizontalSpin, double verticalSpin){
+        double spinCorrector = 0.5;
+        horizontalSpin *= -Ball.RADIUS * spinCorrector;
+        verticalSpin *= -Ball.RADIUS * spinCorrector;
+
+        double c = Math.sqrt(Ball.RADIUS * Ball.RADIUS - horizontalSpin * horizontalSpin - verticalSpin * verticalSpin);
+        double temp = horizontalSpin * horizontalSpin 
+                    + verticalSpin * verticalSpin * Math.cos(elevationAngle) * Math.cos(elevationAngle) 
+                    + c * c * Math.cos(elevationAngle) * Math.cos(elevationAngle)
+                    - 2 * verticalSpin * c * Math.cos(elevationAngle) * Math.sin(elevationAngle);
+        double force = (2 * CUE_MASS * cueSpeed) / (1 + Ball.MASS / CUE_MASS + (5 * temp) / (2 * Ball.RADIUS * Ball.RADIUS));
+
+        Vector3 velocity = new Vector3(0, -force * Math.cos(elevationAngle) / Ball.MASS , 0);
+        velocity = Vector3.rotateAboutZAxis(velocity, directionAngle);
+        ball.setVelocity(velocity);
+
+        double momentOfInertia = 2 * Ball.MASS * Ball.RADIUS * Ball.RADIUS / 5;
+        double wx = -c * Math.sin(elevationAngle) + verticalSpin * Math.cos(elevationAngle);
+        double wy = horizontalSpin * Math.sin(elevationAngle);
+        double wz = -horizontalSpin * Math.cos(elevationAngle);
+
+        Vector3 w = Vector3.rotateAboutZAxis(new Vector3(wx, wy, wz), directionAngle);
+        w.inPlaceMultiply(force / momentOfInertia);
+        ball.setAngularVelocity(w);
     }
 }

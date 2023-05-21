@@ -66,9 +66,9 @@ public class Ball {
 
     public boolean isSpinning(){
         return velocity.vectorLengthEquals(0) &&
-            angularVelocity.getAxis(0) <= 1e-6 &&
-            angularVelocity.getAxis(1) <= 1e-6 &&
-            angularVelocity.getAxis(2) > 1e-6;
+            Math.abs(angularVelocity.getAxis(0)) <= 1e-6 &&
+            Math.abs(angularVelocity.getAxis(1)) <= 1e-6 &&
+            Math.abs(angularVelocity.getAxis(2)) > 1e-6;
     }
 
     public boolean isRolling(){
@@ -92,7 +92,7 @@ public class Ball {
         Ball cueBall9 = new Ball(8, TableUI.getTableWidthMeters() - 0.8179 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
         Ball cueBall10 = new Ball(9, TableUI.getTableWidthMeters() - 0.8169 + 4 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
         
-        Ball cueBall1 = new Ball(0, 0.7, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall1 = new Ball(0, 0.9, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
 
         // TODO: Correct order, implement shuffling.
 

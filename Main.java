@@ -9,11 +9,11 @@ public class Main {
             JFrame frame = new JFrame();
             PoolPanel poolPanel = new PoolPanel();
             frame.add(poolPanel);
-            frame.setSize(PoolPanel.FRAME_WIDTH, PoolPanel.FRAME_HEIGHT);
+            frame.setSize(PoolPanel.PANEL_WIDTH, PoolPanel.PANEL_HEIGHT);
             frame.setTitle("8-Ball Pool");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setResizable(false);
-            poolPanel.start();
+            // poolPanel.start();
             frame.setVisible(true);
         });
     }
