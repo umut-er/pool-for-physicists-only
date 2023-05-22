@@ -92,6 +92,7 @@ public class TableUI extends JPanel implements ActionListener{
         mainPanel.getCue().setActive(false);
         PoolPanel.cueIsFixed = false;
         mainPanel.repaint();
+        firePropertyChange("turn start", 0, 1);
         timer.start();
     }
 
@@ -102,7 +103,6 @@ public class TableUI extends JPanel implements ActionListener{
         mainPanel.getCue().setActive(true);
         timer.stop();
         mainPanel.repaint();
-
         firePropertyChange("turn over", 0, 1);
     }
 
@@ -113,11 +113,12 @@ public class TableUI extends JPanel implements ActionListener{
 
     // Part of aiming aid
     public Pocket getOptimalPocket(){
+        Ball correctBall = table.getLowestNumberedBall();
         Pocket closestPocket = null;
         double dist = 5;
-        Vector3 fullHitVector = Vector3.subtract(table.getBallArray().get(1).getDisplacement(), table.getBallArray().get(0).getDisplacement());
+        Vector3 fullHitVector = Vector3.subtract(correctBall.getDisplacement(), table.getBallArray().get(0).getDisplacement());
         for(Pocket p : table.getPocketArray()){
-            Vector3 towardsPocket = Vector3.subtract(p.getPosition(), table.getBallArray().get(1).getDisplacement());
+            Vector3 towardsPocket = Vector3.subtract(p.getPosition(), correctBall.getDisplacement());
             if(Math.abs(Vector3.getSignedAngle2D(fullHitVector, towardsPocket)) >= Math.PI / 3)
                 continue;
             double cur_dist = towardsPocket.getVectorLength();
@@ -131,13 +132,14 @@ public class TableUI extends JPanel implements ActionListener{
 
     // Part of aiming aid.
     public Vector3 getOptimalPosition(){
+        Ball correctBall = table.getLowestNumberedBall();
         Pocket closestPocket = getOptimalPocket();
         if(closestPocket == null)
             return null;
-        Vector3 towardsPocket = Vector3.subtract(closestPocket.getPosition(), table.getBallArray().get(1).getDisplacement());
+        Vector3 towardsPocket = Vector3.subtract(closestPocket.getPosition(), correctBall.getDisplacement());
         towardsPocket.normalize();
         towardsPocket.inPlaceMultiply(-2 * Ball.RADIUS);
-        return Vector3.add(table.getBallArray().get(1).getDisplacement(), towardsPocket);
+        return Vector3.add(correctBall.getDisplacement(), towardsPocket);
     }
 
     public ArrayList<BallUI> getBallUIArray(){
@@ -188,6 +190,7 @@ public class TableUI extends JPanel implements ActionListener{
         if(numbersOn){
             graphics.setColor(Color.BLACK);
             Pocket closestPocket = getOptimalPocket();
+            Ball correctBall = table.getLowestNumberedBall();
             if(closestPocket != null){
                 Vector3 position = getOptimalPosition();
                 graphics.drawLine(getPixelFromMeters(position.getAxis(0), false), 
@@ -197,8 +200,8 @@ public class TableUI extends JPanel implements ActionListener{
 
                 graphics.drawLine(getPixelFromMeters(closestPocket.getX(), false),
                                 getPixelFromMeters(closestPocket.getY(), true),
-                                getPixelFromMeters(ballUIs.get(1).getBallXPosition(), false),
-                                getPixelFromMeters(ballUIs.get(1).getBallYPosition(), true));
+                                getPixelFromMeters(correctBall.getDisplacement().getAxis(0), false),
+                                getPixelFromMeters(correctBall.getDisplacement().getAxis(1), true));
 
                 graphics.drawOval(getPixelFromMeters(position.getAxis(0) - Ball.RADIUS, false),
                                 getPixelFromMeters(position.getAxis(1) + Ball.RADIUS, true),

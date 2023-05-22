@@ -8,6 +8,7 @@ import ui.PoolPanel;
 
 public class NineBall extends JFrame{
     private PoolPanel gamePanel;
+    private int currentLowestNumber = 1;
     private boolean turn = false;
 
     public NineBall(){
@@ -15,6 +16,9 @@ public class NineBall extends JFrame{
         gamePanel.getTableUI().addPropertyChangeListener(new PropertyChangeListener(){
             @Override
             public void propertyChange(PropertyChangeEvent evt){
+                if(evt.getPropertyName() == "turn start"){
+                    currentLowestNumber = gamePanel.getTable().getLowestNumberOnTable();
+                }
                 if(evt.getPropertyName() == "turn over"){
                     boolean foulOccured = foulCheck();
                     if(foulOccured)
@@ -40,8 +44,7 @@ public class NineBall extends JFrame{
 
     public boolean foulCheck(){
         BallBallCollisionEvent firstCollision = gamePanel.getTable().getFirstCollision();
-        int lowestBallNumber = gamePanel.getTable().getLowestNumberOnTable();
-        if(firstCollision == null || firstCollision.getFirstBallNumber() != 0 || firstCollision.getSecondBallNumber() != lowestBallNumber){
+        if(firstCollision == null || firstCollision.getFirstBallNumber() != 0 || firstCollision.getSecondBallNumber() != currentLowestNumber){
             System.out.println("FOUL");
             switchTurns();
             if(gamePanel.getTable().nineBallPocketed()){

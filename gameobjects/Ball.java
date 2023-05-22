@@ -1,5 +1,9 @@
 package gameobjects;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import ui.TableUI;
 import vectormath.Vector3;
 
@@ -81,23 +85,26 @@ public class Ball {
         return !Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
     }
 
-    public static Ball[] getStandardBallArray(){
-        Ball cueBall2 = new Ball(1, TableUI.getTableWidthMeters() - 0.82, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall3 = new Ball(2, TableUI.getTableWidthMeters() - 0.8199 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall4 = new Ball(3, TableUI.getTableWidthMeters() - 0.8199 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall5 = new Ball(4, TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall6 = new Ball(5, TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall7 = new Ball(6, TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall8 = new Ball(7, TableUI.getTableWidthMeters() - 0.8179 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall9 = new Ball(8, TableUI.getTableWidthMeters() - 0.8179 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball cueBall10 = new Ball(9, TableUI.getTableWidthMeters() - 0.8169 + 4 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
+    public static ArrayList<Ball> getStandardBallArray(){
+        Integer[] nums = {2, 3, 4, 5, 6, 7, 8};
+        Collections.shuffle(Arrays.asList(nums));
+
+        Ball ball2 = new Ball(nums[0], TableUI.getTableWidthMeters() - 0.8199 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball3 = new Ball(nums[1], TableUI.getTableWidthMeters() - 0.8199 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball4 = new Ball(nums[2], TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball5 = new Ball(nums[3], TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball6 = new Ball(nums[4], TableUI.getTableWidthMeters() - 0.8179 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball7 = new Ball(nums[5], TableUI.getTableWidthMeters() - 0.8179 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball8 = new Ball(nums[6], TableUI.getTableWidthMeters() - 0.8169 + 4 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
         
-        Ball cueBall1 = new Ball(0, 0.9, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
+        Ball cueBall = new Ball(0, 0.9, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
+        Ball oneBall = new Ball(1, TableUI.getTableWidthMeters() - 0.82, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
+        Ball nineBall = new Ball(9, TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
 
         // TODO: Correct order, implement shuffling.
 
-        Ball[] ret = {cueBall1, cueBall2, cueBall3, cueBall4, cueBall5, cueBall6, cueBall7, cueBall8, cueBall9, cueBall10};
-        return ret;
+        Ball[] ret = {cueBall, oneBall, ball2, ball3, nineBall, ball4, ball5, ball6, ball7, ball8};
+        return new ArrayList<Ball>(Arrays.asList(ret));
     }
 
     @Override

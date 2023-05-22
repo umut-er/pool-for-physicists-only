@@ -51,6 +51,15 @@ public class Table{
         timeThisTurn = 0;
     }
 
+    public Ball getLowestNumberedBall(){
+        int num = getLowestNumberOnTable();
+        for(Ball ball : ballArray){
+            if(ball.getNumber() == num)
+                return ball;
+        }
+        return null;
+    }
+
     public int getLowestNumberOnTable(){
         int min = 10;
         for(Ball ball : ballArray){

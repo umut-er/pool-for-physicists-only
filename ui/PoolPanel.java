@@ -30,11 +30,11 @@ public class PoolPanel extends JPanel{
         setLayout(null);     
         setFocusable(true);
         
-        Ball[] ballArray = Ball.getStandardBallArray(); 
+        ArrayList<Ball> ballArray = Ball.getStandardBallArray(); 
         ArrayList<BallUI> ballUIs = new ArrayList<BallUI>();
-        for(int i = 0; i < ballArray.length; i++)
-            ballUIs.add(new BallUI(ballArray[i]));
-        Table table = new Table(new ArrayList<Ball>(Arrays.asList(ballArray)));
+        for(Ball ball : ballArray)
+            ballUIs.add(new BallUI(ball));
+        Table table = new Table(ballArray);
         this.tableUI = new TableUI("table7.png", table, ballUIs, this);
         tableUI.setBounds(100, 100, TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
