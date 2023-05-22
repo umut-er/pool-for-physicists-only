@@ -160,8 +160,35 @@ public class PoolPanel extends JPanel{
         this.setVisible(true);
     }
 
+    public TableUI getTableUI(){
+        return tableUI;
+    }
+
+    public void disableHitButton(){
+        hitButton.setEnabled(false);
+    }
+
+    public void enableHitButton(){
+        hitButton.setEnabled(true);
+    }
+
+    public void ballInHand(){
+        // TODO: complete
+        // Note: You may want to do this in the TableUI class. In that case just write tableUI.ballInHand() here.
+
+        enableHitButton(); // No matter what this stays here
+    }
+
+    public void placeNineBall(){
+        // TODO: Complete
+    }
+
     public CueUI getCue(){
         return this.cue;
+    }
+
+    public Table getTable(){
+        return tableUI.getTable();
     }
 
     public void paint(Graphics g){

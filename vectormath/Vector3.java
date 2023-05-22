@@ -1,7 +1,5 @@
 package vectormath;
 
-// TODO: Testing
-
 /**
  * A simple 3D Vector class capable of crucial vector operations such as cross multiplication.
  * Inherits from the Matrix class so it is possible to multiply them.
@@ -204,7 +202,6 @@ public class Vector3 extends Matrix{
         return Math.acos(dotProductOfVectors / productOfMagnitudes);
     }
 
-    // TODO: Check
     public static double getSignedAngle2D(final Vector3 vector1, final Vector3 vector2){
         double dotProduct = Vector3.dotProduct(vector1, vector2);
         double determinant = vector1.getAxis(0) * vector2.getAxis(1) - vector1.getAxis(1) * vector2.getAxis(0);

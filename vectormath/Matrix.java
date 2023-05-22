@@ -1,7 +1,5 @@
 package vectormath;
 
-// TODO: Check for excess copies.
-
 /**
  * A simple matrix class (mainly) for vectors and related mathematical equations.
  * @author Bilkent 2023 Spring CS102 Section 2 Group 5

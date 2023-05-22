@@ -1,7 +1,5 @@
 package physics;
 
-// TODO: Testing
-
 public class PolynomialSolver{
     public static double[] solveQuadraticEquationAllRoots(double a, double b, double c){
         double determinant = b * b - 4 * a * c;

@@ -3,6 +3,7 @@ package gameobjects;
 import java.util.ArrayList;
 
 import physics.Physics;
+import physics.event.BallBallCollisionEvent;
 import physics.event.BallPocketCollisionEvent;
 import physics.event.Event;
 import ui.TableUI;
@@ -15,6 +16,8 @@ public class Table{
     private Event currentEvent;
 
     private double timeThisTurn = 0;
+
+    private BallBallCollisionEvent firstCollisionEvent;
 
     public Table(ArrayList<Ball> ballArray){
         this.ballArray = ballArray;
@@ -39,6 +42,37 @@ public class Table{
         return this.pockets;
     }
 
+    public BallBallCollisionEvent getFirstCollision(){
+        return firstCollisionEvent;
+    }
+
+    public void resetTurn(){
+        firstCollisionEvent = null;
+        timeThisTurn = 0;
+    }
+
+    public int getLowestNumberOnTable(){
+        int min = 10;
+        for(Ball ball : ballArray){
+            if(ball.getNumber() < min && ball.getNumber() > 0){
+                min = ball.getNumber();
+            }
+        }
+        return min;
+    }
+
+    public boolean cueBallPocketed(){
+        return ballArray.get(0).getNumber() != 0;
+    }
+
+    public boolean nineBallPocketed(){
+        for(Ball ball : ballArray){
+            if(ball.getNumber() == 9)
+                return false;
+        }
+        return true;
+    }
+
     public void getNextEvent(){
         currentEvent = Physics.pollEventQueue(this);
     }
@@ -56,7 +90,10 @@ public class Table{
             dt = currentEvent.getTimeUntilEvent();
             Physics.updateTable(this, dt);
             currentEvent.resolveEvent();
-            if(currentEvent instanceof BallPocketCollisionEvent){
+            if(currentEvent instanceof BallBallCollisionEvent && firstCollisionEvent == null){
+                firstCollisionEvent = (BallBallCollisionEvent)currentEvent;
+            }
+            else if(currentEvent instanceof BallPocketCollisionEvent){
                 BallPocketCollisionEvent convertedEvent = (BallPocketCollisionEvent)currentEvent;
                 int idx = convertedEvent.getIndex();
                 tableUI.getBallUIArray().remove(idx);

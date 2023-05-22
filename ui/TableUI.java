@@ -86,6 +86,8 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public void startAction(){
+        getTable().resetTurn();
+        mainPanel.disableHitButton();
         numbersOn = false;
         mainPanel.getCue().setActive(false);
         PoolPanel.cueIsFixed = false;
@@ -99,8 +101,9 @@ public class TableUI extends JPanel implements ActionListener{
         mainPanel.getCue().setCueBallY(getCueBallYPixels() + 100);
         mainPanel.getCue().setActive(true);
         timer.stop();
-        // paint(getGraphics());
         mainPanel.repaint();
+
+        firePropertyChange("turn over", 0, 1);
     }
 
     public void hitBall(double cueSpeed, double directionAngle, double elevationAngle, double horizontalSpin, double verticalSpin){
