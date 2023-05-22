@@ -7,11 +7,19 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class ElevationBar extends JSlider{
+    PoolPanel pool;
+    CueUI cue;
+    
+    private static final double EYE_COEFFICIENT = 0.8; 
     private static final int MIN = 0;
     private static final int MAX = 80;
-    private static final int INITIAL_VALUE = 0;
+    public static final int INITIAL_VALUE = 0;
     private static int angle = INITIAL_VALUE;
-    public ElevationBar(){    
+    private static double poolDiameter = Math.sqrt(Math.pow(PoolPanel.PANEL_HEIGHT, 2) + Math.pow(PoolPanel.PANEL_WIDTH, 2));
+    
+    public ElevationBar(CueUI cue, PoolPanel pool){    
+        this.cue = cue;
+        this.pool = pool;
         this.addChangeListener(new ElevationListener());
         this.setMaximum(MAX);
         this.setMinimum(MIN);
@@ -29,6 +37,11 @@ public class ElevationBar extends JSlider{
         @Override
         public void stateChanged(ChangeEvent e) {
             angle = ElevationBar.this.getValue();
+            cue.setVisibleShotDistance(getAngleValue());
+            cue.setVisibleBlueTipHeight(cue.getCueUpperWidth() * Math.cos(getAngleValue()));
+            cue.setVisibleHeight(cue.getCueStickHeight() * Math.cos(getAngleValue()));
+            cue.setVisibleLowerWidth(EYE_COEFFICIENT * poolDiameter * cue.getCueLowerWidth() / (EYE_COEFFICIENT * poolDiameter - (cue.getCueStickHeight() + cue.getShotDistance()) * Math.sin(getAngleValue())));
+            pool.repaint();
         }
     }
     

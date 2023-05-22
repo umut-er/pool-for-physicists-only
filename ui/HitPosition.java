@@ -17,6 +17,10 @@ public class HitPosition extends JPanel implements MouseListener{
         addMouseListener(this);
         // this.setBackground(new Color(255, 170, 0));
     }
+
+    //setters
+    public void setValueOfX(int newValueOfX) {xValue = newValueOfX;}
+    public void setValueOfY(int newValueOfY) {yValue = newValueOfY;}
    
     @Override
     public void mouseClicked(MouseEvent e) {

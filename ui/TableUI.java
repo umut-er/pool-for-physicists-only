@@ -88,6 +88,7 @@ public class TableUI extends JPanel implements ActionListener{
     public void startAction(){
         numbersOn = false;
         mainPanel.getCue().setActive(false);
+        PoolPanel.cueIsFixed = false;
         mainPanel.repaint();
         timer.start();
     }
