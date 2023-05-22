@@ -140,8 +140,8 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         {
             try 
             {
-                if(this.usernameText.getText()==null 
-                || this.passwordText.getText()==null)
+                if(this.usernameText.getText().equals("") 
+                || this.passwordText.getText().equals(""))
                 {
                     this.warning2.setVisible(true);
                 }
