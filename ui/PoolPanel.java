@@ -120,11 +120,14 @@ public class PoolPanel extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
-                if(key == KeyEvent.VK_UP){
+                if(key == KeyEvent.VK_W){
                     cueIsFixed = true;
                 }
-                if(key == KeyEvent.VK_DOWN){
+                else if(key == KeyEvent.VK_S){
                     cueIsFixed = false;
+                }
+                else{
+                    e.consume();
                 }
             }
             @Override
