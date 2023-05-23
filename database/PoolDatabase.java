@@ -21,12 +21,14 @@ public class PoolDatabase {
         return accountCount;
     }
 
-    public static void createAccount(String username, String password) throws UnsupportedEncodingException, JacksonUtilityException, FirebaseException{
+    public static void createAccount(String username, String password, String backUpQuestion, String backUpAnswer) throws UnsupportedEncodingException, JacksonUtilityException, FirebaseException{
         accountCount++;
         Map<String, Object> accountInfo=new LinkedHashMap<String, Object>();
         Map<String, Object> newAccount=new LinkedHashMap<String, Object>();
         accountInfo.put( "Password", password);
         accountInfo.put( "Level", 1);
+        accountInfo.put( "BackUpQuestion", backUpQuestion);
+        accountInfo.put( "BackUpAnswer", backUpAnswer);
 		newAccount.put(username, accountInfo);
         firebase.patch(newAccount);
     }
@@ -41,6 +43,26 @@ public class PoolDatabase {
         return "";
     }
 
+    public static String getAccountBackUpQuestion(String username) throws UnsupportedEncodingException, FirebaseException{
+        FirebaseResponse response=firebase.get(username);
+        if(!response.getRawBody().equals("null"))
+        {
+            JSONObject object = new JSONObject(response.getRawBody());
+            return object.get("BackUpQuestion").toString();
+        }
+        return "";
+    }
+
+    public static String getAccountBackUpAnswer(String username) throws UnsupportedEncodingException, FirebaseException{
+        FirebaseResponse response=firebase.get(username);
+        if(!response.getRawBody().equals("null"))
+        {
+            JSONObject object = new JSONObject(response.getRawBody());
+            return object.get("BackUpAnswer").toString();
+        }
+        return "";
+    }
+
     public static int getAccountLevel(String username) throws UnsupportedEncodingException, FirebaseException{
         FirebaseResponse response=firebase.get(username);
         if(!response.getRawBody().equals("null"))
@@ -49,6 +71,12 @@ public class PoolDatabase {
             return Integer.parseInt(object.get("Level").toString());
         }
         return -1;
+    }
+
+    public static void changePassword(String username, String newPassword) throws UnsupportedEncodingException, JacksonUtilityException, FirebaseException{
+        Map<String, Object> userData = firebase.get(username).getBody();
+        userData.put("Password", newPassword);
+        firebase.put(username, userData);
     }
 
     public static void levelUpAccount(String username, int levelUpCount) throws UnsupportedEncodingException, FirebaseException, JacksonUtilityException{
@@ -74,6 +102,19 @@ public class PoolDatabase {
         {
             String correctPassword=getAccountPassword(username);
             if(correctPassword.equals(password))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean doesBackUpAnswersMatch(String username, String answer) throws UnsupportedEncodingException, FirebaseException{
+        FirebaseResponse response=firebase.get(username);
+        if(!response.getRawBody().equals("null"))
+        {
+            String backUpAnswer=getAccountBackUpAnswer(username);
+            if(backUpAnswer.equals(answer))
             {
                 return true;
             }

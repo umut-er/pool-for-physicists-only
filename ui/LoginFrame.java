@@ -190,8 +190,7 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
                     if(!this.usernameText1.getText().equals(this.usernameText2.getText()))
                     {
                         this.setVisible(false);
-                        PoolFrame frame=new PoolFrame(this.usernameText1.getText(), this.usernameText2.getText(), this.database);
-                        frame.start();
+                        new PoolPanel(this.usernameText1.getText(), this.usernameText2.getText());
                     }
                     else
                     {

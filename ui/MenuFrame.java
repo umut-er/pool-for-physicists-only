@@ -18,6 +18,7 @@ public class MenuFrame extends JFrame implements ActionListener{
     private JButton loginButton;
     private JButton signUpButton;
     private JButton exitButton;
+    private JButton forgotButton;
     private JLabel mainTitle;
     private PoolDatabase database;
     public static final int FRAME_HEIGHT=700;
@@ -36,15 +37,18 @@ public class MenuFrame extends JFrame implements ActionListener{
         this.signUpButton=new JButton("Sign-Up");
         this.exitButton=new JButton("Exit");
         this.mainTitle=new JLabel("Pool For Physicists Only");
+        this.forgotButton=new JButton("Forgot Password?");
 
         this.loginButton.addActionListener(this);
         this.signUpButton.addActionListener(this);
         this.exitButton.addActionListener(this);
+        this.forgotButton.addActionListener(this);
 
-        this.loginButton.setBounds(BUTTON_X, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.signUpButton.setBounds(BUTTON_X, 400, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.exitButton.setBounds(BUTTON_X, 500, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.mainTitle.setBounds(400, 150, 400, 100);
+        this.loginButton.setBounds(BUTTON_X, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.signUpButton.setBounds(BUTTON_X, 350, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.exitButton.setBounds(BUTTON_X, 550, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.forgotButton.setBounds(BUTTON_X, 450, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.mainTitle.setBounds(400, 100, 400, 100);
 
         this.mainTitle.setOpaque(true);
         this.mainTitle.setFont(font1);
@@ -60,10 +64,13 @@ public class MenuFrame extends JFrame implements ActionListener{
         this.loginButton.setFont(font2);
         this.signUpButton.setFont(font2);
         this.exitButton.setFont(font2);
+        this.forgotButton.setBorder(border2);
+        this.forgotButton.setFont(font2);
         this.add(loginButton);
         this.add(signUpButton);
         this.add(exitButton);
         this.add(mainTitle);
+        this.add(forgotButton);
 
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setTitle("8-Ball Pool");
@@ -82,6 +89,11 @@ public class MenuFrame extends JFrame implements ActionListener{
         }
         else if(e.getSource()==signUpButton){
             new SignUpFrame(this);
+            this.setVisible(false);
+        }
+        else if(e.getSource()==forgotButton)
+        {
+            new ForgotPasswordFrame(this);
             this.setVisible(false);
         }
         else{

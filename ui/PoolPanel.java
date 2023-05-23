@@ -7,12 +7,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gameobjects.Ball;
 import gameobjects.Table;
+import net.thegreshams.firebase4j.error.FirebaseException;
 
 public class PoolPanel extends JPanel{
     private TableUI tableUI;
@@ -21,12 +23,18 @@ public class PoolPanel extends JPanel{
     private HitPosition hitPosition = new HitPosition();
     private ElevationBar elevationBar;
     private HitButton hitButton;
+    private AccountUI userAccount1;
+    private AccountUI userAccount2;
+    private String username1;
+    private String username2;
 
     public static boolean cueIsFixed = false;
     public static final int PANEL_HEIGHT=700;
     public static final int PANEL_WIDTH=1200;
     
-    public PoolPanel(){
+    public PoolPanel(String username1, String username2) throws UnsupportedEncodingException, FirebaseException{
+        this.username1=username1;
+        this.username2=username2;
         setLayout(null);     
         setFocusable(true);
         
@@ -38,6 +46,11 @@ public class PoolPanel extends JPanel{
         this.tableUI = new TableUI("table7.png", table, ballUIs, this);
         tableUI.setBounds(100, 100, TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
+
+        this.userAccount1=new AccountUI(username1);
+        this.userAccount2=new AccountUI(username2);
+        this.userAccount1.setBounds(AccountUI.X_COORDINATE_1, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
+        this.userAccount2.setBounds(AccountUI.X_COORDINATE_2, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
 
         powerbar = new PowerBar(cue, this);
         JLabel powerBarField = new JLabel("Power Bar:");

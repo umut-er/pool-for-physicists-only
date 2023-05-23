@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.UnsupportedEncodingException;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;

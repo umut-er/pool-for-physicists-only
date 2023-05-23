@@ -1,18 +1,24 @@
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.JFrame;
 
+import net.thegreshams.firebase4j.error.FirebaseException;
 import physics.event.BallBallCollisionEvent;
+import ui.MenuFrame;
 import ui.PoolPanel;
 
 public class NineBall extends JFrame{
     private PoolPanel gamePanel;
     private int currentLowestNumber = 1;
     private boolean turn = false;
+    //////TEMPORARY
+    private String username1;
+    private String username2;
 
-    public NineBall(){
-        gamePanel = new PoolPanel();
+    public NineBall() throws UnsupportedEncodingException, FirebaseException{
+        gamePanel = new PoolPanel(username1,username2);
         gamePanel.getTableUI().addPropertyChangeListener(new PropertyChangeListener(){
             @Override
             public void propertyChange(PropertyChangeEvent evt){
@@ -81,7 +87,7 @@ public class NineBall extends JFrame{
         turn = !turn;
     }
 
-    public static void main(String[] args) {
-        new NineBall();
+    public static void main(String[] args) throws FirebaseException {
+        new MenuFrame();
     }
 }
