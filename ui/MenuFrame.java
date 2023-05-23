@@ -13,6 +13,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.UnsupportedEncodingException;
 
 public class MenuFrame extends JFrame implements ActionListener{
     private JButton loginButton;
@@ -20,6 +23,8 @@ public class MenuFrame extends JFrame implements ActionListener{
     private JButton exitButton;
     private JButton forgotButton;
     private JLabel mainTitle;
+
+    private LoginFrame loginFrame;
     private PoolDatabase database;
 
     public static final int FRAME_HEIGHT=700;
@@ -67,6 +72,7 @@ public class MenuFrame extends JFrame implements ActionListener{
         this.exitButton.setFont(font2);
         this.forgotButton.setBorder(border2);
         this.forgotButton.setFont(font2);
+
         this.add(loginButton);
         this.add(signUpButton);
         this.add(exitButton);
@@ -83,9 +89,24 @@ public class MenuFrame extends JFrame implements ActionListener{
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         if(e.getSource()==loginButton){
-            new LoginFrame(this);
+            loginFrame = new LoginFrame(this);
+            loginFrame.addPropertyChangeListener(new PropertyChangeListener(){
+                public void propertyChange(PropertyChangeEvent evt){
+                    if(evt.getPropertyName().equals("player names entered")){
+                        PoolPanel p = null;
+                        try{
+                            p = new PoolPanel(loginFrame.getUsername1(), loginFrame.getUsername2());
+                        }
+                        catch(UnsupportedEncodingException | FirebaseException e){
+                            e.printStackTrace();
+                            System.exit(0);
+                        }
+                        firePropertyChange("pool panel created", null, p);
+                    }
+                }
+            });
             this.setVisible(false);
         }
         else if(e.getSource()==signUpButton){

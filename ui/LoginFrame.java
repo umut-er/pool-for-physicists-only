@@ -160,6 +160,14 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
         this.passwordText2.addKeyListener(this);
     }
 
+    public String getUsername1(){
+        return usernameText1.getText();
+    }
+
+    public String getUsername2(){
+        return usernameText2.getText();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==play){
@@ -189,7 +197,8 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
                     {
                         this.setVisible(false);
                         // Must be NineBall    //Fix
-                        new PoolPanel(this.usernameText1.getText(), this.usernameText2.getText());
+                        firePropertyChange("player names entered", "", "entered");
+                        // new PoolPanel(this.usernameText1.getText(), this.usernameText2.getText());
                     }
                     else
                     {
@@ -208,10 +217,10 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
         }
         else{
             this.setVisible(false);
-            this.menuFrame.setVisible(true);
             this.warning1.setVisible(false);
             this.warning2.setVisible(false);
             this.warning3.setVisible(false);
+            this.menuFrame.setVisible(true);
         }
     }
 
