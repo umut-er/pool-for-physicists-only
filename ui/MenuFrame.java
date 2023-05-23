@@ -40,7 +40,7 @@ public class MenuFrame extends JFrame implements ActionListener{
         Border border1=BorderFactory.createLineBorder(Color.BLACK,10);
         Border border2=BorderFactory.createLineBorder(Color.DARK_GRAY,3);
         this.loginButton=new JButton("Login");
-        this.signUpButton=new JButton("Sign-Up");
+        this.signUpButton=new JButton("Sign-Up / Delete");
         this.exitButton=new JButton("Exit");
         this.mainTitle=new JLabel("Pool For Physicists Only");
         this.forgotButton=new JButton("Forgot Password?");
