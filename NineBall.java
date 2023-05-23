@@ -21,7 +21,7 @@ public class NineBall extends JFrame{
         this.username1=username1;
         this.username2=username2;
         gamePanel = new PoolPanel(username1,username2);
-        //////////////
+    //////////////
         gamePanel.getTableUI().addPropertyChangeListener(new PropertyChangeListener(){
             @Override
             public void propertyChange(PropertyChangeEvent evt){

@@ -5,6 +5,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
+
+import database.PoolDatabase;
 import net.thegreshams.firebase4j.error.FirebaseException;
 
 import java.awt.Color;
@@ -18,6 +20,8 @@ public class MenuFrame extends JFrame implements ActionListener{
     private JButton exitButton;
     private JButton forgotButton;
     private JLabel mainTitle;
+    private PoolDatabase database;
+
     public static final int FRAME_HEIGHT=700;
     public static final int FRAME_WIDTH=1200;
     public static final int BUTTON_WIDTH=200;
@@ -25,6 +29,7 @@ public class MenuFrame extends JFrame implements ActionListener{
     public static final int BUTTON_X=500;
 
     public MenuFrame() throws FirebaseException{
+        this.database=new PoolDatabase();
         Font font1=new Font("Serif", Font.BOLD, 30);
         Font font2=new Font("Dialog", Font.BOLD, 20);
         Border border1=BorderFactory.createLineBorder(Color.BLACK,10);
