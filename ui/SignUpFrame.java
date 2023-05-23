@@ -147,7 +147,7 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         this.warning1.setForeground(Color.RED);
         this.warning1.setVerticalAlignment(JLabel.CENTER);
         this.warning1.setHorizontalAlignment(JLabel.CENTER);
-        this.warning1.setBounds(400, 550, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.warning1.setBounds(300, 550, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
         this.warning1.setFont(font2);
         this.warning1.setVisible(false);
         this.add(warning1);
@@ -156,7 +156,7 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         this.warning2.setForeground(Color.RED);
         this.warning2.setVerticalAlignment(JLabel.CENTER);
         this.warning2.setHorizontalAlignment(JLabel.CENTER);
-        this.warning2.setBounds(400, 550, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.warning2.setBounds(300, 550, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
         this.warning2.setFont(font2);
         this.warning2.setVisible(false);
         this.add(warning2);
@@ -165,7 +165,7 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         this.warning3.setForeground(Color.RED);
         this.warning3.setVerticalAlignment(JLabel.CENTER);
         this.warning3.setHorizontalAlignment(JLabel.CENTER);
-        this.warning3.setBounds(400, 550, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.warning3.setBounds(300, 550, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
         this.warning3.setFont(font2);
         this.warning3.setVisible(false);
         this.add(warning3);
@@ -174,7 +174,7 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         this.warning4.setForeground(Color.RED);
         this.warning4.setVerticalAlignment(JLabel.CENTER);
         this.warning4.setHorizontalAlignment(JLabel.CENTER);
-        this.warning4.setBounds(400, 550, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.warning4.setBounds(300, 550, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
         this.warning4.setFont(font2);
         this.warning4.setVisible(false);
         this.add(warning4);

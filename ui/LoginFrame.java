@@ -34,14 +34,12 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
     private JLabel warning1;
     private JLabel warning2;
     private JLabel warning3;
-    private PoolDatabase database;
     public static final int FRAME_HEIGHT=700;
     public static final int FRAME_WIDTH=1200;
     public static final int BUTTON_WIDTH=200;
     public static final int BUTTON_HEIGHT=50;
 
-    public LoginFrame(MenuFrame menuFrame, PoolDatabase database){
-        this.database=database;
+    public LoginFrame(MenuFrame menuFrame){
         Font font=new Font("Dialog", Font.BOLD, 20);
         Font font1=new Font("DialogInput", Font.BOLD, 20);
         Font font2=new Font("DialogInput", Font.BOLD, 18);
@@ -190,6 +188,7 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
                     if(!this.usernameText1.getText().equals(this.usernameText2.getText()))
                     {
                         this.setVisible(false);
+                        // Must be NineBall    //Fix
                         new PoolPanel(this.usernameText1.getText(), this.usernameText2.getText());
                     }
                     else
