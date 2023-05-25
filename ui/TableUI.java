@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.PixelInterleavedSampleModel;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,10 +54,7 @@ public class TableUI extends JPanel implements ActionListener{
         changeTableImage(imageFileName);
         this.table = table;
         this.ballUIs = ballUIs;
-        timer = new Timer(UPDATION_INTERVAL,this);
-
-        
-        
+        timer = new Timer(UPDATION_INTERVAL,this);  
     }
 
     /**
@@ -113,19 +109,14 @@ public class TableUI extends JPanel implements ActionListener{
         getTable().resetTurn();
         mainPanel.disableHitButton();
         numbersOn = false;
-        mainPanel.getCue().setActive(false);
-        mainPanel.repaint();
+        mainPanel.disableCue();
         firePropertyChange("turn start", 0, 1);
         timer.start();
     }
 
     public void stopAction(){
         numbersOn = true;
-        mainPanel.getCue().setCueBallX(getCueBallXPixels() + 100);
-        mainPanel.getCue().setCueBallY(getCueBallYPixels() + 100);
-        mainPanel.getCue().setActive(true);
         timer.stop();
-        mainPanel.repaint();
         firePropertyChange("turn over", 0, 1);
     }
 
@@ -244,6 +235,7 @@ public class TableUI extends JPanel implements ActionListener{
     {
         bp = new BallPlacement();
         this.addMouseListener(bp);
+        this.addMouseListener(bp);
         this.addMouseMotionListener(bp);
     }
 
@@ -252,21 +244,19 @@ public class TableUI extends JPanel implements ActionListener{
         
         Ball cueBall = new Ball(0,x,y,0,0,0,0,0,0,0);
         BallUI cueBallUI = new BallUI(cueBall);
-        if(isValidPosition(x,y))
-        {
+        if(isValidPosition(x,y)){
             cueBallDrag = false;
             ballUIs.add(0,cueBallUI);
             table.getBallArray().add(0, cueBall);
-            repaint();
+            this.removeMouseListener(bp);
             this.removeMouseMotionListener(bp);
             mainPanel.getCue().setActive(false);
-            PoolPanel.cueIsFixed = true;
             mainPanel.repaint();
         }
-        else
-        {
-            System.out.println("wrong choice");
-        }
+        // else
+        // {
+        //     System.out.println("wrong choice");
+        // }
 
         
     }
@@ -287,29 +277,20 @@ public class TableUI extends JPanel implements ActionListener{
         return true;
     }
 
-
-
-
-    class BallPlacement extends MouseAdapter{
-            
+    class BallPlacement extends MouseAdapter{       
         @Override
-        public void mouseClicked(MouseEvent e)
-        {
+        public void mousePressed(MouseEvent e){
             ballInHand(getMetersFromPixels(e.getX(), false), getMetersFromPixels(e.getY(), true));
         }
 
         @Override
-        public void mouseMoved(MouseEvent e)
-        {
+        public void mouseMoved(MouseEvent e){
             cueBallDrag = true;
             cueBallX = e.getX();
             cueBallY = e.getY();
             repaint();
         }
     }
-
-    
-
 
     @Override
     public void actionPerformed(ActionEvent e){

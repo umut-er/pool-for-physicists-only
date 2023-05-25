@@ -21,8 +21,10 @@ public class NineBall extends JFrame{
                 }
                 if(evt.getPropertyName() == "turn over"){
                     boolean foulOccured = foulCheck();
-                    if(foulOccured)
+                    if(foulOccured){
+                        gamePanel.ballInHand();
                         return;
+                    }
                     boolean win = winCheck();
                     if(!win){
                         switchTurns();

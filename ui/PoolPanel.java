@@ -2,7 +2,6 @@ package ui;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -17,7 +16,7 @@ import gameobjects.Table;
 public class PoolPanel extends JPanel{
     private TableUI tableUI;
     private CueUI cue = new CueUI();
-    private PowerBar powerbar;
+    private PowerBar powerBar;
     private HitPosition hitPosition = new HitPosition();
     private ElevationBar elevationBar;
     private HitButton hitButton;
@@ -25,6 +24,12 @@ public class PoolPanel extends JPanel{
     public static boolean cueIsFixed = false;
     public static final int PANEL_HEIGHT=700;
     public static final int PANEL_WIDTH=1200;
+
+    private MouseAdapter frameListener;
+    private MouseAdapter hitPositionListener;
+    private MouseAdapter hitButtonListener;
+    private MouseAdapter powerBarListener;
+    private MouseAdapter elevationBarListener;
     
     public PoolPanel(){
         setLayout(null);     
@@ -39,12 +44,12 @@ public class PoolPanel extends JPanel{
         tableUI.setBounds(100, 100, TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
 
-        powerbar = new PowerBar(cue, this);
+        powerBar = new PowerBar(cue, this);
         JLabel powerBarField = new JLabel("Power Bar:");
         powerBarField.setBounds(605,560,100,50);
         this.add(powerBarField);
-        powerbar.setBounds(600,600, 100, 30);
-        this.add(powerbar);
+        powerBar.setBounds(600,600, 100, 30);
+        this.add(powerBar);
 
         elevationBar = new ElevationBar(cue, this);
         elevationBar.setBounds(750,600, 100,30);
@@ -53,23 +58,22 @@ public class PoolPanel extends JPanel{
         elevationBarLabel.setBounds(755,560,100,50);
         this.add(elevationBarLabel);
 
-        hitPosition.setBounds(450, 550, 100, 100);
-        this.add(hitPosition);
-        hitPosition.setEnabled(false);
-
         cue.setCueBallX(100 + tableUI.getCueBallXPixels());
         cue.setCueBallY(100 + tableUI.getCueBallYPixels());
         this.add(cue);
 
-        hitButton = new HitButton(tableUI, hitPosition, elevationBar, cue, powerbar, this);
-        
+        hitPosition.setBounds(450, 550, 100, 100);
+        this.add(hitPosition);
+        hitPosition.setEnabled(false);
+
+        hitButton = new HitButton(tableUI, hitPosition, elevationBar, cue, powerBar, this);
         hitButton.setBounds(300,550,100,100);
         this.add(hitButton);
         
         // This idea is courtesy of ChatGPT.
-        MouseAdapter frameListener = new MouseAdapter() {
+        frameListener = new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
-                if(!cueIsFixed){    
+                if(!cueIsFixed){
                     cue.setMouseX(e.getX());
                     cue.setMouseY(e.getY());
                     repaint();
@@ -77,7 +81,7 @@ public class PoolPanel extends JPanel{
             }
         };
 
-        MouseAdapter hitPositionListener = new MouseAdapter() {
+        hitPositionListener = new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 if(!cueIsFixed){    
                     cue.setMouseX(e.getX() + 450);
@@ -87,7 +91,7 @@ public class PoolPanel extends JPanel{
             }
         };
 
-        MouseAdapter hitButtonListener = new MouseAdapter() {
+        hitButtonListener = new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 if (!cueIsFixed){
                     cue.setMouseX(e.getX() + 300);
@@ -97,7 +101,7 @@ public class PoolPanel extends JPanel{
             }
         };
 
-        MouseAdapter powerBarListener = new MouseAdapter() {
+        powerBarListener = new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 if (!cueIsFixed){
                     cue.setMouseX(e.getX() + 600);
@@ -107,7 +111,7 @@ public class PoolPanel extends JPanel{
             }
         };
 
-        MouseAdapter elevationBarListener = new MouseAdapter() {
+        elevationBarListener = new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 if(!cueIsFixed){
                     cue.setMouseX(e.getX() + 750);
@@ -117,7 +121,7 @@ public class PoolPanel extends JPanel{
             }
         };
 
-        KeyListener frameKeyListener = new KeyListener() {
+        KeyListener frameKeyListener = new KeyListener(){
             @Override
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
@@ -132,19 +136,18 @@ public class PoolPanel extends JPanel{
                 }
             }
             @Override
-            public void keyTyped(KeyEvent e) {}
+            public void keyTyped(KeyEvent e){}
         
             @Override
-            public void keyReleased(KeyEvent e) {}
+            public void keyReleased(KeyEvent e){}
         };
 
         addKeyListener(frameKeyListener);
         hitButton.addMouseMotionListener(hitButtonListener);
         hitPosition.addMouseMotionListener(hitPositionListener);
-        powerbar.addMouseMotionListener(powerBarListener);
+        powerBar.addMouseMotionListener(powerBarListener);
         elevationBar.addMouseMotionListener(elevationBarListener);
         addMouseMotionListener(frameListener);
-        
 
         // hitPosition.addMouseListener(new MouseListener() {
         //     @Override
@@ -168,20 +171,44 @@ public class PoolPanel extends JPanel{
         return tableUI;
     }
 
+    public void disableCue(){
+        this.removeMouseMotionListener(frameListener);
+        hitPosition.removeMouseMotionListener(hitPositionListener);
+        hitButton.removeMouseMotionListener(hitButtonListener);
+        powerBar.removeMouseMotionListener(powerBarListener);
+        elevationBar.removeMouseMotionListener(elevationBarListener);
+        cue.setActive(false);
+        repaint();
+    }
+
+    public void enableCue(){
+        cueIsFixed = false;
+        cue.setCueBallX(tableUI.getCueBallXPixels() + 100);
+        cue.setCueBallY(tableUI.getCueBallYPixels() + 100);
+        this.addMouseMotionListener(frameListener);
+        hitPosition.addMouseMotionListener(hitPositionListener);
+        hitButton.addMouseMotionListener(hitButtonListener);
+        powerBar.addMouseMotionListener(powerBarListener);
+        elevationBar.addMouseMotionListener(elevationBarListener);
+        cue.setActive(true);
+        repaint();
+    }
+
     public void disableHitButton(){
         hitButton.setEnabled(false);
     }
 
     public void enableHitButton(){
+        enableCue();
         hitButton.setEnabled(true);
+        repaint();
     }
 
     public void ballInHand(){
         // TODO: complete
         // Note: You may want to do this in the TableUI class. In that case just write tableUI.ballInHand() here.
-        
+
         tableUI.addListener();
-        enableHitButton(); // No matter what this stays here
     }
 
     public void placeNineBall(){

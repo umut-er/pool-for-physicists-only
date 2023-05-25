@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.geom.*;
 
 import javax.swing.JPanel;
@@ -62,7 +63,6 @@ public class CueUI extends JPanel{
     public void setCueBallY(int newCueBallY) {this.cueBallY = newCueBallY;}
     public void setActive(boolean active){
         isActive = active;
-        PoolPanel.cueIsFixed = false;
     }
     public void setVisibleHeight(double newHeight) {visibleHeight = newHeight;}
     public void setVisibleLowerWidth(double newWidth) {visibleLowerWidth = newWidth;}
