@@ -62,6 +62,7 @@ public class PoolPanel extends JPanel{
         this.add(cue);
 
         hitButton = new HitButton(tableUI, hitPosition, elevationBar, cue, powerbar, this);
+        
         hitButton.setBounds(300,550,100,100);
         this.add(hitButton);
         
@@ -178,12 +179,14 @@ public class PoolPanel extends JPanel{
     public void ballInHand(){
         // TODO: complete
         // Note: You may want to do this in the TableUI class. In that case just write tableUI.ballInHand() here.
-
+        
+        tableUI.addListener();
         enableHitButton(); // No matter what this stays here
     }
 
     public void placeNineBall(){
         // TODO: Complete
+        
     }
 
     public CueUI getCue(){

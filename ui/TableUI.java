@@ -6,7 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.awt.image.PixelInterleavedSampleModel;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +31,9 @@ public class TableUI extends JPanel implements ActionListener{
     private Table table;
     private ArrayList<BallUI> ballUIs;
     private Image tableImage;
+    private BallPlacement bp;
+
+    private boolean cueBallDrag = false;
 
     private static final double TABLE_WIDTH_METERS = 3.0534;
     private static final double TABLE_HEIGHT_METERS = 1.6818;
@@ -36,6 +42,8 @@ public class TableUI extends JPanel implements ActionListener{
     public static final int UPDATION_INTERVAL = 33;
 
     private boolean numbersOn = true;
+    private int cueBallX;
+    private int cueBallY;
 
     public TableUI(String imageFileName, Table table, ArrayList<BallUI> ballUIs, PoolPanel mainPanel){
         this.mainPanel = mainPanel;
@@ -43,6 +51,9 @@ public class TableUI extends JPanel implements ActionListener{
         this.table = table;
         this.ballUIs = ballUIs;
         timer = new Timer(UPDATION_INTERVAL,this);
+
+        
+        
     }
 
     /**
@@ -55,6 +66,14 @@ public class TableUI extends JPanel implements ActionListener{
         if(axis)
             return (int)((TABLE_HEIGHT_METERS -  meters) / TABLE_HEIGHT_METERS * TABLE_HEIGHT_PIXELS);
         return (int)(meters / TABLE_WIDTH_METERS * TABLE_WIDTH_PIXELS);    
+    }
+    
+    // this is the reverse method of getPixelFromMeters
+    private static int getMetersFromPixels(double pixels, boolean axis)
+    {
+        if(axis)
+            return (int)(TABLE_HEIGHT_METERS - pixels * TABLE_HEIGHT_METERS * TABLE_HEIGHT_PIXELS);
+        return (int)(pixels * TABLE_WIDTH_METERS/TABLE_WIDTH_PIXELS);
     }
 
     public static double getTableWidthMeters(){
@@ -90,7 +109,6 @@ public class TableUI extends JPanel implements ActionListener{
         mainPanel.disableHitButton();
         numbersOn = false;
         mainPanel.getCue().setActive(false);
-        PoolPanel.cueIsFixed = false;
         mainPanel.repaint();
         firePropertyChange("turn start", 0, 1);
         timer.start();
@@ -209,7 +227,71 @@ public class TableUI extends JPanel implements ActionListener{
                                 2 * BallUI.BALL_PIXEL_RADIUS);
             }
         }
+
+        if(cueBallDrag)
+        {
+            graphics.setColor(Color.WHITE);
+            graphics.fillOval(cueBallX  - BallUI.BALL_PIXEL_RADIUS, cueBallY - BallUI.BALL_PIXEL_RADIUS, 2 * BallUI.BALL_PIXEL_RADIUS , 2 * BallUI.BALL_PIXEL_RADIUS);
+        }
     }
+
+    public void addListener()
+    {
+        bp = new BallPlacement();
+        this.addMouseMotionListener(bp);
+    }
+
+    public void ballInHand(double x, double y)
+    {
+        
+        Ball cueBall = new Ball(0,x,y,0,0,0,0,0,0,0);
+        BallUI cueBallUI = new BallUI(cueBall);
+        // if(isValidPosition(x,y))
+        
+            cueBallDrag = false;
+            ballUIs.add(0,cueBallUI);
+            table.getBallArray().add(0, cueBall);
+            repaint();
+            this.removeMouseMotionListener(bp);
+            mainPanel.getCue().setActive(false);
+            mainPanel.repaint();
+        
+        // else
+        // {
+        //     System.out.println("wrong choice");
+        // }
+
+        
+    }
+
+    public boolean isValidPosition(double x, double y)
+    {
+        return true;
+    }
+
+
+
+
+    class BallPlacement extends MouseAdapter{
+            
+        @Override
+        public void mouseClicked(MouseEvent e)
+        {
+            ballInHand(getMetersFromPixels(e.getX(), false), getMetersFromPixels(e.getY(), true));
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e)
+        {
+            cueBallDrag = true;
+            cueBallX = e.getX();
+            cueBallY = e.getY();
+            repaint();
+        }
+    }
+
+    
+
 
     @Override
     public void actionPerformed(ActionEvent e){
@@ -220,3 +302,4 @@ public class TableUI extends JPanel implements ActionListener{
         repaint();
     }
 }
+

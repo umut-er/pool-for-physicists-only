@@ -60,7 +60,10 @@ public class CueUI extends JPanel{
     public void setMouseY(int newMouseY) {this.mouseY = newMouseY;}
     public void setCueBallX(int newCueBallX) {this.cueBallX = newCueBallX;}
     public void setCueBallY(int newCueBallY) {this.cueBallY = newCueBallY;}
-    public void setActive(boolean active) {isActive = active;}
+    public void setActive(boolean active){
+        isActive = active;
+        PoolPanel.cueIsFixed = false;
+    }
     public void setVisibleHeight(double newHeight) {visibleHeight = newHeight;}
     public void setVisibleLowerWidth(double newWidth) {visibleLowerWidth = newWidth;}
     public void setVisibleBlueTipHeight(double newHeight) {visibleBlueTipHeight = newHeight;}
