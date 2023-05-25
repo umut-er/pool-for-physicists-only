@@ -255,17 +255,16 @@ public class TableUI extends JPanel implements ActionListener{
 
     public boolean isValidPosition(double x, double y)
     {
-        // if((x > rightCushion - Ball.RADIUS) || (x < leftCushion + Ball.RADIUS) || y > topCushion - Ball.RADIUS || y < bottomCushion - Ball.RADIUS) 
-        //     return false;
+        if((x > getMetersFromPixels(rightCushion, false) - Ball.RADIUS) || x < getMetersFromPixels(leftCushion, false) + Ball.RADIUS || y > getMetersFromPixels(topCushion, false) - Ball.RADIUS || y <  getMetersFromPixels(bottomCushion, false) + Ball.RADIUS)
+            return false;
         
-        // for(BallUI ball : ballUIs)
-        // {
-        //     if(Math.abs(x - ball.getBallXPosition()) <= Ball.RADIUS || Math.abs(y - ball.getBallYPosition()) <= Ball.RADIUS)
-        //     {
-        //         System.out.println("dfsd");
-        //         return false;
-        //     }
-        // }
+        for(BallUI ball : ballUIs)
+        {
+            if(Math.pow(x - ball.getBallXPosition(), 2) + Math.pow(y - ball.getBallYPosition(), 2) <= 4 * Math.pow(Ball.RADIUS, 2))
+            {
+                return false;
+            }
+        }
         return true;
     }
 
