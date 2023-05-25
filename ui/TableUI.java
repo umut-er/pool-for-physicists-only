@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.RenderingHints;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -174,6 +175,8 @@ public class TableUI extends JPanel implements ActionListener{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D graphics=(Graphics2D)g;
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics.drawImage(tableImage, 0, 0, TABLE_WIDTH_PIXELS, TABLE_HEIGHT_PIXELS, null);
 
         graphics.setColor(Color.BLACK);
@@ -226,6 +229,7 @@ public class TableUI extends JPanel implements ActionListener{
 
         if(cueBallDrag)
         {
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics.setColor(Color.WHITE);
             graphics.fillOval(cueBallX  - BallUI.BALL_PIXEL_RADIUS, cueBallY - BallUI.BALL_PIXEL_RADIUS, 2 * BallUI.BALL_PIXEL_RADIUS , 2 * BallUI.BALL_PIXEL_RADIUS);
         }

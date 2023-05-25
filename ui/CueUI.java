@@ -130,6 +130,7 @@ public class CueUI extends JPanel{
         path1.lineTo(blueTipPoint3X, blueTipPoint3Y);
         path1.lineTo(blueTipPoint4X, blueTipPoint4Y);
         path1.closePath();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.BLUE);
         g2.fill(path1);
 

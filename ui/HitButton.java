@@ -62,6 +62,7 @@ public class HitButton extends JButton implements ActionListener{
         powerElement.setValue(PowerBar.INITIAL_VALUE);
         elevationElement.setValue(ElevationBar.INITIAL_VALUE);
         cueElement.setShotDistance(PowerBar.power/10 + 1);
+        cueElement.setVisibleShotDistance(ElevationBar.getAngleValue());
         hitPositionElement.setValueOfX(50);
         hitPositionElement.setValueOfY(50);
         table.hitBall(powerValue, directionAngle, elevationAngle, xPosition, yPosition);

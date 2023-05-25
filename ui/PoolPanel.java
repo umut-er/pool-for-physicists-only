@@ -40,7 +40,7 @@ public class PoolPanel extends JPanel{
         for(Ball ball : ballArray)
             ballUIs.add(new BallUI(ball));
         Table table = new Table(ballArray);
-        this.tableUI = new TableUI("table8.png", table, ballUIs, this);
+        this.tableUI = new TableUI("tableNew.png", table, ballUIs, this);
         tableUI.setBounds(100, 100, TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
 
