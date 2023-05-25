@@ -249,7 +249,7 @@ public class TableUI extends JPanel implements ActionListener{
             mainPanel.repaint();
         }
         else{
-            System.out.println("wrong choice");
+            System.out.println("select a proper place");
         }
     }
 
@@ -271,7 +271,7 @@ public class TableUI extends JPanel implements ActionListener{
 
     class BallPlacement extends MouseAdapter{       
         @Override
-        public void mousePressed(MouseEvent e){
+        public void mouseClicked(MouseEvent e){
             ballInHand(getMetersFromPixels(e.getX(), false), getMetersFromPixels(e.getY(), true));
         }
 

@@ -21,16 +21,15 @@ public class NineBall extends JFrame{
                 }
                 if(evt.getPropertyName() == "turn over"){
                     boolean foulOccured = foulCheck();
-                    if(foulOccured){
-                        gamePanel.ballInHand();
+                    if(foulOccured)
                         return;
-                    }
                     boolean win = winCheck();
                     if(!win){
                         switchTurns();
                         gamePanel.enableHitButton();
                     }
                     else{
+                        System.exit(0);
                         resetTable();
                     }
                 }
@@ -47,7 +46,6 @@ public class NineBall extends JFrame{
     public boolean foulCheck(){
         BallBallCollisionEvent firstCollision = gamePanel.getTable().getFirstCollision();
         if(gamePanel.getTable().cueBallPocketed()){
-            System.out.println("FOUL");
             switchTurns();
             if(gamePanel.getTable().nineBallPocketed()){
                 gamePanel.placeNineBall();
@@ -57,7 +55,6 @@ public class NineBall extends JFrame{
         }
 
         else if(firstCollision == null || firstCollision.getFirstBallNumber() != 0 || firstCollision.getSecondBallNumber() != currentLowestNumber){
-            System.out.println("FOUL");
             switchTurns();
             gamePanel.getTable().getBallArray().remove(0);
             gamePanel.getTableUI().getBallUIArray().remove(0);
