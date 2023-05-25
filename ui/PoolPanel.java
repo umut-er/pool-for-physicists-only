@@ -205,9 +205,6 @@ public class PoolPanel extends JPanel{
     }
 
     public void ballInHand(){
-        // TODO: complete
-        // Note: You may want to do this in the TableUI class. In that case just write tableUI.ballInHand() here.
-
         tableUI.addListener();
     }
 

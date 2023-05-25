@@ -30,7 +30,7 @@ public class TableUI extends JPanel implements ActionListener{
     private Table table;
     private ArrayList<BallUI> ballUIs;
     private Image tableImage;
-    private BallPlacement bp;
+    private BallPlacement bp = new BallPlacement();
 
     private boolean cueBallDrag = false;
 
@@ -70,11 +70,11 @@ public class TableUI extends JPanel implements ActionListener{
     }
     
     // this is the reverse method of getPixelFromMeters
-    private static int getMetersFromPixels(double pixels, boolean axis)
+    private static double getMetersFromPixels(int pixels, boolean axis)
     {
         if(axis)
-            return (int)((TABLE_HEIGHT_PIXELS - pixels) / TABLE_HEIGHT_PIXELS *  TABLE_HEIGHT_METERS);
-        return (int)(pixels * TABLE_WIDTH_PIXELS/TABLE_WIDTH_METERS);
+            return (TABLE_HEIGHT_PIXELS - pixels) * TABLE_HEIGHT_METERS / TABLE_HEIGHT_PIXELS ;
+        return pixels * TABLE_WIDTH_METERS / TABLE_WIDTH_PIXELS;
     }
 
     public static double getTableWidthMeters(){
@@ -231,34 +231,26 @@ public class TableUI extends JPanel implements ActionListener{
         }
     }
 
-    public void addListener()
-    {
-        bp = new BallPlacement();
-        this.addMouseListener(bp);
+    public void addListener(){
         this.addMouseListener(bp);
         this.addMouseMotionListener(bp);
     }
 
-    public void ballInHand(double x, double y)
-    {
-        
+    public void ballInHand(double x, double y){
         Ball cueBall = new Ball(0,x,y,0,0,0,0,0,0,0);
         BallUI cueBallUI = new BallUI(cueBall);
         if(isValidPosition(x,y)){
             cueBallDrag = false;
             ballUIs.add(0,cueBallUI);
             table.getBallArray().add(0, cueBall);
-            this.removeMouseListener(bp);
             this.removeMouseMotionListener(bp);
-            mainPanel.getCue().setActive(false);
+            this.removeMouseListener(bp);
+            mainPanel.enableHitButton();
             mainPanel.repaint();
         }
-        // else
-        // {
-        //     System.out.println("wrong choice");
-        // }
-
-        
+        else{
+            System.out.println("wrong choice");
+        }
     }
 
     public boolean isValidPosition(double x, double y)

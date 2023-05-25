@@ -408,7 +408,6 @@ public class Physics{
         Vector3 radiusVector = new Vector3(0, 0, Ball.RADIUS);
         Vector3 relativeVelocity = Vector3.add(ball.getVelocity(), Vector3.crossProduct(radiusVector, ball.getAngularVelocity()));
         Vector3 normalizedRelativeVelocity = Vector3.normalize(relativeVelocity);
-
         ball.getDisplacement().inPlaceAdd(Vector3.multiply(deltaTime, ball.getVelocity()));
         ball.getDisplacement().inPlaceSubtract(Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedRelativeVelocity));
 

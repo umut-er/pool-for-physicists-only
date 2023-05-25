@@ -35,5 +35,4 @@ public class PowerBar extends JSlider{
     public static double getPowerValue(){
         return power / 150.;  
     }
-
 }
