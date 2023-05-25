@@ -17,7 +17,7 @@ public class CueUI extends JPanel{
     private int cueBallY;
     private int mouseX;
     private int mouseY;
-    private int helperLineLength = 20;  //this means that length of the helper line will be 20*sqrt(2)
+    private int helperLineLength = 100;  //this means that length of the helper line will be 20*sqrt(2)
     private double shotDistance = 5;
     private double visibleShotDistance;
     private double visibleHeight;

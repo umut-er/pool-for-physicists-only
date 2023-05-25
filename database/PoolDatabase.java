@@ -17,6 +17,10 @@ public class PoolDatabase {
         accountCount=0;
     }
 
+    public static boolean initialized(){
+        return firebase != null;
+    }
+
     public int getCurrentAccountCount(){
         return accountCount;
     }

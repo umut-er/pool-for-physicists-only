@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import database.PoolDatabase;
 import gameobjects.Ball;
 import gameobjects.Table;
 import net.thegreshams.firebase4j.error.FirebaseException;
@@ -32,6 +33,8 @@ public class PoolPanel extends JPanel{
     public static final int PANEL_WIDTH=1200;
     
     public PoolPanel(String username1, String username2) throws UnsupportedEncodingException, FirebaseException{
+        if(!PoolDatabase.initialized())
+            new PoolDatabase();
         this.username1=username1;
         this.username2=username2;
         setLayout(null);     

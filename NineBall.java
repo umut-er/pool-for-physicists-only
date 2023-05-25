@@ -13,9 +13,6 @@ public class NineBall extends JFrame{
     private PoolPanel gamePanel;
     private int currentLowestNumber = 1;
     private boolean turn = false;
-    //////TEMPORARY
-    // private String username1;
-    // private String username2;
 
     public NineBall() throws UnsupportedEncodingException, FirebaseException{
         MenuFrame menuFrame = new MenuFrame();
@@ -26,6 +23,9 @@ public class NineBall extends JFrame{
                 }
             }
         });
+
+        PoolPanel p = new PoolPanel("User1", "User2");
+        initializePoolFrame(p);
     }
 
     public void initializePoolFrame(PoolPanel p){
@@ -87,6 +87,7 @@ public class NineBall extends JFrame{
     // Assumes there is no fouls.
     public boolean winCheck(){
         boolean won = gamePanel.getTable().nineBallPocketed();
+        // System.exit(0);
         return won;
     }
 
