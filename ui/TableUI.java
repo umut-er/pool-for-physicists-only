@@ -41,6 +41,11 @@ public class TableUI extends JPanel implements ActionListener{
     private static final int TABLE_HEIGHT_PIXELS = 412;
     public static final int UPDATION_INTERVAL = 33;
 
+    private static final int leftCushion = 38;
+    private static final int rightCushion = 710;
+    private static final int topCushion = 374;
+    private static final int bottomCushion = 38;
+
     private boolean numbersOn = true;
     private int cueBallX;
     private int cueBallY;
@@ -72,8 +77,8 @@ public class TableUI extends JPanel implements ActionListener{
     private static int getMetersFromPixels(double pixels, boolean axis)
     {
         if(axis)
-            return (int)(TABLE_HEIGHT_METERS - pixels * TABLE_HEIGHT_METERS * TABLE_HEIGHT_PIXELS);
-        return (int)(pixels * TABLE_WIDTH_METERS/TABLE_WIDTH_PIXELS);
+            return (int)((TABLE_HEIGHT_PIXELS - pixels) / TABLE_HEIGHT_PIXELS *  TABLE_HEIGHT_METERS);
+        return (int)(pixels * TABLE_WIDTH_PIXELS/TABLE_WIDTH_METERS);
     }
 
     public static double getTableWidthMeters(){
@@ -238,6 +243,7 @@ public class TableUI extends JPanel implements ActionListener{
     public void addListener()
     {
         bp = new BallPlacement();
+        this.addMouseListener(bp);
         this.addMouseMotionListener(bp);
     }
 
@@ -246,26 +252,38 @@ public class TableUI extends JPanel implements ActionListener{
         
         Ball cueBall = new Ball(0,x,y,0,0,0,0,0,0,0);
         BallUI cueBallUI = new BallUI(cueBall);
-        // if(isValidPosition(x,y))
-        
+        if(isValidPosition(x,y))
+        {
             cueBallDrag = false;
             ballUIs.add(0,cueBallUI);
             table.getBallArray().add(0, cueBall);
             repaint();
             this.removeMouseMotionListener(bp);
             mainPanel.getCue().setActive(false);
+            PoolPanel.cueIsFixed = true;
             mainPanel.repaint();
-        
-        // else
-        // {
-        //     System.out.println("wrong choice");
-        // }
+        }
+        else
+        {
+            System.out.println("wrong choice");
+        }
 
         
     }
 
     public boolean isValidPosition(double x, double y)
     {
+        // if((x > rightCushion - Ball.RADIUS) || (x < leftCushion + Ball.RADIUS) || y > topCushion - Ball.RADIUS || y < bottomCushion - Ball.RADIUS) 
+        //     return false;
+        
+        // for(BallUI ball : ballUIs)
+        // {
+        //     if(Math.abs(x - ball.getBallXPosition()) <= Ball.RADIUS || Math.abs(y - ball.getBallYPosition()) <= Ball.RADIUS)
+        //     {
+        //         System.out.println("dfsd");
+        //         return false;
+        //     }
+        // }
         return true;
     }
 

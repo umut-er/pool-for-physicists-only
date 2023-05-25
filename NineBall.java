@@ -51,6 +51,7 @@ public class NineBall extends JFrame{
                 gamePanel.placeNineBall();
             }
             gamePanel.ballInHand();
+            
             return true;
         }
 
