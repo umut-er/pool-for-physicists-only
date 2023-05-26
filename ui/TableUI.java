@@ -40,6 +40,8 @@ public class TableUI extends JPanel implements ActionListener{
     private static final int TABLE_WIDTH_PIXELS = 748;
     private static final int TABLE_HEIGHT_PIXELS = 412;
     public static final int UPDATION_INTERVAL = 33;
+    private static final int TABLE_FRAME_X = 100;
+    private static final int TABLE_FRAME_Y = 100;
 
     private static final int leftCushion = 38;
     private static final int rightCushion = 710;
@@ -64,14 +66,14 @@ public class TableUI extends JPanel implements ActionListener{
      * @param axis false -> x, true -> y
      * @return An int, the pixel location of object.
      */
-    private static int getPixelFromMeters(double meters, boolean axis){
+    public static int getPixelFromMeters(double meters, boolean axis){
         if(axis)
             return (int)((TABLE_HEIGHT_METERS -  meters) / TABLE_HEIGHT_METERS * TABLE_HEIGHT_PIXELS);
         return (int)(meters / TABLE_WIDTH_METERS * TABLE_WIDTH_PIXELS);    
     }
     
     // this is the reverse method of getPixelFromMeters
-    private static double getMetersFromPixels(int pixels, boolean axis)
+    public static double getMetersFromPixels(int pixels, boolean axis)
     {
         if(axis)
             return (TABLE_HEIGHT_PIXELS - pixels) * TABLE_HEIGHT_METERS / TABLE_HEIGHT_PIXELS ;
@@ -105,6 +107,15 @@ public class TableUI extends JPanel implements ActionListener{
     public Table getTable(){
         return this.table;
     }
+
+    public int getTableFrameX(){
+        return this.TABLE_FRAME_X;
+    }
+
+    public int getTableFrameY(){
+        return this.TABLE_FRAME_Y;
+    }
+
 
     public void startAction(){
         getTable().resetTurn();
@@ -204,7 +215,7 @@ public class TableUI extends JPanel implements ActionListener{
         }
 
         // Aiming aid visuals
-        if(numbersOn){
+        /*if(numbersOn){
             graphics.setColor(Color.BLACK);
             Pocket closestPocket = getOptimalPocket();
             Ball correctBall = table.getLowestNumberedBall();
@@ -225,7 +236,7 @@ public class TableUI extends JPanel implements ActionListener{
                                 2 * BallUI.BALL_PIXEL_RADIUS,
                                 2 * BallUI.BALL_PIXEL_RADIUS);
             }
-        }
+        }*/
 
         if(cueBallDrag)
         {

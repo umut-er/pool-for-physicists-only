@@ -15,7 +15,7 @@ import gameobjects.Table;
 
 public class PoolPanel extends JPanel{
     private TableUI tableUI;
-    private CueUI cue = new CueUI();
+    private CueUI cue; 
     private PowerBar powerBar;
     private HitPosition hitPosition = new HitPosition();
     private ElevationBar elevationBar;
@@ -41,8 +41,10 @@ public class PoolPanel extends JPanel{
             ballUIs.add(new BallUI(ball));
         Table table = new Table(ballArray);
         this.tableUI = new TableUI("tableNew.png", table, ballUIs, this);
-        tableUI.setBounds(100, 100, TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
+        tableUI.setBounds(tableUI.getTableFrameX(), tableUI.getTableFrameY(), TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
+
+        cue = new CueUI(tableUI);
 
         powerBar = new PowerBar(cue, this);
         JLabel powerBarField = new JLabel("Power Bar:");
@@ -58,8 +60,8 @@ public class PoolPanel extends JPanel{
         elevationBarLabel.setBounds(755,560,100,50);
         this.add(elevationBarLabel);
 
-        cue.setCueBallX(100 + tableUI.getCueBallXPixels());
-        cue.setCueBallY(100 + tableUI.getCueBallYPixels());
+        cue.setCueBallX(tableUI.getTableFrameX() + tableUI.getCueBallXPixels());
+        cue.setCueBallY(tableUI.getTableFrameY() + tableUI.getCueBallYPixels());
         this.add(cue);
 
         hitPosition.setBounds(450, 550, 100, 100);
@@ -183,8 +185,8 @@ public class PoolPanel extends JPanel{
 
     public void enableCue(){
         cueIsFixed = false;
-        cue.setCueBallX(tableUI.getCueBallXPixels() + 100);
-        cue.setCueBallY(tableUI.getCueBallYPixels() + 100);
+        cue.setCueBallX(tableUI.getCueBallXPixels() + tableUI.getTableFrameX());
+        cue.setCueBallY(tableUI.getCueBallYPixels() + tableUI.getTableFrameY());
         this.addMouseMotionListener(frameListener);
         hitPosition.addMouseMotionListener(hitPositionListener);
         hitButton.addMouseMotionListener(hitButtonListener);
