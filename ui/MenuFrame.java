@@ -35,10 +35,10 @@ public class MenuFrame extends JFrame implements ActionListener{
 
     public MenuFrame() throws FirebaseException{
         this.database=new PoolDatabase();
-        Font font1=new Font("Serif", Font.BOLD, 30);
-        Font font2=new Font("Dialog", Font.BOLD, 20);
-        Border border1=BorderFactory.createLineBorder(Color.BLACK,10);
-        Border border2=BorderFactory.createLineBorder(Color.DARK_GRAY,3);
+        Font font1=new Font("SerifSans", Font.BOLD, 30);
+        Font font2=new Font("Dialog", Font.BOLD, 16);
+        Border border1=BorderFactory.createLineBorder(Color.LIGHT_GRAY,5);
+        Border border2=BorderFactory.createLineBorder(Color.LIGHT_GRAY,3);
         this.loginButton=new JButton("Login");
         this.signUpButton=new JButton("Sign-Up / Delete");
         this.exitButton=new JButton("Exit");
@@ -60,9 +60,9 @@ public class MenuFrame extends JFrame implements ActionListener{
         this.mainTitle.setFont(font1);
         this.mainTitle.setVerticalAlignment(JLabel.CENTER);
         this.mainTitle.setHorizontalAlignment(JLabel.CENTER);
+        this.mainTitle.setBorder(border1);
         this.mainTitle.setBackground(Color.WHITE);
         this.mainTitle.setForeground(Color.BLACK);
-        this.mainTitle.setBorder(border1);
         
         this.loginButton.setBorder(border2);
         this.signUpButton.setBorder(border2);
@@ -72,6 +72,10 @@ public class MenuFrame extends JFrame implements ActionListener{
         this.exitButton.setFont(font2);
         this.forgotButton.setBorder(border2);
         this.forgotButton.setFont(font2);
+        this.loginButton.setBackground(new Color(224, 224, 224));
+        this.signUpButton.setBackground(new Color(224, 224, 224));
+        this.forgotButton.setBackground(new Color(224, 224, 224));
+        this.exitButton.setBackground(new Color(224, 224, 224));
 
         this.add(loginButton);
         this.add(signUpButton);
@@ -83,7 +87,7 @@ public class MenuFrame extends JFrame implements ActionListener{
         this.setTitle("8-Ball Pool");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.getContentPane().setBackground(new Color(0,153,0));
+        this.getContentPane().setBackground(new Color(0,153,50));
         this.setLayout(null);
         this.setVisible(true);
     }

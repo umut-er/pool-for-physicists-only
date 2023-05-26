@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.awt.event.KeyEvent;
@@ -53,12 +54,14 @@ public class PoolPanel extends JPanel{
         this.userAccount2=new AccountUI(username2);
         this.userAccount1.setBounds(AccountUI.X_COORDINATE_1, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
         this.userAccount2.setBounds(AccountUI.X_COORDINATE_2, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
+        this.setBackground(new Color(0, 153, 50));
         this.add(userAccount1);
         this.add(userAccount2);
 
         powerbar = new PowerBar(cue, this);
         JLabel powerBarField = new JLabel("Power Bar:");
         powerBarField.setBounds(605,560,100,50);
+        powerBarField.setForeground(Color.WHITE);
         this.add(powerBarField);
         powerbar.setBounds(600,600, 100, 30);
         this.add(powerbar);
@@ -68,6 +71,7 @@ public class PoolPanel extends JPanel{
         this.add(elevationBar);
         JLabel elevationBarLabel = new JLabel("Elevation Bar:");
         elevationBarLabel.setBounds(755,560,100,50);
+        elevationBarLabel.setForeground(Color.WHITE);
         this.add(elevationBarLabel);
 
         hitPosition.setBounds(450, 550, 100, 100);

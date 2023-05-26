@@ -61,10 +61,10 @@ public class ForgotPasswordFrame extends JFrame implements ActionListener, KeyLi
         this.changePassword.setVisible(false);
 
 
-        Font font=new Font("Dialog", Font.BOLD, 20);
-        Font font1=new Font("DialogInput", Font.BOLD, 20);
-        Font font2=new Font("DialogInput", Font.BOLD, 18);
-        Border border=BorderFactory.createLineBorder(Color.DARK_GRAY,3);
+        Font font=new Font("Dialog", Font.BOLD, 16);
+        Font font1=new Font("DialogInput", Font.PLAIN, 16);
+        Font font2=new Font("DialogInput", Font.ITALIC, 16);
+        Border border=BorderFactory.createLineBorder(Color.LIGHT_GRAY,3);
 
         this.changePassword.addActionListener(this);
         this.back.addActionListener(this);
@@ -74,18 +74,18 @@ public class ForgotPasswordFrame extends JFrame implements ActionListener, KeyLi
         this.setTitle("8-Ball Pool");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.getContentPane().setBackground(new Color(0,153,0));
+        this.getContentPane().setBackground(new Color(0,153,50));
         this.setLayout(null);
         this.setVisible(true);
 
-        this.backUpQuestion.setBounds(800, 175, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.backUpQuestion.setBounds(800, 200, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.player.setBounds(400, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.username.setBounds(180, 175, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.password.setBounds(180, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.question.setBounds(800, 250, 300, BUTTON_HEIGHT);
-        this.questionText.setBounds(800, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.usernameText.setBounds(400, 175, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.passwordText.setBounds(400, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.questionText.setBounds(800, 310, BUTTON_WIDTH, 40);
+        this.usernameText.setBounds(400, 185, BUTTON_WIDTH, 40);
+        this.passwordText.setBounds(400, 260, BUTTON_WIDTH, 40);
         this.changePassword.setBounds(800, 375, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.back.setBounds(400, 425, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.enter.setBounds(400, 350, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -93,12 +93,12 @@ public class ForgotPasswordFrame extends JFrame implements ActionListener, KeyLi
         this.player.setOpaque(true);
         this.player.setVerticalAlignment(JLabel.CENTER);
         this.player.setHorizontalAlignment(JLabel.CENTER);
-        this.player.setBackground(Color.WHITE);
+        this.player.setBackground(new Color(224, 224, 224));
         this.player.setForeground(Color.BLACK);
         this.backUpQuestion.setOpaque(true);
         this.backUpQuestion.setVerticalAlignment(JLabel.CENTER);
         this.backUpQuestion.setHorizontalAlignment(JLabel.CENTER);
-        this.backUpQuestion.setBackground(Color.WHITE);
+        this.backUpQuestion.setBackground(new Color(224, 224, 224));
         this.backUpQuestion.setForeground(Color.BLACK);
         this.username.setOpaque(false);
         this.username.setVerticalAlignment(JLabel.CENTER);
@@ -112,9 +112,10 @@ public class ForgotPasswordFrame extends JFrame implements ActionListener, KeyLi
         this.question.setVerticalAlignment(JLabel.CENTER);
         this.question.setHorizontalAlignment(JLabel.LEFT);
         this.question.setForeground(Color.WHITE);
+        this.changePassword.setBackground(new Color(224, 224, 224));
+        this.enter.setBackground(new Color(224, 224, 224));
+        this.back.setBackground(new Color(224, 224, 224));
 
-        this.player.setBorder(border);
-        this.backUpQuestion.setBorder(border);
         this.usernameText.setBorder(border);
         this.passwordText.setBorder(border);
         this.questionText.setBorder(border);

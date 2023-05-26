@@ -40,10 +40,10 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
     public static final int BUTTON_HEIGHT=50;
 
     public LoginFrame(MenuFrame menuFrame){
-        Font font=new Font("Dialog", Font.BOLD, 20);
-        Font font1=new Font("DialogInput", Font.BOLD, 20);
-        Font font2=new Font("DialogInput", Font.BOLD, 18);
-        Border border=BorderFactory.createLineBorder(Color.DARK_GRAY,3);
+        Font font=new Font("Dialog", Font.BOLD, 16);
+        Font font1=new Font("DialogInput", Font.PLAIN, 16);
+        Font font2=new Font("DialogInput", Font.ITALIC, 16);
+        Border border=BorderFactory.createLineBorder(Color.LIGHT_GRAY,3);
         this.menuFrame=menuFrame;
         this.player1=new JLabel("Player 1");
         this.player2=new JLabel("Player 2");
@@ -63,30 +63,30 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
         this.setTitle("8-Ball Pool");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.getContentPane().setBackground(new Color(0,153,0));
+        this.getContentPane().setBackground(new Color(0,153,50));
         this.setLayout(null);
         this.setVisible(true);
 
         this.player1.setBounds(375, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.player2.setBounds(625, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.usernameText1.setBounds(375, 175, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.usernameText2.setBounds(625, 175, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.passwordText1.setBounds(375, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.passwordText2.setBounds(625, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.usernameText1.setBounds(375, 185, BUTTON_WIDTH, 40);
+        this.usernameText2.setBounds(625, 185, BUTTON_WIDTH, 40);
+        this.passwordText1.setBounds(375, 260, BUTTON_WIDTH, 40);
+        this.passwordText2.setBounds(625, 260, BUTTON_WIDTH, 40);
         this.play.setBounds(500, 350, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.back.setBounds(500, 450, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.back.setBounds(500, 425, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.username1.setBounds(200, 175, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.password1.setBounds(200, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         this.player1.setOpaque(true);
         this.player1.setVerticalAlignment(JLabel.CENTER);
         this.player1.setHorizontalAlignment(JLabel.CENTER);
-        this.player1.setBackground(Color.WHITE);
+        this.player1.setBackground(new Color(224,224, 224));
         this.player1.setForeground(Color.BLACK);
         this.player2.setOpaque(true);
         this.player2.setVerticalAlignment(JLabel.CENTER);
         this.player2.setHorizontalAlignment(JLabel.CENTER);
-        this.player2.setBackground(Color.WHITE);
+        this.player2.setBackground(new Color(224, 224, 224));
         this.player2.setForeground(Color.BLACK);
         this.username1.setOpaque(false);
         this.username1.setVerticalAlignment(JLabel.CENTER);
@@ -96,9 +96,9 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
         this.password1.setVerticalAlignment(JLabel.CENTER);
         this.password1.setHorizontalAlignment(JLabel.CENTER);
         this.password1.setForeground(Color.WHITE);
+        this.play.setBackground(new Color(224, 224, 224));
+        this.back.setBackground(new Color(224, 224, 224));
         
-        this.player1.setBorder(border);
-        this.player2.setBorder(border);
         this.usernameText1.setBorder(border);
         this.usernameText2.setBorder(border);
         this.passwordText2.setBorder(border);

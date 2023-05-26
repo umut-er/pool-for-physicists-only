@@ -57,10 +57,10 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         this.question=new JLabel(uniqueQuestion);
         this.delete=new JButton("Delete");
 
-        Font font=new Font("Dialog", Font.BOLD, 20);
-        Font font1=new Font("DialogInput", Font.BOLD, 20);
-        Font font2=new Font("DialogInput", Font.BOLD, 18);
-        Border border=BorderFactory.createLineBorder(Color.DARK_GRAY,3);
+        Font font=new Font("Dialog", Font.BOLD, 16);
+        Font font1=new Font("DialogInput", Font.PLAIN, 16);
+        Font font2=new Font("DialogInput", Font.ITALIC, 16);
+        Border border=BorderFactory.createLineBorder(Color.LIGHT_GRAY,3);
 
         this.signUp.addActionListener(this);
         this.back.addActionListener(this);
@@ -70,27 +70,27 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         this.setTitle("8-Ball Pool");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.getContentPane().setBackground(new Color(0,153,0));
+        this.getContentPane().setBackground(new Color(0,153,50));
         this.setLayout(null);
         this.setVisible(true);
 
         this.player.setBounds(400, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.username.setBounds(225, 175, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.password.setBounds(225, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.usernameText.setBounds(400, 175, BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.passwordText.setBounds(400, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.usernameText.setBounds(400, 185, BUTTON_WIDTH, 40);
+        this.passwordText.setBounds(400, 260, BUTTON_WIDTH, 40);
         this.signUp.setBounds(400, 350, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.back.setBounds(400, 500, BUTTON_WIDTH, BUTTON_HEIGHT);
         //
         this.backUpQuestion.setBounds(700, 175, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.question.setBounds(700, 225, 2*BUTTON_WIDTH, BUTTON_HEIGHT);
-        this.questionText.setBounds(700, 275, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.questionText.setBounds(700, 275, BUTTON_WIDTH, 40);
         this.delete.setBounds(400, 425, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         this.player.setOpaque(true);
         this.player.setVerticalAlignment(JLabel.CENTER);
         this.player.setHorizontalAlignment(JLabel.CENTER);
-        this.player.setBackground(Color.WHITE);
+        this.player.setBackground(new Color(224, 224, 224));
         this.player.setForeground(Color.BLACK);
         this.username.setOpaque(false);
         this.username.setVerticalAlignment(JLabel.CENTER);
@@ -104,16 +104,17 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         this.backUpQuestion.setVerticalAlignment(JLabel.CENTER);
         this.backUpQuestion.setHorizontalAlignment(JLabel.CENTER);
         this.backUpQuestion.setForeground(Color.BLACK);
-        this.backUpQuestion.setBackground(Color.WHITE);
+        this.backUpQuestion.setBackground(new Color(224, 224, 224));
         this.question.setOpaque(false);
         this.question.setVerticalAlignment(JLabel.CENTER);
         this.question.setHorizontalAlignment(JLabel.LEFT);
         this.question.setForeground(Color.WHITE);
+        this.signUp.setBackground(new Color(224, 224, 224));
+        this.delete.setBackground(new Color(224, 224, 224));
+        this.back.setBackground(new Color(224, 224, 224));
 
-        this.player.setBorder(border);
         this.usernameText.setBorder(border);
         this.passwordText.setBorder(border);
-        this.backUpQuestion.setBorder(border);
         this.questionText.setBorder(border);
         this.back.setBorder(border);
         this.signUp.setBorder(border);
