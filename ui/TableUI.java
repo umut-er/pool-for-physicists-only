@@ -40,7 +40,7 @@ public class TableUI extends JPanel implements ActionListener{
     private static final int TABLE_WIDTH_PIXELS = 748;
     private static final int TABLE_HEIGHT_PIXELS = 412;
     public static final int UPDATION_INTERVAL = 33;
-    private static final int TABLE_FRAME_X = 100;
+    private static final int TABLE_FRAME_X = 200;
     private static final int TABLE_FRAME_Y = 100;
 
     private static final int leftCushion = 38;
