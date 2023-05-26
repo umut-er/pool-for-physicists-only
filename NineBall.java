@@ -1,3 +1,4 @@
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.UnsupportedEncodingException;
@@ -13,9 +14,10 @@ public class NineBall extends JFrame{
     private PoolPanel gamePanel;
     private int currentLowestNumber = 1;
     private boolean turn = false;
+    private MenuFrame menuFrame;
 
     public NineBall() throws UnsupportedEncodingException, FirebaseException{
-        MenuFrame menuFrame = new MenuFrame();
+        this.menuFrame = new MenuFrame();
         menuFrame.addPropertyChangeListener(new PropertyChangeListener(){
             public void propertyChange(PropertyChangeEvent evt){
                 if(evt.getPropertyName().equals("pool panel created")){
@@ -97,6 +99,10 @@ public class NineBall extends JFrame{
 
     public void switchTurns(){
         turn = !turn;
+    }
+
+    public void setMenuFrameInvisible(){
+        this.menuFrame.setVisible(false);
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException, FirebaseException {

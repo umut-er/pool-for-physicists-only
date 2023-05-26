@@ -196,7 +196,6 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
                     if(!this.usernameText1.getText().equals(this.usernameText2.getText()))
                     {
                         this.setVisible(false);
-                        // Must be NineBall    //Fix
                         firePropertyChange("player names entered", "", "entered");
                         // new PoolPanel(this.usernameText1.getText(), this.usernameText2.getText());
                     }

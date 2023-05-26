@@ -57,7 +57,7 @@ public class PoolPanel extends JPanel{
         this.setBackground(new Color(0, 153, 50));
         this.add(userAccount1);
         this.add(userAccount2);
-
+        
         powerbar = new PowerBar(cue, this);
         JLabel powerBarField = new JLabel("Power Bar:");
         powerBarField.setBounds(605,560,100,50);

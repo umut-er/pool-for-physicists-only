@@ -1,5 +1,6 @@
 package ui;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,10 +12,16 @@ import net.thegreshams.firebase4j.error.FirebaseException;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class MenuFrame extends JFrame implements ActionListener{
@@ -23,7 +30,8 @@ public class MenuFrame extends JFrame implements ActionListener{
     private JButton exitButton;
     private JButton forgotButton;
     private JLabel mainTitle;
-
+    private Image image1;
+    private Image image2;
     private LoginFrame loginFrame;
     private PoolDatabase database;
 
@@ -90,8 +98,25 @@ public class MenuFrame extends JFrame implements ActionListener{
         this.getContentPane().setBackground(new Color(0,153,50));
         this.setLayout(null);
         this.setVisible(true);
+
+        try{
+            BufferedImage bufferedImage=ImageIO.read(new File("./ui/assets", "mainImage1.png"));
+            this.image1= bufferedImage.getScaledInstance(200, 200, Image.SCALE_DEFAULT);
+            bufferedImage=ImageIO.read(new File("./ui/assets", "mainImage2.png"));
+            this.image2= bufferedImage.getScaledInstance(200, 200, Image.SCALE_DEFAULT);
+        } 
+        catch(IOException e){
+            this.image1=null;
+        }
     }
 
+    public void paint(Graphics g){
+        super.paint(g);
+        Graphics2D graphics=(Graphics2D)g;
+        graphics.drawImage(this.image1, 150, 300, 200, 200, null);
+        graphics.drawImage(this.image2, 850, 250, 250, 250, null);
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==loginButton){
