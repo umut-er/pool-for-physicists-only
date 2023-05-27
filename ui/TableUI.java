@@ -138,6 +138,13 @@ public class TableUI extends JPanel implements ActionListener{
         return this.ballUIs;
     }
 
+    public void setBallUIArray(){
+        ballUIs.clear();
+        for(Ball ball : getTable().getBallArray()){
+            ballUIs.add(new BallUI(ball));
+        }
+    }
+
     public void changeTableImage(String imageFileName){
         BufferedImage bufferedTableImage;
         try{

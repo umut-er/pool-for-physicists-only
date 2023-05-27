@@ -32,6 +32,10 @@ public class Table{
         return this.ballArray;
     }
 
+    public void setBallArray(ArrayList<Ball> array){
+        this.ballArray = array;
+    }
+    
     public Cushion[] getCushionArray(){
         return this.cushions;
     }

@@ -3,6 +3,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
 
+import gameobjects.Ball;
 import physics.event.BallBallCollisionEvent;
 import ui.PoolPanel;
 
@@ -29,7 +30,7 @@ public class NineBall extends JFrame{
                         gamePanel.enableHitButton();
                     }
                     else{
-                        System.exit(0);
+                        // System.exit(0);
                         resetTable();
                     }
                 }
@@ -76,7 +77,10 @@ public class NineBall extends JFrame{
     }
 
     public void resetTable(){
-        // TODO: Complete
+        gamePanel.getTable().setBallArray(Ball.getStandardBallArray());
+        gamePanel.getTableUI().setBallUIArray();
+        gamePanel.enableHitButton();
+        gamePanel.repaint();
     }
 
     public void switchTurns(){
