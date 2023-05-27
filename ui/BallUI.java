@@ -20,11 +20,11 @@ public class BallUI {
     }
 
     public double getBallXPosition(){
-        return ball.getDisplacement().getAxis(0);
+        return ball.getPosition().getAxis(0);
     }
 
     public double getBallYPosition(){
-        return ball.getDisplacement().getAxis(1);
+        return ball.getPosition().getAxis(1);
     }
 
     public Color getColor(){

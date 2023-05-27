@@ -20,10 +20,8 @@ import javax.swing.Timer;
 
 import gameobjects.Ball;
 import gameobjects.Cushion;
-import gameobjects.Pocket;
 import gameobjects.Table;
 import physics.Physics;
-import vectormath.Vector3;
 
 public class TableUI extends JPanel implements ActionListener{
     private PoolPanel mainPanel;
@@ -43,10 +41,10 @@ public class TableUI extends JPanel implements ActionListener{
     private static final int TABLE_FRAME_X = 200;
     private static final int TABLE_FRAME_Y = 100;
 
-    private static final int leftCushion = 38;
-    private static final int rightCushion = 710;
-    private static final int topCushion = 374;
-    private static final int bottomCushion = 38;
+    // private static final int leftCushion = 38;
+    // private static final int rightCushion = 710;
+    // private static final int topCushion = 374;
+    // private static final int bottomCushion = 38;
 
     private boolean numbersOn = true;
     private int cueBallX;
@@ -109,13 +107,12 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public int getTableFrameX(){
-        return this.TABLE_FRAME_X;
+        return TABLE_FRAME_X;
     }
 
     public int getTableFrameY(){
-        return this.TABLE_FRAME_Y;
+        return TABLE_FRAME_Y;
     }
-
 
     public void startAction(){
         getTable().resetTurn();
@@ -135,37 +132,6 @@ public class TableUI extends JPanel implements ActionListener{
     public void hitBall(double cueSpeed, double directionAngle, double elevationAngle, double horizontalSpin, double verticalSpin){
         Physics.hitBall(table.getBallArray().get(0), cueSpeed, directionAngle, elevationAngle, horizontalSpin, verticalSpin);
         startAction();
-    }
-
-    // Part of aiming aid
-    public Pocket getOptimalPocket(){
-        Ball correctBall = table.getLowestNumberedBall();
-        Pocket closestPocket = null;
-        double dist = 5;
-        Vector3 fullHitVector = Vector3.subtract(correctBall.getDisplacement(), table.getBallArray().get(0).getDisplacement());
-        for(Pocket p : table.getPocketArray()){
-            Vector3 towardsPocket = Vector3.subtract(p.getPosition(), correctBall.getDisplacement());
-            if(Math.abs(Vector3.getSignedAngle2D(fullHitVector, towardsPocket)) >= Math.PI / 3)
-                continue;
-            double cur_dist = towardsPocket.getVectorLength();
-            if(cur_dist < dist){
-                dist = cur_dist;
-                closestPocket = p;
-            }
-        }
-        return closestPocket;
-    }
-
-    // Part of aiming aid.
-    public Vector3 getOptimalPosition(){
-        Ball correctBall = table.getLowestNumberedBall();
-        Pocket closestPocket = getOptimalPocket();
-        if(closestPocket == null)
-            return null;
-        Vector3 towardsPocket = Vector3.subtract(closestPocket.getPosition(), correctBall.getDisplacement());
-        towardsPocket.normalize();
-        towardsPocket.inPlaceMultiply(-2 * Ball.RADIUS);
-        return Vector3.add(correctBall.getDisplacement(), towardsPocket);
     }
 
     public ArrayList<BallUI> getBallUIArray(){
@@ -214,32 +180,7 @@ public class TableUI extends JPanel implements ActionListener{
             }    
         }
 
-        // Aiming aid visuals
-        /*if(numbersOn){
-            graphics.setColor(Color.BLACK);
-            Pocket closestPocket = getOptimalPocket();
-            Ball correctBall = table.getLowestNumberedBall();
-            if(closestPocket != null){
-                Vector3 position = getOptimalPosition();
-                graphics.drawLine(getPixelFromMeters(position.getAxis(0), false), 
-                                getPixelFromMeters(position.getAxis(1), true), 
-                                getPixelFromMeters(ballUIs.get(0).getBallXPosition(), false),
-                                getPixelFromMeters(ballUIs.get(0).getBallYPosition(), true));
-
-                graphics.drawLine(getPixelFromMeters(closestPocket.getX(), false),
-                                getPixelFromMeters(closestPocket.getY(), true),
-                                getPixelFromMeters(correctBall.getDisplacement().getAxis(0), false),
-                                getPixelFromMeters(correctBall.getDisplacement().getAxis(1), true));
-
-                graphics.drawOval(getPixelFromMeters(position.getAxis(0) - Ball.RADIUS, false),
-                                getPixelFromMeters(position.getAxis(1) + Ball.RADIUS, true),
-                                2 * BallUI.BALL_PIXEL_RADIUS,
-                                2 * BallUI.BALL_PIXEL_RADIUS);
-            }
-        }*/
-
-        if(cueBallDrag)
-        {
+        if(cueBallDrag){
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             graphics.setColor(Color.WHITE);
             graphics.fillOval(cueBallX  - BallUI.BALL_PIXEL_RADIUS, cueBallY - BallUI.BALL_PIXEL_RADIUS, 2 * BallUI.BALL_PIXEL_RADIUS , 2 * BallUI.BALL_PIXEL_RADIUS);
@@ -254,7 +195,7 @@ public class TableUI extends JPanel implements ActionListener{
     public void ballInHand(double x, double y){
         Ball cueBall = new Ball(0,x,y,0,0,0,0,0,0,0);
         BallUI cueBallUI = new BallUI(cueBall);
-        if(isValidPosition(x,y)){
+        if(table.isPositionValid(x, y)){
             cueBallDrag = false;
             ballUIs.add(0,cueBallUI);
             table.getBallArray().add(0, cueBall);
@@ -263,24 +204,20 @@ public class TableUI extends JPanel implements ActionListener{
             mainPanel.enableHitButton();
             mainPanel.repaint();
         }
-        else{
-            System.out.println("select a proper place");
-        }
     }
 
-    public boolean isValidPosition(double x, double y)
-    {
-        if((x > getMetersFromPixels(rightCushion, false) - Ball.RADIUS) || x < getMetersFromPixels(leftCushion, false) + Ball.RADIUS || y > getMetersFromPixels(topCushion, false) - Ball.RADIUS || y <  getMetersFromPixels(bottomCushion, false) + Ball.RADIUS)
-            return false;
-        
-        for(BallUI ball : ballUIs)
-        {
-            if(Math.pow(x - ball.getBallXPosition(), 2) + Math.pow(y - ball.getBallYPosition(), 2) <= 4 * Math.pow(Ball.RADIUS, 2))
-            {
-                return false;
-            }
+    public void placeNineBall(){
+        double x = TableUI.TABLE_WIDTH_METERS / 2;
+        double y = TableUI.TABLE_HEIGHT_METERS / 2;
+
+        while(!table.isPositionValid(x, y)){
+            x += Ball.RADIUS;
         }
-        return true;
+
+        Ball nineBall = new Ball(9, x, y, 0, 0, 0, 0, 0, 0, 0);
+        BallUI nineBallUI = new BallUI(nineBall);
+        table.getBallArray().add(nineBall);
+        ballUIs.add(nineBallUI);
     }
 
     class BallPlacement extends MouseAdapter{       

@@ -12,20 +12,20 @@ public class Ball {
     public static final double MASS = 0.170097;
 
     private int ballNumber;
-    private Vector3 displacement;
+    private Vector3 position;
     private Vector3 velocity;
     private Vector3 angularVelocity;
 
     public Ball(int number, double... data) throws IllegalArgumentException{
         if(data.length != 9) throw new IllegalArgumentException("9 arguments required for vector initialization, " + data.length + " given.");
         this.ballNumber = number;
-        this.displacement = new Vector3(data[0], data[1], data[2]);
+        this.position = new Vector3(data[0], data[1], data[2]);
         this.velocity = new Vector3(data[3], data[4], data[5]);
         this.angularVelocity = new Vector3(data[6], data[7], data[8]);
     }
 
-    public Vector3 getDisplacement(){
-        return this.displacement;
+    public Vector3 getPosition(){
+        return this.position;
     }
 
     public Vector3 getVelocity(){
@@ -40,12 +40,12 @@ public class Ball {
         return this.ballNumber;
     }
 
-    public void setDisplacement(double x, double y, double z){
-        this.displacement.setAll(x, y, z);
+    public void setPosition(double x, double y, double z){
+        this.position.setAll(x, y, z);
     }
 
-    public void setDisplacement(Vector3 displacement){
-        this.displacement = displacement;
+    public void setPosition(Vector3 displacement){
+        this.position = displacement;
     }
 
     public void setVelocity(double x, double y, double z){
@@ -110,7 +110,7 @@ public class Ball {
     @Override
     public String toString(){
         return String.format("Position: %s\nVelocity: %s\nAngular Velocity: %s",
-                                getDisplacement(),
+                                getPosition(),
                                 getVelocity(),
                                 getAngularVelocity());
     }

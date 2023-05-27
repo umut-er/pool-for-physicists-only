@@ -7,23 +7,25 @@ import physics.event.BallBallCollisionEvent;
 import physics.event.BallPocketCollisionEvent;
 import physics.event.Event;
 import ui.TableUI;
+import vectormath.Vector3;
 
 public class Table{
     private ArrayList<Ball> ballArray;
-    private Cushion[] cushions;
-    private PointCushion[] pointCushions;
-    private Pocket[] pockets;
+    private Cushion[] cushions = Cushion.getStandardCushionArray();
+    private PointCushion[] pointCushions = PointCushion.getStandardPointCushionArray();
+    private Pocket[] pockets = Pocket.getStandardPocketArray();
     private Event currentEvent;
 
     private double timeThisTurn = 0;
-
     private BallBallCollisionEvent firstCollisionEvent;
+
+    private final double TABLE_LEFT = cushions[1].getStart().getAxis(0);
+    private final double TABLE_RIGHT = cushions[10].getStart().getAxis(0);
+    private final double TABLE_TOP = cushions[4].getStart().getAxis(1);
+    private final double TABLE_BOTTOM = cushions[13].getStart().getAxis(1);
 
     public Table(ArrayList<Ball> ballArray){
         this.ballArray = ballArray;
-        this.cushions = Cushion.getStandardCushionArray();
-        this.pockets = Pocket.getStandardPocketArray();
-        this.pointCushions = PointCushion.getStandardPointCushionArray();
     }
 
     public ArrayList<Ball> getBallArray(){
@@ -82,11 +84,24 @@ public class Table{
         return true;
     }
 
+    public boolean isPositionValid(double x, double y){
+        if(x < TABLE_LEFT + Ball.RADIUS || x > TABLE_RIGHT - Ball.RADIUS || y < TABLE_BOTTOM + Ball.RADIUS || y > TABLE_TOP - Ball.RADIUS)
+            return false;
+
+        Vector3 pos = new Vector3(x, y, 0);
+        for(Ball ball : ballArray){
+            Vector3 diffVector = Vector3.subtract(ball.getPosition(), pos);
+            if(diffVector.getVectorLength() <= 2 * Ball.RADIUS)
+                return false;
+        }
+        return true;
+    }
+
     public void getNextEvent(){
         currentEvent = Physics.pollEventQueue(this);
     }
 
-    // -2 -> no event found, -1 -> no ball pocketed, >=0 -> index of pocketed ball
+    // -2 -> no event found, -1 -> normal exit.
     public int evolveTable(TableUI tableUI, double dt){
         if(currentEvent == null){               
             getNextEvent();

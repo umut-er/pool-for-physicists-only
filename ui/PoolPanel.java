@@ -151,20 +151,20 @@ public class PoolPanel extends JPanel{
         elevationBar.addMouseMotionListener(elevationBarListener);
         addMouseMotionListener(frameListener);
 
-        // hitPosition.addMouseListener(new MouseListener() {
-        //     @Override
-        //     public void mouseClicked(MouseEvent e){
-        //         PoolPanel.this.repaint();
-        //     }
-        //     @Override
-        //     public void mousePressed(MouseEvent e){}
-        //     @Override
-        //     public void mouseReleased(MouseEvent e){}
-        //     @Override
-        //     public void mouseEntered(MouseEvent e){}
-        //     @Override
-        //     public void mouseExited(MouseEvent e){}
-        // });
+        hitPosition.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e){
+                PoolPanel.this.repaint();
+            }
+            @Override
+            public void mousePressed(MouseEvent e){}
+            @Override
+            public void mouseReleased(MouseEvent e){}
+            @Override
+            public void mouseEntered(MouseEvent e){}
+            @Override
+            public void mouseExited(MouseEvent e){}
+        });
 
         this.setVisible(true);
     }
@@ -211,8 +211,7 @@ public class PoolPanel extends JPanel{
     }
 
     public void placeNineBall(){
-        // TODO: Complete
-        
+        tableUI.placeNineBall();     
     }
 
     public CueUI getCue(){
