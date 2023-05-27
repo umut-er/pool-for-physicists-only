@@ -60,7 +60,7 @@ public class PoolPanel extends JPanel{
         this.userAccount2=new AccountUI(username2);
         this.userAccount1.setBounds(AccountUI.X_COORDINATE_1, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
         this.userAccount2.setBounds(AccountUI.X_COORDINATE_2, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
-        this.setBackground(new Color(0, 153, 50));
+        this.setBackground(Color.DARK_GRAY);
         this.add(userAccount1);
         this.add(userAccount2);
         

@@ -70,7 +70,7 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         this.setTitle("8-Ball Pool");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.getContentPane().setBackground(new Color(0,153,50));
+        this.getContentPane().setBackground(Color.DARK_GRAY);
         this.setLayout(null);
         this.setVisible(true);
 

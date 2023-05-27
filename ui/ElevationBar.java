@@ -19,7 +19,7 @@ public class ElevationBar extends JSlider{
     private static double poolDiameter = Math.sqrt(Math.pow(PoolPanel.PANEL_HEIGHT, 2) + Math.pow(PoolPanel.PANEL_WIDTH, 2));
     
     public ElevationBar(CueUI cue, PoolPanel pool){ 
-        this.setBackground(new Color(0, 153, 50));   
+        this.setBackground(Color.DARK_GRAY);   
         this.cue = cue;
         this.pool = pool;
         this.addChangeListener(new ElevationListener());

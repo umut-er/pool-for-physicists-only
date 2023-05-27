@@ -12,7 +12,7 @@ public class HitPosition extends JPanel implements MouseListener{
     private static int yValue = 50;
 
     public HitPosition(){
-        this.setBackground(new Color(0, 153, 50));
+        this.setBackground(Color.DARK_GRAY);
         this.setFocusable(false);
         this.setOpaque(true);
         addMouseListener(this);
