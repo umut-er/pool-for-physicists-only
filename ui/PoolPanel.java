@@ -1,17 +1,21 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import database.PoolDatabase;
 import gameobjects.Ball;
 import gameobjects.Table;
+import net.thegreshams.firebase4j.error.FirebaseException;
 
 public class PoolPanel extends JPanel{
     private TableUI tableUI;
@@ -20,6 +24,10 @@ public class PoolPanel extends JPanel{
     private HitPosition hitPosition = new HitPosition();
     private ElevationBar elevationBar;
     private HitButton hitButton;
+    private AccountUI userAccount1;
+    private AccountUI userAccount2;
+    private String username1;
+    private String username2;
 
     public static boolean cueIsFixed = false;
     public static final int PANEL_HEIGHT=700;
@@ -31,7 +39,11 @@ public class PoolPanel extends JPanel{
     private MouseAdapter powerBarListener;
     private MouseAdapter elevationBarListener;
     
-    public PoolPanel(){
+    public PoolPanel(String username1, String username2) throws UnsupportedEncodingException, FirebaseException{
+        if(!PoolDatabase.initialized())
+            new PoolDatabase();
+        this.username1=username1;
+        this.username2=username2;
         setLayout(null);     
         setFocusable(true);
         
@@ -44,11 +56,19 @@ public class PoolPanel extends JPanel{
         tableUI.setBounds(tableUI.getTableFrameX(), tableUI.getTableFrameY(), TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
 
+        this.userAccount1=new AccountUI(username1);
+        this.userAccount2=new AccountUI(username2);
+        this.userAccount1.setBounds(AccountUI.X_COORDINATE_1, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
+        this.userAccount2.setBounds(AccountUI.X_COORDINATE_2, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
+        this.setBackground(new Color(0, 153, 50));
+        this.add(userAccount1);
+        this.add(userAccount2);
+        
         cue = new CueUI(tableUI);
-
         powerBar = new PowerBar(cue, this);
         JLabel powerBarField = new JLabel("Power Bar:");
         powerBarField.setBounds(605,560,100,50);
+        powerBarField.setForeground(Color.WHITE);
         this.add(powerBarField);
         powerBar.setBounds(600,600, 100, 30);
         this.add(powerBar);
@@ -58,6 +78,7 @@ public class PoolPanel extends JPanel{
         this.add(elevationBar);
         JLabel elevationBarLabel = new JLabel("Elevation Bar:");
         elevationBarLabel.setBounds(755,560,100,50);
+        elevationBarLabel.setForeground(Color.WHITE);
         this.add(elevationBarLabel);
 
         cue.setCueBallX(tableUI.getTableFrameX() + tableUI.getCueBallXPixels());

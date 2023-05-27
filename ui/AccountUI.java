@@ -21,7 +21,7 @@ public class AccountUI extends JLabel{
         Font font=new Font("Dialog", Font.BOLD, 14);
         this.accountNameUI=username;
         this.accountLevelUI=PoolDatabase.getAccountLevel(username);
-        this.setText(accountNameUI+"   Level:"+accountLevelUI);
+        this.setText(accountNameUI+"   Level: "+accountLevelUI);
         this.setOpaque(true);
         this.setFont(font);
         if(accountLevelUI<10){

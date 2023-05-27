@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.Color;
+
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -12,6 +14,7 @@ public class PowerBar extends JSlider{
     public static final int INITIAL_VALUE = 300;
     public static int power = INITIAL_VALUE;
     public PowerBar(CueUI cue, PoolPanel pool){
+        this.setBackground(new Color(0, 153, 50));
         this.pool = pool;
         this.cue = cue;
         this.setToolTipText("Power Bar");

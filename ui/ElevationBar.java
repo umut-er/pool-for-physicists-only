@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JSlider;
@@ -17,7 +18,8 @@ public class ElevationBar extends JSlider{
     private static int angle = INITIAL_VALUE;
     private static double poolDiameter = Math.sqrt(Math.pow(PoolPanel.PANEL_HEIGHT, 2) + Math.pow(PoolPanel.PANEL_WIDTH, 2));
     
-    public ElevationBar(CueUI cue, PoolPanel pool){    
+    public ElevationBar(CueUI cue, PoolPanel pool){ 
+        this.setBackground(new Color(0, 153, 50));   
         this.cue = cue;
         this.pool = pool;
         this.addChangeListener(new ElevationListener());

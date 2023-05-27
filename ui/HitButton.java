@@ -28,7 +28,7 @@ public class HitButton extends JButton implements ActionListener{
         powerElement = powerBar;
         this.addActionListener(this);
         this.setText("HIT");
-        this.setBackground(Color.RED);
+        this.setBackground(new Color(255, 102, 102));
     }
 
     @Override

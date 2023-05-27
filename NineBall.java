@@ -1,19 +1,38 @@
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.JFrame;
 
 import gameobjects.Ball;
+import net.thegreshams.firebase4j.error.FirebaseException;
 import physics.event.BallBallCollisionEvent;
+import ui.MenuFrame;
 import ui.PoolPanel;
 
 public class NineBall extends JFrame{
     private PoolPanel gamePanel;
     private int currentLowestNumber = 1;
     private boolean turn = false;
+    private MenuFrame menuFrame;
 
-    public NineBall(){
-        gamePanel = new PoolPanel();
+    public NineBall() throws UnsupportedEncodingException, FirebaseException{
+        this.menuFrame = new MenuFrame();
+        menuFrame.addPropertyChangeListener(new PropertyChangeListener(){
+            public void propertyChange(PropertyChangeEvent evt){
+                if(evt.getPropertyName().equals("pool panel created")){
+                    initializePoolFrame((PoolPanel)evt.getNewValue());
+                }
+            }
+        });
+
+        //PoolPanel p = new PoolPanel("User1", "User2");
+        //initializePoolFrame(p);
+    }
+
+    public void initializePoolFrame(PoolPanel p){
+        this.gamePanel = p;
         gamePanel.getTableUI().addPropertyChangeListener(new PropertyChangeListener(){
             @Override
             public void propertyChange(PropertyChangeEvent evt){
@@ -73,6 +92,7 @@ public class NineBall extends JFrame{
     // Assumes there is no fouls.
     public boolean winCheck(){
         boolean won = gamePanel.getTable().nineBallPocketed();
+        // System.exit(0);
         return won;
     }
 
@@ -87,7 +107,11 @@ public class NineBall extends JFrame{
         turn = !turn;
     }
 
-    public static void main(String[] args) {
+    public void setMenuFrameInvisible(){
+        this.menuFrame.setVisible(false);
+    }
+
+    public static void main(String[] args) throws UnsupportedEncodingException, FirebaseException {
         new NineBall();
     }
 }
