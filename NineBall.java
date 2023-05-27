@@ -77,6 +77,7 @@ public class NineBall extends JFrame{
                 gamePanel.placeNineBall();
             }
             gamePanel.ballInHand();
+            gamePanel.disablePause();
             return true;
         }
 
@@ -88,7 +89,7 @@ public class NineBall extends JFrame{
                 gamePanel.placeNineBall();
             }
             gamePanel.ballInHand();
-            
+            gamePanel.disablePause();
             return true;
         }
         

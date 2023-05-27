@@ -10,8 +10,10 @@ import javax.swing.JPanel;
 public class HitPosition extends JPanel implements MouseListener{
     private static int xValue = 50;
     private static int yValue = 50;
+    private PoolPanel panel;
 
-    public HitPosition(){
+    public HitPosition(PoolPanel panel){
+        this.panel=panel;
         this.setBackground(Color.DARK_GRAY);
         this.setFocusable(false);
         this.setOpaque(true);
@@ -25,10 +27,13 @@ public class HitPosition extends JPanel implements MouseListener{
    
     @Override
     public void mouseClicked(MouseEvent e) {
-        xValue = e.getX();
-        yValue = e.getY();
-        if(Math.pow(xValue - this.getWidth()/2 , 2) + Math.pow(yValue - this.getHeight()/2, 2) <= Math.pow(this.getWidth()/2, 2)){
-            repaint();
+        if(panel.isResumed())
+        {
+            xValue = e.getX();
+            yValue = e.getY();
+            if(Math.pow(xValue - this.getWidth()/2 , 2) + Math.pow(yValue - this.getHeight()/2, 2) <= Math.pow(this.getWidth()/2, 2)){
+                repaint();
+            }
         }
     }
 

@@ -117,6 +117,7 @@ public class TableUI extends JPanel implements ActionListener{
     public void startAction(){
         getTable().resetTurn();
         mainPanel.disableHitButton();
+        mainPanel.disablePause();
         numbersOn = false;
         mainPanel.disableCue();
         firePropertyChange("turn start", 0, 1);

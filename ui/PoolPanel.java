@@ -24,7 +24,7 @@ public class PoolPanel extends JPanel implements ActionListener{
     private TableUI tableUI;
     private CueUI cue; 
     private PowerBar powerBar;
-    private HitPosition hitPosition = new HitPosition();
+    private HitPosition hitPosition = new HitPosition(this);
     private ElevationBar elevationBar;
     private HitButton hitButton;
     private JButton inGameMenuButton;
@@ -207,6 +207,10 @@ public class PoolPanel extends JPanel implements ActionListener{
         return tableUI;
     }
 
+    public boolean isResumed(){
+        return this.inGameMenuButton.isEnabled();
+    }
+
     public void disableCue(){
         this.removeMouseMotionListener(frameListener);
         hitPosition.removeMouseMotionListener(hitPositionListener);
@@ -226,6 +230,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         hitButton.addMouseMotionListener(hitButtonListener);
         powerBar.addMouseMotionListener(powerBarListener);
         elevationBar.addMouseMotionListener(elevationBarListener);
+        enableInGameMenuButton();
         cue.setActive(true);
         repaint();
     }
@@ -249,6 +254,10 @@ public class PoolPanel extends JPanel implements ActionListener{
 
     public void disableHitPosition(){
         hitPosition.setEnabled(false);
+    }
+
+    public void disablePause(){
+        inGameMenuButton.setEnabled(false);
     }
 
     public void enableHitButton(){

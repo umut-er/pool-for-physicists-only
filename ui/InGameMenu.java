@@ -39,7 +39,6 @@ public class InGameMenu extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==this.exitButton)
         {
-            //TODO Resume Fix
             //TODO Exit Fix
         }
         else
