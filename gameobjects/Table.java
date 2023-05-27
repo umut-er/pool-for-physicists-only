@@ -77,7 +77,7 @@ public class Table{
     }
 
     public boolean cueBallPocketed(){
-        return ballArray.get(0).getNumber() != 0;
+        return ballArray.size() == 0 || ballArray.get(0).getNumber() != 0;
     }
 
     public boolean nineBallPocketed(){
