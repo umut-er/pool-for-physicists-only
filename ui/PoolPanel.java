@@ -3,12 +3,15 @@ package ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -17,13 +20,15 @@ import gameobjects.Ball;
 import gameobjects.Table;
 import net.thegreshams.firebase4j.error.FirebaseException;
 
-public class PoolPanel extends JPanel{
+public class PoolPanel extends JPanel implements ActionListener{
     private TableUI tableUI;
     private CueUI cue; 
     private PowerBar powerBar;
     private HitPosition hitPosition = new HitPosition();
     private ElevationBar elevationBar;
     private HitButton hitButton;
+    private JButton inGameMenuButton;
+    private InGameMenu gameMenu;
     private AccountUI userAccount1;
     private AccountUI userAccount2;
     private String username1;
@@ -56,13 +61,21 @@ public class PoolPanel extends JPanel{
         tableUI.setBounds(tableUI.getTableFrameX(), tableUI.getTableFrameY(), TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
 
-        this.userAccount1=new AccountUI(username1);
-        this.userAccount2=new AccountUI(username2);
-        this.userAccount1.setBounds(AccountUI.X_COORDINATE_1, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
-        this.userAccount2.setBounds(AccountUI.X_COORDINATE_2, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
+        userAccount1=new AccountUI(username1);
+        userAccount2=new AccountUI(username2);
+        userAccount1.setBounds(AccountUI.X_COORDINATE_1, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
+        userAccount2.setBounds(AccountUI.X_COORDINATE_2, AccountUI.Y_COORDINATE, AccountUI.WIDTH, AccountUI.HEIGHT);
         this.setBackground(Color.DARK_GRAY);
         this.add(userAccount1);
         this.add(userAccount2);
+        inGameMenuButton=new JButton("Pause");
+        inGameMenuButton.setBounds(1000,250,100,100);
+        inGameMenuButton.setBackground(Color.WHITE);
+        inGameMenuButton.addActionListener(this);
+        this.add(inGameMenuButton);
+        gameMenu=new InGameMenu(this);
+        gameMenu.setVisible(false);
+        this.add(gameMenu);
         
         cue = new CueUI(tableUI);
         powerBar = new PowerBar(cue, this);
@@ -217,14 +230,43 @@ public class PoolPanel extends JPanel{
         repaint();
     }
 
+    public void enableInGameMenuButton(){
+        this.inGameMenuButton.setText("Pause");
+        this.inGameMenuButton.setEnabled(true);
+    }
+
     public void disableHitButton(){
         hitButton.setEnabled(false);
+    }
+
+    public void disablePowerBar(){
+        powerBar.setEnabled(false);
+    }
+
+    public void disableElevationBar(){
+        elevationBar.setEnabled(false);
+    }
+
+    public void disableHitPosition(){
+        hitPosition.setEnabled(false);
     }
 
     public void enableHitButton(){
         enableCue();
         hitButton.setEnabled(true);
         repaint();
+    }
+
+    public void enableHitPosition(){
+        hitPosition.setEnabled(true);
+    }
+
+    public void enablePowerBar(){
+        powerBar.setEnabled(true);
+    }
+
+    public void enableElevationBar(){
+        elevationBar.setEnabled(true);
     }
 
     public void ballInHand(){
@@ -247,5 +289,20 @@ public class PoolPanel extends JPanel{
         requestFocusInWindow(true);
         super.paint(g);
         cue.paintComponent(g);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==inGameMenuButton)
+        {
+            this.gameMenu.setVisible(true);
+            this.inGameMenuButton.setText("Paused");
+            this.inGameMenuButton.setEnabled(false);
+            disableCue();
+            disableHitButton();
+            disableElevationBar();
+            disableHitPosition();
+            disablePowerBar();
+        }
     }
 }

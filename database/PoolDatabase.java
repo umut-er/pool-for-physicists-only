@@ -117,8 +117,8 @@ public class PoolDatabase {
         FirebaseResponse response=firebase.get(username);
         if(!response.getRawBody().equals("null"))
         {
-            String backUpAnswer=getAccountBackUpAnswer(username);
-            if(backUpAnswer.equals(answer))
+            String backUpAnswer=getAccountBackUpAnswer(username).toLowerCase();
+            if(backUpAnswer.equals(answer.toLowerCase()))
             {
                 return true;
             }

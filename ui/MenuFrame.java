@@ -92,7 +92,7 @@ public class MenuFrame extends JFrame implements ActionListener{
         this.add(forgotButton);
 
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        this.setTitle("8-Ball Pool");
+        this.setTitle("Pool For Physicists Only");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.getContentPane().setBackground(Color.DARK_GRAY);

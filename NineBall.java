@@ -1,4 +1,5 @@
 
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.UnsupportedEncodingException;
@@ -7,6 +8,7 @@ import javax.swing.JFrame;
 
 import gameobjects.Ball;
 import net.thegreshams.firebase4j.error.FirebaseException;
+import net.thegreshams.firebase4j.error.JacksonUtilityException;
 import physics.event.BallBallCollisionEvent;
 import ui.MenuFrame;
 import ui.PoolPanel;
@@ -29,6 +31,10 @@ public class NineBall extends JFrame{
 
         //PoolPanel p = new PoolPanel("User1", "User2");
         //initializePoolFrame(p);
+    }
+
+    public MenuFrame getMenuFrame(){
+        return this.menuFrame;
     }
 
     public void initializePoolFrame(PoolPanel p){
@@ -57,7 +63,7 @@ public class NineBall extends JFrame{
         });
         add(gamePanel);
         setSize(PoolPanel.PANEL_WIDTH, PoolPanel.PANEL_HEIGHT);
-        setTitle("8-Ball Pool");
+        setTitle("Pool For Physicists Only");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
@@ -107,11 +113,7 @@ public class NineBall extends JFrame{
         turn = !turn;
     }
 
-    public void setMenuFrameInvisible(){
-        this.menuFrame.setVisible(false);
-    }
-
-    public static void main(String[] args) throws UnsupportedEncodingException, FirebaseException {
+    public static void main(String[] args) throws UnsupportedEncodingException, FirebaseException, JacksonUtilityException {
         new NineBall();
     }
 }

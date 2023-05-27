@@ -14,8 +14,8 @@ public class AccountUI extends JLabel{
     public static final int Y_COORDINATE=30;
     public static final int WIDTH=200;
     public static final int HEIGHT=50;
-    public static final int X_COORDINATE_1=265;
-    public static final int X_COORDINATE_2=485;
+    public static final int X_COORDINATE_1=365;
+    public static final int X_COORDINATE_2=585;
 
     public AccountUI(String username) throws UnsupportedEncodingException, FirebaseException{
         Font font=new Font("Dialog", Font.BOLD, 14);
@@ -31,25 +31,25 @@ public class AccountUI extends JLabel{
             this.changeAccountLabel(Color.BLUE, Color.WHITE);
         }
         else if(accountLevelUI<30 && accountLevelUI>=20){
-            this.changeAccountLabel(Color.YELLOW, Color.BLUE);
+            this.changeAccountLabel(Color.BLUE, Color.YELLOW);
         }
         else if(accountLevelUI<40 && accountLevelUI>=30){
             this.changeAccountLabel(Color.MAGENTA, Color.YELLOW);
         }
         else if(accountLevelUI<50 && accountLevelUI>=40){
-            this.changeAccountLabel(Color.ORANGE, Color.MAGENTA);
+            this.changeAccountLabel(Color.MAGENTA, Color.CYAN);
         }
         else if(accountLevelUI<60 && accountLevelUI>=50){
-            this.changeAccountLabel(Color.PINK, Color.ORANGE);
+            this.changeAccountLabel(Color.RED, Color.GREEN);
         }
         else if(accountLevelUI<70 && accountLevelUI>=60){
-            this.changeAccountLabel(Color.CYAN, Color.PINK);
+            this.changeAccountLabel(Color.RED, Color.CYAN);
         }
         else if(accountLevelUI<80 && accountLevelUI>=70){
             this.changeAccountLabel(Color.DARK_GRAY, Color.CYAN);
         }
         else if(accountLevelUI<90 && accountLevelUI>=80){
-            this.changeAccountLabel(Color.LIGHT_GRAY, Color.GREEN);
+            this.changeAccountLabel(Color.DARK_GRAY, Color.GREEN);
         }
         else if(accountLevelUI<100 && accountLevelUI>=90){
             this.changeAccountLabel(Color.RED, Color.BLACK);
