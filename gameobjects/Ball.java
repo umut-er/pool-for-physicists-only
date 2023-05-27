@@ -101,8 +101,6 @@ public class Ball {
         Ball oneBall = new Ball(1, TableUI.getTableWidthMeters() - 0.82, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
         Ball nineBall = new Ball(9, TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
 
-        // TODO: Correct order, implement shuffling.
-
         Ball[] ret = {cueBall, oneBall, ball2, ball3, nineBall, ball4, ball5, ball6, ball7, ball8};
         return new ArrayList<Ball>(Arrays.asList(ret));
     }

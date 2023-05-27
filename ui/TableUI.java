@@ -240,6 +240,12 @@ public class TableUI extends JPanel implements ActionListener{
             cueBallY = e.getY();
             repaint();
         }
+
+        @Override
+        public void mouseExited(MouseEvent evt){
+            cueBallDrag = false;
+            mainPanel.repaint();
+        }
     }
 
     @Override
