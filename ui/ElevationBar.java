@@ -12,7 +12,7 @@ public class ElevationBar extends JSlider{
     
     private static final double EYE_COEFFICIENT = 0.8; 
     private static final int MIN = 0;
-    private static final int MAX = 80;
+    private static final int MAX = 45;
     public static final int INITIAL_VALUE = 0;
     private static int angle = INITIAL_VALUE;
     private static double poolDiameter = Math.sqrt(Math.pow(PoolPanel.PANEL_HEIGHT, 2) + Math.pow(PoolPanel.PANEL_WIDTH, 2));
