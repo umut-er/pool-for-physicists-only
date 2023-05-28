@@ -50,6 +50,8 @@ public class ForgotPasswordFrame extends JFrame implements ActionListener, KeyLi
         this.passwordText=new JTextField();
         this.enter=new JButton("Enter");
         this.back=new JButton("Back");
+        this.enter.setOpaque(true);
+        this.back.setOpaque(true);
 
         this.backUpQuestion=new JLabel("Back-up Question");
         this.question=new JLabel();

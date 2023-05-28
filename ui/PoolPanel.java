@@ -3,6 +3,7 @@ package ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -323,6 +324,8 @@ public class PoolPanel extends JPanel implements ActionListener{
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D)g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setColor(Color.RED);
         if(turn)
             g2d.fillOval(AccountUI.X_COORDINATE_2 + AccountUI.WIDTH + 30, AccountUI.Y_COORDINATE + 15, 20, 20);

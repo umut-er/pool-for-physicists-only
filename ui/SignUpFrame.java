@@ -112,6 +112,9 @@ public class SignUpFrame extends JFrame implements ActionListener, KeyListener{
         this.signUp.setBackground(new Color(224, 224, 224));
         this.delete.setBackground(new Color(224, 224, 224));
         this.back.setBackground(new Color(224, 224, 224));
+        this.signUp.setOpaque(true);
+        this.delete.setOpaque(true);
+        this.back.setOpaque(true);
 
         this.usernameText.setBorder(border);
         this.passwordText.setBorder(border);

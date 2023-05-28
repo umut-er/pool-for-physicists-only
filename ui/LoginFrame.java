@@ -98,6 +98,8 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
         this.password1.setForeground(Color.WHITE);
         this.play.setBackground(new Color(224, 224, 224));
         this.back.setBackground(new Color(224, 224, 224));
+        this.play.setOpaque(true);
+        this.back.setOpaque(true);
         
         this.usernameText1.setBorder(border);
         this.usernameText2.setBorder(border);

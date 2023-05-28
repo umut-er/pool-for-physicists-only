@@ -42,11 +42,6 @@ public class TableUI extends JPanel implements ActionListener{
     private static final int TABLE_FRAME_X = 200;
     private static final int TABLE_FRAME_Y = 100;
 
-    // private static final int leftCushion = 38;
-    // private static final int rightCushion = 710;
-    // private static final int topCushion = 374;
-    // private static final int bottomCushion = 38;
-
     private boolean numbersOn = true;
     private int cueBallX;
     private int cueBallY;

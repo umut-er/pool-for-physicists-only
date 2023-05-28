@@ -85,6 +85,10 @@ public class MenuFrame extends JFrame implements ActionListener{
         this.signUpButton.setBackground(new Color(224, 224, 224));
         this.forgotButton.setBackground(new Color(224, 224, 224));
         this.exitButton.setBackground(new Color(224, 224, 224));
+        this.loginButton.setOpaque(true);
+        this.signUpButton.setOpaque(true);
+        this.forgotButton.setOpaque(true);
+        this.exitButton.setOpaque(true);
 
         this.add(loginButton);
         this.add(signUpButton);
