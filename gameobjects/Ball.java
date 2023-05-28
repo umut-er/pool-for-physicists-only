@@ -89,17 +89,20 @@ public class Ball {
         Integer[] nums = {2, 3, 4, 5, 6, 7, 8};
         Collections.shuffle(Arrays.asList(nums));
 
-        Ball ball2 = new Ball(nums[0], TableUI.getTableWidthMeters() - 0.8199 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball ball3 = new Ball(nums[1], TableUI.getTableWidthMeters() - 0.8199 + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball ball4 = new Ball(nums[2], TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball ball5 = new Ball(nums[3], TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball ball6 = new Ball(nums[4], TableUI.getTableWidthMeters() - 0.8179 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball ball7 = new Ball(nums[5], TableUI.getTableWidthMeters() - 0.8179 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
-        Ball ball8 = new Ball(nums[6], TableUI.getTableWidthMeters() - 0.8169 + 4 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
+        double randTerm = ((Math.random() * 5) + 1) / 1000.;
+        System.out.println(randTerm);
+
+        Ball ball2 = new Ball(nums[0], TableUI.getTableWidthMeters() - 0.82 + randTerm  + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball3 = new Ball(nums[1], TableUI.getTableWidthMeters() - 0.82 + randTerm + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball4 = new Ball(nums[2], TableUI.getTableWidthMeters() - 0.82 + randTerm * 2  + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball5 = new Ball(nums[3], TableUI.getTableWidthMeters() - 0.82 + randTerm * 2 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - 2 * Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball6 = new Ball(nums[4], TableUI.getTableWidthMeters() - 0.82 + randTerm * 3 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball7 = new Ball(nums[5], TableUI.getTableWidthMeters() - 0.82 + randTerm * 3 + 2 * Ball.RADIUS * Math.sqrt(3) + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
+        Ball ball8 = new Ball(nums[6], TableUI.getTableWidthMeters() - 0.82 + randTerm * 4 + 4 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
         
         Ball cueBall = new Ball(0, 0.9, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
         Ball oneBall = new Ball(1, TableUI.getTableWidthMeters() - 0.82, TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
-        Ball nineBall = new Ball(9, TableUI.getTableWidthMeters() - 0.8189 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
+        Ball nineBall = new Ball(9, TableUI.getTableWidthMeters() - 0.82 + randTerm * 2 + 2 * Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2, 0, 0, 0, 0, 0, 0, 0);
 
         Ball[] ret = {cueBall, oneBall, ball2, ball3, nineBall, ball4, ball5, ball6, ball7, ball8};
         return new ArrayList<Ball>(Arrays.asList(ret));
