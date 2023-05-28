@@ -42,7 +42,8 @@ public class MenuFrame extends JFrame implements ActionListener{
     public static final int BUTTON_X=500;
 
     public MenuFrame() throws FirebaseException{
-        this.database=new PoolDatabase();
+        if(database == null)
+            this.database=new PoolDatabase();
         Font font1=new Font("SerifSans", Font.BOLD, 30);
         Font font2=new Font("Dialog", Font.BOLD, 16);
         Border border1=BorderFactory.createLineBorder(Color.LIGHT_GRAY,5);

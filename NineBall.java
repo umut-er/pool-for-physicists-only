@@ -1,5 +1,3 @@
-
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.UnsupportedEncodingException;
@@ -24,13 +22,12 @@ public class NineBall extends JFrame{
         menuFrame.addPropertyChangeListener(new PropertyChangeListener(){
             public void propertyChange(PropertyChangeEvent evt){
                 if(evt.getPropertyName().equals("pool panel created")){
+                    if(gamePanel != null)
+                        remove(gamePanel);
                     initializePoolFrame((PoolPanel)evt.getNewValue());
                 }
             }
         });
-
-        //PoolPanel p = new PoolPanel("User1", "User2");
-        //initializePoolFrame(p);
     }
 
     public MenuFrame getMenuFrame(){
@@ -39,13 +36,24 @@ public class NineBall extends JFrame{
 
     public void initializePoolFrame(PoolPanel p){
         this.gamePanel = p;
+
+        gamePanel.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt){
+                if(evt.getPropertyName().equals("panel exited")){
+                    setVisible(false);
+                    menuFrame.setVisible(true);
+                }
+            }
+        });
+
         gamePanel.getTableUI().addPropertyChangeListener(new PropertyChangeListener(){
             @Override
             public void propertyChange(PropertyChangeEvent evt){
-                if(evt.getPropertyName() == "turn start"){
+                if(evt.getPropertyName().equals("turn start")){
                     currentLowestNumber = gamePanel.getTable().getLowestNumberOnTable();
                 }
-                if(evt.getPropertyName() == "turn over"){
+                else if(evt.getPropertyName().equals("turn over")){
                     boolean foulOccured = foulCheck();
                     if(foulOccured)
                         return;
@@ -55,7 +63,6 @@ public class NineBall extends JFrame{
                         gamePanel.enableHitButton();
                     }
                     else{
-                        // System.exit(0);
                         resetTable();
                     }
                 }

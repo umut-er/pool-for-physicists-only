@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.MouseInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -196,8 +197,12 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public void addListener(){
+        cueBallDrag = true;
         this.addMouseListener(bp);
         this.addMouseMotionListener(bp);
+        cueBallX = MouseInfo.getPointerInfo().getLocation().x;
+        cueBallY = MouseInfo.getPointerInfo().getLocation().y;
+        mainPanel.repaint();
     }
 
     public void ballInHand(double x, double y){
@@ -236,7 +241,6 @@ public class TableUI extends JPanel implements ActionListener{
 
         @Override
         public void mouseMoved(MouseEvent e){
-            cueBallDrag = true;
             cueBallX = e.getX();
             cueBallY = e.getY();
             repaint();
@@ -247,6 +251,12 @@ public class TableUI extends JPanel implements ActionListener{
             cueBallDrag = false;
             mainPanel.repaint();
         }
+
+        @Override
+        public void mouseEntered(MouseEvent evt){
+            cueBallDrag = true;
+            mainPanel.repaint();
+        }  
     }
 
     @Override

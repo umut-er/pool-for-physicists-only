@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -39,12 +37,10 @@ public class InGameMenu extends JPanel implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==exitButton)
-        {
-            //TODO Return to menu fix
+        if(e.getSource()==this.exitButton){
+            panel.firePropertyChange("panel exited", 0, 1);
         }
-        else
-        {
+        else{
             this.setVisible(false);
             this.panel.enableInGameMenuButton();
             this.panel.enableHitButton();

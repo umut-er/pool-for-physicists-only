@@ -31,8 +31,8 @@ public class PoolPanel extends JPanel implements ActionListener{
     private InGameMenu gameMenu;
     private AccountUI userAccount1;
     private AccountUI userAccount2;
-    private String username1;
-    private String username2;
+    // private String username1;
+    // private String username2;
 
     public static boolean cueIsFixed = false;
     public static final int PANEL_HEIGHT=700;
@@ -43,12 +43,13 @@ public class PoolPanel extends JPanel implements ActionListener{
     private MouseAdapter hitButtonListener;
     private MouseAdapter powerBarListener;
     private MouseAdapter elevationBarListener;
+    private MouseAdapter inGameMenuButtonListener;
     
     public PoolPanel(String username1, String username2) throws UnsupportedEncodingException, FirebaseException{
         if(!PoolDatabase.initialized())
             new PoolDatabase();
-        this.username1=username1;
-        this.username2=username2;
+        // this.username1=username1;
+        // this.username2=username2;
         setLayout(null);     
         setFocusable(true);
         
@@ -157,6 +158,16 @@ public class PoolPanel extends JPanel implements ActionListener{
             }
         };
 
+        inGameMenuButtonListener = new MouseAdapter() {
+            public void mouseMoved(MouseEvent e) {
+                if(!cueIsFixed){
+                    cue.setMouseX(e.getX() + 1000);
+                    cue.setMouseY(e.getY() + 250);
+                    repaint();
+                }        
+            }
+        };
+
         KeyListener frameKeyListener = new KeyListener(){
             @Override
             public void keyPressed(KeyEvent e) {
@@ -183,6 +194,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         hitPosition.addMouseMotionListener(hitPositionListener);
         powerBar.addMouseMotionListener(powerBarListener);
         elevationBar.addMouseMotionListener(elevationBarListener);
+        inGameMenuButton.addMouseMotionListener(inGameMenuButtonListener);
         addMouseMotionListener(frameListener);
 
         hitPosition.addMouseListener(new MouseAdapter() {
@@ -217,6 +229,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         hitButton.removeMouseMotionListener(hitButtonListener);
         powerBar.removeMouseMotionListener(powerBarListener);
         elevationBar.removeMouseMotionListener(elevationBarListener);
+        inGameMenuButton.removeMouseWheelListener(inGameMenuButtonListener);
         cue.setActive(false);
         repaint();
     }
@@ -230,6 +243,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         hitButton.addMouseMotionListener(hitButtonListener);
         powerBar.addMouseMotionListener(powerBarListener);
         elevationBar.addMouseMotionListener(elevationBarListener);
+        inGameMenuButton.addMouseMotionListener(inGameMenuButtonListener);
         enableInGameMenuButton();
         cue.setActive(true);
         repaint();
