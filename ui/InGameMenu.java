@@ -11,42 +11,42 @@ import javax.swing.JPanel;
 
 public class InGameMenu extends JPanel implements ActionListener{
     private JButton resumeButton;
-    private JButton exitButton;
+    private JButton backToMenuButton;
     private PoolPanel panel;
 
     public InGameMenu(PoolPanel panel){
         this.panel=panel;
         Font font=new Font("Dialog", Font.PLAIN, 16);
         this.resumeButton=new JButton("Resume");
-        this.exitButton=new JButton("Menu");
+        this.backToMenuButton=new JButton("Menu");
         this.setBounds(1000, 375, 100, 100);
         this.setVisible(false);
         this.setLayout(new GridLayout(2,1));
         this.add(resumeButton);
-        this.add(exitButton);
+        this.add(backToMenuButton);
         this.setBackground(Color.WHITE);
         this.resumeButton.setBackground(new Color(224, 224, 224));
-        this.exitButton.setBackground(new Color(224, 224, 224));
+        this.backToMenuButton.setBackground(new Color(224, 224, 224));
         this.resumeButton.setForeground(Color.BLACK);
-        this.exitButton.setForeground(Color.BLACK);
+        this.backToMenuButton.setForeground(Color.BLACK);
         this.resumeButton.addActionListener(this);
-        this.exitButton.addActionListener(this);
-        this.exitButton.setFont(font);
+        this.backToMenuButton.addActionListener(this);
+        this.backToMenuButton.setFont(font);
         this.resumeButton.setFont(font);
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==this.exitButton){
+        if(e.getSource()==this.backToMenuButton){
             panel.firePropertyChange("panel exited", 0, 1);
         }
         else{
             this.setVisible(false);
-            this.panel.enableInGameMenuButton();
-            this.panel.enableHitButton();
-            this.panel.enableElevationBar();
-            this.panel.enableHitPosition();
-            this.panel.enablePowerBar();
+            panel.enableInGameMenuButton();
+            panel.enableHitButton();
+            panel.enableElevationBar();
+            panel.enableHitPosition();
+            panel.enablePowerBar();
         }
     } 
 }
