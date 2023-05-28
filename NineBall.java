@@ -59,10 +59,12 @@ public class NineBall extends JFrame{
                         return;
                     boolean win = winCheck();
                     if(!win){
-                        switchTurns();
+                        if(!gamePanel.getTable().getBallPocketedThisTurn())
+                            switchTurns();
                         gamePanel.enableHitButton();
                     }
                     else{
+                        gamePanel.levelUp();
                         resetTable();
                     }
                 }
@@ -119,6 +121,7 @@ public class NineBall extends JFrame{
 
     public void switchTurns(){
         turn = !turn;
+        gamePanel.switchTurns();
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException, FirebaseException, JacksonUtilityException {

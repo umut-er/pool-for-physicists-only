@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.border.Border;
 import database.PoolDatabase;
 import net.thegreshams.firebase4j.error.FirebaseException;
+import net.thegreshams.firebase4j.error.JacksonUtilityException;
 
 public class AccountUI extends JLabel{
     private String accountNameUI;
@@ -67,6 +68,17 @@ public class AccountUI extends JLabel{
 
     public int getAccountLevel(){
         return this.accountLevelUI;
+    }
+
+    public void levelUpAccount(){
+        try {
+            PoolDatabase.levelUpAccount(accountNameUI);
+        } catch (UnsupportedEncodingException | FirebaseException | JacksonUtilityException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        accountLevelUI++;
+        setText(accountNameUI + "   Level: " + accountLevelUI);
     }
 
     private void changeAccountLabel(Color backgroundColor, Color foregroundColor)

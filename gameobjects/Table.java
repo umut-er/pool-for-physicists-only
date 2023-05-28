@@ -18,6 +18,7 @@ public class Table{
 
     private double timeThisTurn = 0;
     private BallBallCollisionEvent firstCollisionEvent;
+    private boolean ballPocketedThisTurn = false;
 
     private final double TABLE_LEFT = cushions[1].getStart().getAxis(0);
     private final double TABLE_RIGHT = cushions[10].getStart().getAxis(0);
@@ -30,6 +31,10 @@ public class Table{
 
     public ArrayList<Ball> getBallArray(){
         return this.ballArray;
+    }
+
+    public boolean getBallPocketedThisTurn(){
+        return ballPocketedThisTurn;
     }
 
     public void setBallArray(ArrayList<Ball> array){
@@ -53,6 +58,7 @@ public class Table{
     }
 
     public void resetTurn(){
+        ballPocketedThisTurn = false;
         firstCollisionEvent = null;
         timeThisTurn = 0;
     }
@@ -122,6 +128,7 @@ public class Table{
                 firstCollisionEvent = (BallBallCollisionEvent)currentEvent;
             }
             else if(currentEvent instanceof BallPocketCollisionEvent){
+                ballPocketedThisTurn = true;
                 BallPocketCollisionEvent convertedEvent = (BallPocketCollisionEvent)currentEvent;
                 int idx = convertedEvent.getIndex();
                 tableUI.getBallUIArray().remove(idx);

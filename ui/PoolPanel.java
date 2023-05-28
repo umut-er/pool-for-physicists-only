@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,8 +32,6 @@ public class PoolPanel extends JPanel implements ActionListener{
     private InGameMenu gameMenu;
     private AccountUI userAccount1;
     private AccountUI userAccount2;
-    // private String username1;
-    // private String username2;
 
     public static boolean cueIsFixed = false;
     public static final int PANEL_HEIGHT=700;
@@ -44,12 +43,12 @@ public class PoolPanel extends JPanel implements ActionListener{
     private MouseAdapter powerBarListener;
     private MouseAdapter elevationBarListener;
     private MouseAdapter inGameMenuButtonListener;
+
+    private boolean turn = false;
     
     public PoolPanel(String username1, String username2) throws UnsupportedEncodingException, FirebaseException{
         if(!PoolDatabase.initialized())
             new PoolDatabase();
-        // this.username1=username1;
-        // this.username2=username2;
         setLayout(null);     
         setFocusable(true);
         
@@ -215,12 +214,23 @@ public class PoolPanel extends JPanel implements ActionListener{
         this.setVisible(true);
     }
 
+    public void switchTurns(){
+        turn = !turn;
+    }
+
     public TableUI getTableUI(){
         return tableUI;
     }
 
     public boolean isResumed(){
         return this.inGameMenuButton.isEnabled();
+    }
+
+    public void levelUp(){
+        if(turn)
+            userAccount2.levelUpAccount();
+        else
+            userAccount1.levelUpAccount();
     }
 
     public void disableCue(){
@@ -311,6 +321,14 @@ public class PoolPanel extends JPanel implements ActionListener{
     public void paint(Graphics g){
         requestFocusInWindow(true);
         super.paint(g);
+
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setColor(Color.RED);
+        if(turn)
+            g2d.fillOval(AccountUI.X_COORDINATE_2 + AccountUI.WIDTH + 30, AccountUI.Y_COORDINATE + 15, 20, 20);
+        else
+            g2d.fillOval(AccountUI.X_COORDINATE_1 - 50, AccountUI.Y_COORDINATE + 15, 20, 20);
+
         cue.paintComponent(g);
     }
 
