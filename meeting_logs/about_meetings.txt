@@ -1,6 +1,6 @@
 This document is written by Umut Utku ERŞAHİNCE on 29 May 2023 Monday.
 
-The meeting logs and the dev-vids are titled in this format: day_month_year.txt
+The meeting logs and the dev-vids are titled in the following format: day_month_year.txt
 
 Our project team was not aware that we had to keep logs of our meetings until 14 May 2023 Sunday (this is the first record of this matter being discussed in our whatsapp group). As a result, only the 27 May log is a rigorous record of what has been discussed in our meetings. Other logs are reconstructed from our whatsapp group chat history, which, while being reliable when it comes to the dates and some of the content of the meetings, are incomplete records.
 
