@@ -1,0 +1,20 @@
+  7 May Sunday 2023 Project Meeting
+-------------------------------------
+-> Only the work division for the project going forward was on the agenda for this meeting.
+
+-> The work that is to be shared was the GUI elements that go into making a shot from the user interface. The game was functional from the terminal before this meeting (what this means is that while you could see the shot on the GUI, you couldn't give input from the GUI. Instead you needed to use the terminal). These GUI elements are:
+    1) Hit button
+    2) A component indicating the spin on the ball.
+    3) A power bar indicating how fast a shot is
+    4) An elevation bar indicating how elevated the cue is from the table.
+    5) A cue that can be controlled on the GUI.
+
+    In addition to this, we had a non-GUI related task that had to be done:
+    6) Using the input from these components, calculate the speed and the spin of the cue ball.
+
+    The work is divided in the following way:
+    1, 2, 3, 4 -> Eray İŞÇİ, Kemal Onur ÖZKAN
+    5 -> Yusuf AKSAKAL
+    6 -> Umut Utku ERŞAHİNCE
+
+    Note that Can KÜTÜKOĞLU is not included in this division. The team excluded him because he was preoccupied with getting the menu system and the database set up.

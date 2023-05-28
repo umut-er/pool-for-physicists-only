@@ -1,0 +1,5 @@
+  5 May Sunday 2023 Project Meeting
+-------------------------------------
+-> Only the work division for the project going forward was on the agenda for this meeting.
+
+-> The project already has somewhat of a physics backend at this point. Installing some GUI elements to see the project working visually was a requirement at this point. This task has been given to Eray İŞÇİ and Can KÜTÜKOĞLU. Umut Utku ERŞAHİNCE and Yusuf AKSAKAL has already been working on the physics backend. Kemal Onur ÖZKAN has been tasked with writing some tests for the project.

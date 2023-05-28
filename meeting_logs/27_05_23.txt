@@ -1,0 +1,31 @@
+  27 May Saturday 2023 Project Meeting
+----------------------------------------
+-> The meeting started with us making sure everyone has already read the final submissions that are due 3rd of June. We made sure everyone understood what they are.
+
+-> The state of the project was on the agenda for this meeting.
+
+-> The missing parts of the project have been identified. These are:
+	1) The inclusion of a pause / menu button in the game frame.
+	2) Foul and winner indicators in the game frame.
+	3) Readme.md for the github page
+	4) Turn indicator in the game frame.
+	5) Writing up the meeting details, i.e. the formation of these documents.
+	6) Bug fixes regarding helperLine
+	7) Balancing for the table, i.e. bigger middle pockets in the visual assets and in the backend.
+
+	Task distribution is done in the following way:
+	1 -> Can KÜTÜKOĞLU
+	2 -> Eray İŞÇİ, Kemal Onur ÖZKAN
+	3 -> Kemal Onur ÖZKAN
+	4, 5 -> Umut Utku ERŞAHİNCE
+	6, 7 -> Yusuf AKSAKAL
+
+-> The project team decided to finish these above-mentioned tasks in 3 days. That is 30th of May Tuesday at the latest, though ideally the project code will be finalized on Monday. The project team decided on no exact due date on the personal logs that are going to be on the github page, each person will do it in their own time and commit before the deadline on 3rd of June.
+
+-> The project team decided to get together to create a presentation and send the final for the detailed design document as soon as the project code is finalized.
+
+-> The things that will not be done are identified for the final detailed design report and in-person presentation. These are:
+	1) Local multiplayer
+	2) Multiple game modes
+	3) Leaderboard
+	4) Spinning ball visuals in the GUI

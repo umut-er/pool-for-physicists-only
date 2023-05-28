@@ -1,0 +1,5 @@
+  25 February Saturday 2023 Project Meeting
+---------------------------------------------
+-> Only the work division for the project going forward was on the agenda for this meeting.
+
+->The initial task distribution, which was already talked about to some extent in the Whatsapp project group has been finalized in this meeting. Umut Utku ERŞAHİNCE and Yusuf AKSAKAL were tasked with writing the math interface (Vectors, matrices and some wrappers for game objects) for the physics interface.

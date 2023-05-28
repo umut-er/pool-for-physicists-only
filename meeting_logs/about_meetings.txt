@@ -1,0 +1,9 @@
+This document is written by Umut Utku ERŞAHİNCE on 29 May 2023 Monday.
+
+The meeting logs and the dev-vids are titled in this format: day_month_year.txt
+
+Our project team was not aware that we had to keep logs of our meetings until 14 May 2023 Sunday (this is the first record of this matter being discussed in our whatsapp group). As a result, only the 27 May log is a rigorous record of what has been discussed in our meetings. Other logs are reconstructed from our whatsapp group chat history, which, while being reliable when it comes to the dates and some of the content of the meetings, are incomplete records.
+
+This is important because, as you might notice, these logs do not reflect everything that has been done (not even close!) by the members for our project. There are several reasons for that. One is that these records are incomplete, as was discussed before in this document. Another reason is that most of the discussing is done on whatsapp, where we can have messages that we can see and refer to at will. For the complete logs, you need to see the commit history of our project.
+
+For this reason, the inclusion of the dev-vids was deemed appropriate by our project team. These videos were screen recorded by Umut Utku ERŞAHİNCE, and they show which stages this project has been through. These videos will hopefully give some context to the meeting logs. You can find these at the sub-folder, dev-vids, in a .zip file with the same name.
