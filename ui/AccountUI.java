@@ -25,41 +25,35 @@ public class AccountUI extends JLabel{
         this.setText(accountNameUI+"   Level: "+accountLevelUI);
         this.setOpaque(true);
         this.setFont(font);
-        if(accountLevelUI<10){
+        setAccountLabels();
+        this.setVerticalAlignment(JLabel.CENTER);
+        this.setHorizontalAlignment(JLabel.CENTER);
+    }
+
+    public void setAccountLabels(){
+        if(accountLevelUI<10)
             this.changeAccountLabel(Color.WHITE, Color.BLACK);
-        }
-        else if(accountLevelUI<20 && accountLevelUI>=10){
+        else if(accountLevelUI<20 && accountLevelUI>=10)
             this.changeAccountLabel(Color.BLUE, Color.WHITE);
-        }
-        else if(accountLevelUI<30 && accountLevelUI>=20){
+        else if(accountLevelUI<30 && accountLevelUI>=20)
             this.changeAccountLabel(Color.BLUE, Color.YELLOW);
-        }
-        else if(accountLevelUI<40 && accountLevelUI>=30){
+        else if(accountLevelUI<40 && accountLevelUI>=30)
             this.changeAccountLabel(Color.MAGENTA, Color.YELLOW);
-        }
-        else if(accountLevelUI<50 && accountLevelUI>=40){
+        else if(accountLevelUI<50 && accountLevelUI>=40)
             this.changeAccountLabel(Color.MAGENTA, Color.CYAN);
-        }
         else if(accountLevelUI<60 && accountLevelUI>=50){
             this.changeAccountLabel(Color.RED, Color.GREEN);
         }
-        else if(accountLevelUI<70 && accountLevelUI>=60){
+        else if(accountLevelUI<70 && accountLevelUI>=60)
             this.changeAccountLabel(Color.RED, Color.CYAN);
-        }
-        else if(accountLevelUI<80 && accountLevelUI>=70){
+        else if(accountLevelUI<80 && accountLevelUI>=70)
             this.changeAccountLabel(Color.DARK_GRAY, Color.CYAN);
-        }
-        else if(accountLevelUI<90 && accountLevelUI>=80){
+        else if(accountLevelUI<90 && accountLevelUI>=80)
             this.changeAccountLabel(Color.DARK_GRAY, Color.GREEN);
-        }
-        else if(accountLevelUI<100 && accountLevelUI>=90){
+        else if(accountLevelUI<100 && accountLevelUI>=90)
             this.changeAccountLabel(Color.RED, Color.BLACK);
-        }
-        else{
+        else
             this.changeAccountLabel(Color.BLACK, Color.RED);
-        }
-        this.setVerticalAlignment(JLabel.CENTER);
-        this.setHorizontalAlignment(JLabel.CENTER);
     }
 
     public String getAccountName(){
@@ -77,7 +71,8 @@ public class AccountUI extends JLabel{
             e.printStackTrace();
             System.exit(1);
         }
-        accountLevelUI++;
+        accountLevelUI = PoolDatabase.getAccountLevel(accountNameUI);
+        setAccountLabels();
         setText(accountNameUI + "   Level: " + accountLevelUI);
     }
 

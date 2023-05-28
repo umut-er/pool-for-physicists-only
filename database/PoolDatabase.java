@@ -67,8 +67,14 @@ public class PoolDatabase {
         return "";
     }
 
-    public static int getAccountLevel(String username) throws UnsupportedEncodingException, FirebaseException{
-        FirebaseResponse response=firebase.get(username);
+    public static int getAccountLevel(String username){
+        FirebaseResponse response = null;;
+        try {
+            response = firebase.get(username);
+        } catch (UnsupportedEncodingException | FirebaseException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
         if(!response.getRawBody().equals("null"))
         {
             JSONObject object = new JSONObject(response.getRawBody());
