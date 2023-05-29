@@ -90,7 +90,6 @@ public class Ball {
         Collections.shuffle(Arrays.asList(nums));
 
         double randTerm = ((Math.random() * 5) + 1) / 1000.;
-        System.out.println(randTerm);
 
         Ball ball2 = new Ball(nums[0], TableUI.getTableWidthMeters() - 0.82 + randTerm  + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 + Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
         Ball ball3 = new Ball(nums[1], TableUI.getTableWidthMeters() - 0.82 + randTerm + Ball.RADIUS * Math.sqrt(3), TableUI.getTableHeightMeters() / 2 - Ball.RADIUS, 0, 0, 0, 0, 0, 0, 0);
