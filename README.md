@@ -9,7 +9,7 @@ The game follows the standard 9 ball pool rules. You can create and delete accou
 Your account's level increases as you win more games. Players' turns are marked by a red dot next to their names.
 There are a few components in the game which can be used to alter your shot.
 ### Sign Up/Login
-When you first enter the game, you are greeted with a menu in which you have the option to login, sign-up, delete your account or change your password.
+When you first enter the game, you are greeted with a menu in which you have the option to login, sign-up, delete your account or change your password.<br/>
 <img width="889" alt="MainMenu" src="https://github.com/umut-er/pool-for-physicists-only/assets/114430156/79a7b10e-ad6f-40de-9911-c6136c1bf6a9">
 
 #### Signing Up/Deleting Account
@@ -28,7 +28,7 @@ Once you have an account, you can enter into the game from the login screen and 
 There are various components in the game you can use to create your shot.
 
 #### Cue Stick
-You can change the position you of the cue stick by moving your mouse controller. Once you've picked a position, you can stop cue stick's movement with the 'w' key or restart it with the 's' key.
+You can change the position you of the cue stick by moving your mouse controller.<br/> Once you've picked a position, you can stop cue stick's movement with the 'w' key or restart it with the 's' key.
 ![CueStick](https://github.com/umut-er/pool-for-physicists-only/assets/114430156/3af1c7ec-6c14-4c73-9f4a-11247bbae6d0)
 
 #### Power Bar
@@ -37,11 +37,11 @@ You can change your shot's power through the power bar which effects your cue ba
 
 
 #### Ball Position
-You can choose which part of the part you want to hit through the cue ball image component. The part that you choose gets marked by a red square and it results in different types of spin.
+You can choose which part of the part you want to hit through the cue ball image component.<br/> The part that you choose gets marked by a red square and it results in different types of spin.
 ![BallPosition](https://github.com/umut-er/pool-for-physicists-only/assets/114430156/4d840ceb-5d15-4895-a2c1-ab1b5d42d901)
 
 #### Elevation Bar
-The degree at which you hit the cue ball can be changed between 0 and 45 degrees through the elevation bar. Different angles can create different types of spins on the cue ball.
+The degree at which you hit the cue ball can be changed between 0 and 45 degrees through the elevation bar.<br/> Different angles can create different types of spins on the cue ball.
 ![ElevationBar](https://github.com/umut-er/pool-for-physicists-only/assets/114430156/5e35127b-8e76-4ccc-811e-83005451302f)
 
 #### Hit Button
