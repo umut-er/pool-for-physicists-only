@@ -31,7 +31,7 @@ public class Pocket {
     public static Pocket[] getStandardPocketArray(){
         Pocket[] pockets = new Pocket[6];
         double[] xs = {24, 24, 374, 724, 724, 374};
-        double[] ys = {24, 388, 389, 388, 24, 23};
+        double[] ys = {24, 388, 388, 388, 24, 24};
         double[] rs = {20, 20, 15, 20, 20, 15};
 
         for(int i = 0; i < 6; i++){

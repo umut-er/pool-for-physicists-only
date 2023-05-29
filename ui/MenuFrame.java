@@ -18,6 +18,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.RenderingHints;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -118,6 +119,8 @@ public class MenuFrame extends JFrame implements ActionListener{
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D graphics=(Graphics2D)g;
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics.drawImage(this.image1, 150, 300, 200, 200, null);
         graphics.drawImage(this.image2, 850, 250, 250, 250, null);
     }
