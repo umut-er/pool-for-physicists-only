@@ -15,8 +15,8 @@ public class AccountUI extends JLabel{
     public static final int Y_COORDINATE=30;
     public static final int WIDTH=200;
     public static final int HEIGHT=50;
-    public static final int X_COORDINATE_1=365;
-    public static final int X_COORDINATE_2=585;
+    public static final int X_COORDINATE_1=315; // 365
+    public static final int X_COORDINATE_2=635; // 585
 
     public AccountUI(String username) throws UnsupportedEncodingException, FirebaseException{
         Font font=new Font("Dialog", Font.BOLD, 14);

@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -33,6 +34,10 @@ public class PoolPanel extends JPanel implements ActionListener{
     private InGameMenu gameMenu;
     private AccountUI userAccount1;
     private AccountUI userAccount2;
+    private JLabel scoreLabel1;
+    private JLabel scoreLabel2;
+    private int score1 = 0;
+    private int score2 = 0;
 
     public static boolean cueIsFixed = false;
     public static final int PANEL_HEIGHT=700;
@@ -106,6 +111,17 @@ public class PoolPanel extends JPanel implements ActionListener{
         hitButton = new HitButton(tableUI, hitPosition, elevationBar, cue, powerBar, this);
         hitButton.setBounds(300,550,100,100);
         this.add(hitButton);
+
+        scoreLabel1 = new JLabel(String.valueOf(score1));
+        scoreLabel1.setForeground(Color.CYAN);
+        scoreLabel1.setFont(new Font("Dialog", Font.BOLD, 25));
+        scoreLabel1.setBounds(AccountUI.X_COORDINATE_1 + AccountUI.WIDTH + 20, AccountUI.Y_COORDINATE + 5, 40, 40);
+        scoreLabel2 = new JLabel(String.valueOf(score2));
+        scoreLabel2.setForeground(Color.CYAN);
+        scoreLabel2.setFont(new Font("Dialog", Font.BOLD, 25));
+        scoreLabel2.setBounds(AccountUI.X_COORDINATE_2 + AccountUI.WIDTH + 20, AccountUI.Y_COORDINATE + 5, 40, 40);
+        this.add(scoreLabel1);
+        this.add(scoreLabel2);
         
         // This idea is courtesy of ChatGPT.
         frameListener = new MouseAdapter() {
@@ -227,11 +243,17 @@ public class PoolPanel extends JPanel implements ActionListener{
         return this.inGameMenuButton.isEnabled();
     }
 
-    public void levelUp(){
-        if(turn)
+    public void awardWin(){
+        if(turn){
             userAccount2.levelUpAccount();
-        else
+            score2++;
+            scoreLabel2.setText(String.valueOf(score2));
+        }
+        else{
             userAccount1.levelUpAccount();
+            score1++;
+            scoreLabel1.setText(String.valueOf(score1));
+        }
     }
 
     public void disableCue(){
@@ -328,7 +350,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setColor(Color.RED);
         if(turn)
-            g2d.fillOval(AccountUI.X_COORDINATE_2 + AccountUI.WIDTH + 30, AccountUI.Y_COORDINATE + 15, 20, 20);
+            g2d.fillOval(AccountUI.X_COORDINATE_2 - 50, AccountUI.Y_COORDINATE + 15, 20, 20);
         else
             g2d.fillOval(AccountUI.X_COORDINATE_1 - 50, AccountUI.Y_COORDINATE + 15, 20, 20);
 

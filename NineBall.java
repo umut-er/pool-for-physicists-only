@@ -64,7 +64,7 @@ public class NineBall extends JFrame{
                         gamePanel.enableHitButton();
                     }
                     else{
-                        gamePanel.levelUp();
+                        gamePanel.awardWin();
                         resetTable();
                     }
                 }
