@@ -37,7 +37,7 @@ You can change your shot's power through the power bar which effects your cue ba
 
 
 #### Ball Position
-You can choose which part of the part you want to hit through the cue ball image component.<br/> The part that you choose gets marked by a red square and it results in different types of spin.
+You can choose which part of the ball you want to hit through the cue ball image component.<br/> The part that you choose gets marked by a red square and it results in different types of spin.
 ![BallPosition](https://github.com/umut-er/pool-for-physicists-only/assets/114430156/4d840ceb-5d15-4895-a2c1-ab1b5d42d901)
 
 #### Elevation Bar
