@@ -11,7 +11,7 @@ public class ElevationBar extends JSlider{
     PoolPanel pool;
     CueUI cue;
     
-    private static final double EYE_COEFFICIENT = 0.8; 
+    private static final double EYE_COEFFICIENT = 0.7; 
     private static final int MIN = 0;
     private static final int MAX = 45;
     public static final int INITIAL_VALUE = 0;
