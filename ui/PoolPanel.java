@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -41,7 +42,6 @@ public class PoolPanel extends JPanel implements ActionListener{
     private JLabel scoreLabel2;
     private int score1 = 0;
     private int score2 = 0;
-    
 
     public static boolean cueIsFixed = false;
     public static final int PANEL_HEIGHT=700;
@@ -123,6 +123,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         notifications.setForeground(Color.RED);
         notifications.setFont(new Font("Dialog", Font.BOLD, 14));
         notifications.setHorizontalAlignment(JTextField.CENTER);
+        notifications.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
         this.add(notifications);
 
         scoreLabel1 = new JLabel(String.valueOf(score1));
