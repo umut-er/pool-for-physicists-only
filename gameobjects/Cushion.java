@@ -42,10 +42,10 @@ public class Cushion{
 
     public static Cushion[] getStandardCushionArray(){
         Cushion[] cushions = new Cushion[18];
-        double[] numbers1 = {24.,38.,38.,44.,58.,354.,389.,394.,690.,724.,710.,710.,704.,690.,394.,359.,354.,58.};
-        double[] numbers2 = {44.,58.,354.,388.,374.,374.,388.,374.,374.,368.,354.,58.,24.,38.,38.,24.,38.,38.};
-        double[] numbers3 = {38.,38.,24.,58.,354.,359.,394.,690.,704.,710.,710.,724.,690.,394.,389.,354.,58.,44.};
-        double[] numbers4 = {58.,354.,368.,374.,374.,388.,374.,374.,388.,354.,58.,44.,38.,38.,24.,38.,38.,24.};
+        double[] numbers1 = {24.,38.,38.,46.,60.,354.,389.,394.,688.,724.,710.,710.,702.,688.,394.,359.,354.,60.};
+        double[] numbers2 = {46.,60.,352.,388.,374.,374.,388.,374.,374.,366.,352.,60.,24.,38.,38.,24.,38.,38.};
+        double[] numbers3 = {38.,38.,24.,60.,354.,359.,394.,688.,702.,710.,710.,724.,688.,394.,389.,354.,60.,46.};
+        double[] numbers4 = {60.,352.,366.,374.,374.,388.,374.,374.,388.,352.,60.,46.,38.,38.,24.,38.,38.,24.};
 
         for(int i = 0; i < cushions.length; i++){
             cushions[i] = new Cushion(numbers1[i]/TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(),numbers2[i]/TableUI.getTableHeightPixels() * TableUI.getTableHeightMeters(),0,

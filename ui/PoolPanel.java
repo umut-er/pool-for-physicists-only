@@ -63,7 +63,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         for(Ball ball : ballArray)
             ballUIs.add(new BallUI(ball));
         Table table = new Table(ballArray);
-        this.tableUI = new TableUI("table1.png", table, ballUIs, this);
+        this.tableUI = new TableUI("table6.png", table, ballUIs, this);
         tableUI.setBounds(tableUI.getTableFrameX(), tableUI.getTableFrameY(), TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
 
