@@ -291,8 +291,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         }
         else{
             notifications.setText(userAccount1.getAccountName() + " wins!!");
-        }
-        notifications.setForeground(Color.RED);   
+        }   
     }
 
     public void disableCue(){
@@ -367,6 +366,7 @@ public class PoolPanel extends JPanel implements ActionListener{
     }
 
     public void ballInHand(){
+        notifications.setForeground(Color.RED);
         tableUI.addListener();
         notifications.setText("FOUL!");
     }
