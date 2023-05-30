@@ -285,12 +285,14 @@ public class PoolPanel extends JPanel implements ActionListener{
 
     public void setWinnerString()
     {
+        notifications.setForeground(Color.GREEN);
         if(turn){
             notifications.setText(userAccount2.getAccountName() + " wins!!");
         }
         else{
             notifications.setText(userAccount1.getAccountName() + " wins!!");
-        }   
+        }
+        notifications.setForeground(Color.RED);   
     }
 
     public void disableCue(){
