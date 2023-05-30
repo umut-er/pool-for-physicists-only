@@ -53,6 +53,7 @@ public class PoolPanel extends JPanel implements ActionListener{
     private MouseAdapter powerBarListener;
     private MouseAdapter elevationBarListener;
     private MouseAdapter inGameMenuButtonListener;
+    private MouseAdapter notificationsListener;
 
     private boolean turn = false;
     
@@ -198,6 +199,16 @@ public class PoolPanel extends JPanel implements ActionListener{
             }
         };
 
+        notificationsListener = new MouseAdapter() {
+            public void mouseMoved(MouseEvent e) {
+                if(!cueIsFixed){
+                    cue.setMouseX(e.getX() + 975);
+                    cue.setMouseY(e.getY() + 100);
+                    repaint();
+                }        
+            }
+        };
+
         KeyListener frameKeyListener = new KeyListener(){
             @Override
             public void keyPressed(KeyEvent e) {
@@ -225,6 +236,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         powerBar.addMouseMotionListener(powerBarListener);
         elevationBar.addMouseMotionListener(elevationBarListener);
         inGameMenuButton.addMouseMotionListener(inGameMenuButtonListener);
+        notifications.addMouseMotionListener(notificationsListener);
         addMouseMotionListener(frameListener);
 
         hitPosition.addMouseListener(new MouseAdapter() {
@@ -287,7 +299,8 @@ public class PoolPanel extends JPanel implements ActionListener{
         hitButton.removeMouseMotionListener(hitButtonListener);
         powerBar.removeMouseMotionListener(powerBarListener);
         elevationBar.removeMouseMotionListener(elevationBarListener);
-        inGameMenuButton.removeMouseWheelListener(inGameMenuButtonListener);
+        inGameMenuButton.removeMouseMotionListener(inGameMenuButtonListener);
+        notifications.removeMouseMotionListener(notificationsListener);
         cue.setActive(false);
         repaint();
     }
@@ -302,6 +315,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         powerBar.addMouseMotionListener(powerBarListener);
         elevationBar.addMouseMotionListener(elevationBarListener);
         inGameMenuButton.addMouseMotionListener(inGameMenuButtonListener);
+        notifications.addMouseMotionListener(notificationsListener);
         enableInGameMenuButton();
         cue.setActive(true);
         repaint();
