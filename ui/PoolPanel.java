@@ -17,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import database.PoolDatabase;
 import gameobjects.Ball;
@@ -31,6 +32,8 @@ public class PoolPanel extends JPanel implements ActionListener{
     private ElevationBar elevationBar;
     private HitButton hitButton;
     private JButton inGameMenuButton;
+    private JTextField notifications;
+    
     private InGameMenu gameMenu;
     private AccountUI userAccount1;
     private AccountUI userAccount2;
@@ -38,6 +41,7 @@ public class PoolPanel extends JPanel implements ActionListener{
     private JLabel scoreLabel2;
     private int score1 = 0;
     private int score2 = 0;
+    
 
     public static boolean cueIsFixed = false;
     public static final int PANEL_HEIGHT=700;
@@ -111,6 +115,15 @@ public class PoolPanel extends JPanel implements ActionListener{
         hitButton = new HitButton(tableUI, hitPosition, elevationBar, cue, powerBar, this);
         hitButton.setBounds(300,550,100,100);
         this.add(hitButton);
+
+        // textarea for notificiations is implemented here
+        notifications = new JTextField();
+        notifications.setBounds(975, 100,150, 50);
+        notifications.setBackground(Color.BLACK);
+        notifications.setForeground(Color.RED);
+        notifications.setFont(new Font("Dialog", Font.BOLD, 14));
+        notifications.setHorizontalAlignment(JTextField.CENTER);
+        this.add(notifications);
 
         scoreLabel1 = new JLabel(String.valueOf(score1));
         scoreLabel1.setForeground(Color.CYAN);
@@ -244,6 +257,7 @@ public class PoolPanel extends JPanel implements ActionListener{
     }
 
     public void awardWin(){
+        setWinnerString();
         if(turn){
             userAccount2.levelUpAccount();
             score2++;
@@ -254,6 +268,16 @@ public class PoolPanel extends JPanel implements ActionListener{
             score1++;
             scoreLabel1.setText(String.valueOf(score1));
         }
+    }
+
+    public void setWinnerString()
+    {
+        if(turn){
+            notifications.setText(userAccount2.getAccountName() + " wins!!");
+        }
+        else{
+            notifications.setText(userAccount1.getAccountName() + " wins!!");
+        }   
     }
 
     public void disableCue(){
@@ -327,6 +351,7 @@ public class PoolPanel extends JPanel implements ActionListener{
 
     public void ballInHand(){
         tableUI.addListener();
+        notifications.setText("FOUL!");
     }
 
     public void placeNineBall(){
@@ -339,6 +364,11 @@ public class PoolPanel extends JPanel implements ActionListener{
 
     public Table getTable(){
         return tableUI.getTable();
+    }
+
+    public JTextField getNotif()
+    {
+        return this.notifications;
     }
 
     public void paint(Graphics g){

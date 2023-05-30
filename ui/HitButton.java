@@ -66,5 +66,6 @@ public class HitButton extends JButton implements ActionListener{
         hitPositionElement.setValueOfX(50);
         hitPositionElement.setValueOfY(50);
         table.hitBall(powerValue, directionAngle, elevationAngle, xPosition, yPosition);
+        pool.getNotif().setText("");
     }
 }

@@ -21,7 +21,6 @@ import javax.swing.Timer;
 
 import gameobjects.Ball;
 import gameobjects.Cushion;
-import gameobjects.Pocket;
 import gameobjects.Table;
 import physics.Physics;
 
@@ -219,6 +218,7 @@ public class TableUI extends JPanel implements ActionListener{
             this.removeMouseMotionListener(bp);
             this.removeMouseListener(bp);
             mainPanel.enableHitButton();
+            mainPanel.getNotif().setText("");
             mainPanel.repaint();
         }
     }
@@ -235,6 +235,11 @@ public class TableUI extends JPanel implements ActionListener{
         BallUI nineBallUI = new BallUI(nineBall);
         table.getBallArray().add(nineBall);
         ballUIs.add(nineBallUI);
+    }
+
+    public boolean getCueBallDrag()
+    {
+        return this.cueBallDrag;
     }
 
     class BallPlacement extends MouseAdapter{       
