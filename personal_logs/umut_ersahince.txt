@@ -1,0 +1,10 @@
+25 February 2023 - 16 March 2023
+Planning and coding math and physics interfaces, as well as model classes for the game objects.
+
+16 March 2023 - 25 April 2023
+Work continued on the physics interface of the project, the development can be seen from the dev-logs in the meetings folder. Advice given for the user interface design. General improvements for the project. Many, many, many bug fixes during these weeks.
+
+25 April 2023 - 1 June 2023
+Physics interface finalized with cue stick interactions being the last element. Moved on to refining the user interface. Many bug fixes and improvements to the project in all sorts of stuff. During the last week of this time, the software was finished with the implementation of the game rules and the score system done mostly by me.
+
+I also oversaw the general development of the project during the development process.

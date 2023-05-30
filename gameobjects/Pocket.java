@@ -32,7 +32,7 @@ public class Pocket {
         Pocket[] pockets = new Pocket[6];
         double[] xs = {24, 24, 374, 724, 724, 374};
         double[] ys = {24, 386, 386, 386, 24, 24};
-        double[] rs = {20, 20, 15, 20, 20, 15};
+        double[] rs = {22, 22, 15, 22, 22, 15};
 
         for(int i = 0; i < 6; i++){
             pockets[i] = new Pocket(new Vector3(xs[i] / TableUI.getTableWidthPixels() * TableUI.getTableWidthMeters(), 
