@@ -1,0 +1,60 @@
+20 February 2023 - 26 February 2023 
+*Joined the group. 
+*Meet the group members. 
+*Learn the details of the project from the group members. 
+ 
+27 February 2023 - 5 March 2023 
+*Researching about user interface libraries and classes.
+ 
+6 March 2023 - 12 March 2023 
+*Creating a temporary user interface panel for simulating and testing simple shots
+ 
+13 March - 19 March 2023 
+*Further research about user interface classes (java.swing, java.awt)
+ 
+20 March 2023 - 26 March 2023 
+*Creating a permanent frame and panel for our project.,
+*Adding GUI components and contructing fundamental classes like Ball, Table etc. 
+ 
+27 March 2023 - 2 April 2023 
+*User interface design is changed permanently.
+*New fundamental classes are construsted according to MVC pattern.
+ 
+3 April 2023 - 9 April 2023
+*Creating game design and researched GUI with group members.
+ 
+10 April 2023 - 16 April 2023 (Midterm exam week) 
+*Continue learning GUI and Firebase. 
+ 
+17 April 2023 - 23 April 2023 
+*Meet with the group members and discuss the progress of the project. 
+*Event class is created with its subclasses.
+ 
+24 April 2023 - 30 April 2023 
+*Discussed and prepared a presentation about UI frames (sign-up, login, forgot password etc.)
+
+1 May 2023 - 7 May 2023 
+*Table png images are added to the project.
+ 
+8 May 2023 - 14 May 2023 
+*Different database libraries are researched.
+*Json and Firebase4j libraries are imported.
+*A database for our project is initiated.
+*PoolDatabase class is constructed and developed.
+*Two accounts were created to test the database methods.
+*Account labels are added to UI.
+*UI frames are created and developed (Sign-up frame, Login frame, Menu frame).
+ 
+15 May 2023 - 21 May 2023  
+*PoolDatabase is developed further. 
+ 
+22 May 2023 - 28 May 2023 
+*Forgot password frame is created and developed.
+*New functions are added to sign-up and login frames.
+*UI is developed further.
+ 
+29 May 2023 - 4 June 2023 
+*Implemented a better looking UI approach (Changing colors, borders etc.).
+*Added Menu images to the menu frame.
+*Created in-game menu to the game with pausing, resuming and exiting options.
+*Write the personal log. 
