@@ -1,0 +1,86 @@
+20 February 2023 - 26 February 2023
+*Join the group.
+*Meet the group members.
+*Learn the details of the project from the group members.
+
+27 February 2023 - 5 March 2023
+*Read about the physics and mathematics that will be used in the project.
+
+6 March 2023 - 12 March 2023
+*Make the transition from 2d arrays to 1d arrays in Matrix class.
+*Make some corrections in Matrix class about matrix multiplication.
+
+13 March - 19 March 2023
+*Create Google slides in my drive and invite the group members to work on the requirements project.
+*Find appropriate viusal components for the silde.
+*Create Google documents in my drive and invite the group members to work on the requirements report.
+*Fix the format of the report.
+
+20 March 2023 - 26 March 2023
+*Work on the Matrix class.
+*Read about the project's physics requirements.
+
+27 March 2023 - 2 April 2023
+*Further improve the Matrix class.
+
+3 April 2023 - 9 April 2023
+*Learn GUI libraries in java.
+
+10 April 2023 - 16 April 2023 (Midterm exam week)
+*Continue learning GUI.
+
+17 April 2023 - 23 April 2023
+*Meet with the group members and discuss the progress of the project.
+
+24 April 2023 - 30 April 2023
+*Create a drawIo page and share it with other group members to darw UI elements together.
+*Draw the main menu, login page, sign up page and game screen.
+*Draw the first version of the table that looks realistic and other game screen objects (cue, balls, level bars etc.).
+*Create a Google slide in my drive and invite the group members to work on the UI presentation.
+*Write the game screen elements in the presentation.
+*Present the UI slide to the other groups.
+*Create a Google document in my drive and invite the group members to work on the UI report_v1.
+*Draw the page diagram .
+
+1 May 2023 - 7 May 2023
+*Draw new tables to increase diversity.
+*Note the pixel coordinates of the cushions to redraw them in java for a better looking table and to implement the ball-cushion event.
+*Note the pixel coordinates and radius of the pockets to implement the ball-pocket event.
+*Meet with the group members to talk about the UI elements of the project.
+*Take CueUI class and realted elements as the next responsibility to work on.
+
+8 May 2023 - 14 May 2023
+*Work on the geometry for CueUI class.
+
+15 May 2023 - 21 May 2023 
+*Commit CueUI class. 
+*current CueUI class: 
+1. Draws the cue around the cue ball with a fixed shot distance. 
+2. Direction of the cue changes via the movement of the mouse.
+*Create a Google document in my drive and invite the group members to work on the detailed design report_v1.   
+*Draw the UML diagram of vectormath file which includes Matrix and Vector3 classes.
+
+22 May 2023 - 28 May 2023
+*Improve CueUI class and realated classes for a better cue animation
+*New features related to cue animation:
+1. Shot distance changes according to the value read from the power bar.
+2. Up key: fixes the cue, Down key: releases the cue. 
+3. Perspective drawing of the cue according to the value read from the elevation bar. 
+4. Shot anmiation starts after clicking the hit button.
+*Add new tables to increase the diversity.
+*Disable alt key to prevent key listiner problems.
+*Solve shot distance problem.
+*İmplement helperLine and remove suggested shot.
+*Solve a small problem about helperLine.
+*Meet with other group members to discuss final retouches.
+
+29 May 2023 - 4 June 2023
+*İmprove pocket sizes and pocket placements.
+*Redesign the tables wit the new pocket sizes and placements.
+*Fix helperLine bugs.
+*Change eyeConstant for a better perspective drawing.
+*Check ReadMe.
+*Write the personal log.
+
+
+
