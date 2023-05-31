@@ -1,0 +1,18 @@
+20 February 2023 – 19 March 2023
+* I Joined the group.
+* I meet the group members.
+* Worked on understanding the physics part of project.
+* Helped write the requirements report.
+
+20 March 2023 - 30 April 2023
+* Make research about GUI in Java
+* Make research about testing in Java.
+* Have meetings with group members about the project.
+
+
+30 April – 4 June
+* Create tests for PolynomialSolver class.
+* Helped create the UI components in the game such as ballPosition powerBar and elevationBar.
+* Helped create the cases for fouls such as the placement of the cueBall on the table when a foul is committed.
+* Helped write the necessary reports.
+* Recorded images and videos and created the readme page for the project.
