@@ -20,7 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import database.PoolDatabase;
+// import database.PoolDatabase;
 import gameobjects.Ball;
 import gameobjects.Table;
 import net.thegreshams.firebase4j.error.FirebaseException;
@@ -58,8 +58,8 @@ public class PoolPanel extends JPanel implements ActionListener{
     private boolean turn = false;
     
     public PoolPanel(String username1, String username2) throws UnsupportedEncodingException, FirebaseException{
-        if(!PoolDatabase.initialized())
-            new PoolDatabase();
+        // if(!PoolDatabase.initialized())
+        //     new PoolDatabase();
         setLayout(null);     
         setFocusable(true);
         

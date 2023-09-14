@@ -18,16 +18,19 @@ public class NineBall extends JFrame{
     private MenuFrame menuFrame;
 
     public NineBall() throws UnsupportedEncodingException, FirebaseException{
-        this.menuFrame = new MenuFrame();
-        menuFrame.addPropertyChangeListener(new PropertyChangeListener(){
-            public void propertyChange(PropertyChangeEvent evt){
-                if(evt.getPropertyName().equals("pool panel created")){
-                    if(gamePanel != null)
-                        remove(gamePanel);
-                    initializePoolFrame((PoolPanel)evt.getNewValue());
-                }
-            }
-        });
+        // this.menuFrame = new MenuFrame();
+        // menuFrame.addPropertyChangeListener(new PropertyChangeListener(){
+        //     public void propertyChange(PropertyChangeEvent evt){
+        //         if(evt.getPropertyName().equals("pool panel created")){
+        //             if(gamePanel != null)
+        //                 remove(gamePanel);
+        //             initializePoolFrame((PoolPanel)evt.getNewValue());
+        //         }
+        //     }
+        // });
+
+        PoolPanel panel = new PoolPanel("Player 1", "Player 2");
+        initializePoolFrame(panel);
     }
 
     public MenuFrame getMenuFrame(){
@@ -119,7 +122,7 @@ public class NineBall extends JFrame{
         gamePanel.repaint();
     }
 
-    public void switchTurns(){
+    private void switchTurns(){
         turn = !turn;
         gamePanel.switchTurns();
     }

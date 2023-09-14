@@ -189,14 +189,6 @@ public class TableUI extends JPanel implements ActionListener{
             graphics.setColor(Color.WHITE);
             graphics.fillOval(cueBallX  - BallUI.BALL_PIXEL_RADIUS, cueBallY - BallUI.BALL_PIXEL_RADIUS, 2 * BallUI.BALL_PIXEL_RADIUS , 2 * BallUI.BALL_PIXEL_RADIUS);
         }
-
-        // painting the pockets
-        // graphics.setColor(Color.CYAN);
-        // for(Pocket pocket : table.getPocketArray()){
-        //     graphics.fillOval(getPixelFromMeters(pocket.getX() - pocket.getRadius(), false), 
-        //                     getPixelFromMeters(pocket.getY() + pocket.getRadius(), true),
-        //                     getPixelFromMeters(2 * pocket.getRadius(), false), getPixelFromMeters(2 * pocket.getRadius(), false));
-        // }
     }
 
     public void addListener(){
