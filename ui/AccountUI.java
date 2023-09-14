@@ -1,13 +1,9 @@
 package ui;
 import java.awt.Color;
 import java.awt.Font;
-// import java.io.UnsupportedEncodingException;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
-// import database.PoolDatabase;
-// import net.thegreshams.firebase4j.error.FirebaseException;
-// import net.thegreshams.firebase4j.error.JacksonUtilityException;
 
 public class AccountUI extends JLabel{
     private String accountNameUI;
@@ -18,12 +14,10 @@ public class AccountUI extends JLabel{
     public static final int X_COORDINATE_1=315; // 365
     public static final int X_COORDINATE_2=635; // 585
 
-    public AccountUI(String username){ // throws UnsupportedEncodingException, FirebaseException{
+    public AccountUI(String username){
         Font font=new Font("Dialog", Font.BOLD, 14);
         this.accountNameUI=username;
-        // this.accountLevelUI=PoolDatabase.getAccountLevel(username);
         this.accountLevelUI = 0;
-        // this.setText(accountNameUI + "   Level: " + accountLevelUI);
         this.setText(accountNameUI + "   Wins: " + accountLevelUI);
         this.setOpaque(true);
         this.setFont(font);
@@ -67,16 +61,6 @@ public class AccountUI extends JLabel{
     }
 
     public void levelUpAccount(){
-        // try {
-        //     PoolDatabase.levelUpAccount(accountNameUI);
-        // } catch (UnsupportedEncodingException | FirebaseException | JacksonUtilityException e) {
-        //     e.printStackTrace();
-        //     System.exit(1);
-        // }
-        // accountLevelUI = PoolDatabase.getAccountLevel(accountNameUI);
-        // setAccountLabels();
-        // setText(accountNameUI + "   Level: " + accountLevelUI);
-
         accountLevelUI++;
         setAccountLabels();
         setText(accountNameUI + "   Wins: " + accountLevelUI);

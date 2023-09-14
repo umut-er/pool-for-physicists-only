@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.UnsupportedEncodingException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,10 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-// import database.PoolDatabase;
 import gameobjects.Ball;
 import gameobjects.Table;
-import net.thegreshams.firebase4j.error.FirebaseException;
 
 public class PoolPanel extends JPanel implements ActionListener{
     private TableUI tableUI;
@@ -57,9 +54,7 @@ public class PoolPanel extends JPanel implements ActionListener{
 
     private boolean turn = false;
     
-    public PoolPanel(String username1, String username2) throws UnsupportedEncodingException, FirebaseException{
-        // if(!PoolDatabase.initialized())
-        //     new PoolDatabase();
+    public PoolPanel(String username1, String username2){
         setLayout(null);     
         setFocusable(true);
         
