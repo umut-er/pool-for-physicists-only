@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.RenderingHints;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -28,7 +29,7 @@ public class TableUI extends JPanel implements ActionListener{
     private PoolPanel mainPanel;
     private Timer timer;
     private Table table;
-    private ArrayList<BallUI> ballUIs;
+    private ArrayList<BallUI> ballUIs = new ArrayList<BallUI>();
     private Image tableImage;
     private BallPlacement bp = new BallPlacement();
 
@@ -46,11 +47,11 @@ public class TableUI extends JPanel implements ActionListener{
     private int cueBallX;
     private int cueBallY;
 
-    public TableUI(String imageFileName, Table table, ArrayList<BallUI> ballUIs, PoolPanel mainPanel){
+    public TableUI(String imageFileName, Table table, PoolPanel mainPanel){
         this.mainPanel = mainPanel;
         changeTableImage(imageFileName);
         this.table = table;
-        this.ballUIs = ballUIs;
+        setBallUIArray();
         timer = new Timer(UPDATION_INTERVAL,this);  
     }
 
@@ -153,6 +154,15 @@ public class TableUI extends JPanel implements ActionListener{
         }
     }
 
+    public void removeBall(int ballNumber){
+        for(BallUI ballUI : ballUIs){
+            if(ballUI.getNumber() == ballNumber){
+                ballUIs.remove(ballUI);
+                break;
+            }
+        }
+    }
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D graphics=(Graphics2D)g;
@@ -177,9 +187,18 @@ public class TableUI extends JPanel implements ActionListener{
             graphics.setColor(new Color(134, 74, 154));
             for(BallUI ball : ballUIs){
                 if(ball.getBall().getNumber() != 0){
-                    graphics.drawString(String.valueOf(ball.getBall().getNumber()), 
-                                        getPixelFromMeters(ball.getBallXPosition(), false) - (int)(BallUI.BALL_PIXEL_RADIUS / 1.5),
-                                        getPixelFromMeters(ball.getBallYPosition(), true) + (int)(BallUI.BALL_PIXEL_RADIUS / 1.5));
+                    if(ball.getNumber() < 10){
+                        graphics.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                        graphics.drawString(String.valueOf(ball.getBall().getNumber()), 
+                                            getPixelFromMeters(ball.getBallXPosition(), false) - (int)(BallUI.BALL_PIXEL_RADIUS / 1.55),
+                                            getPixelFromMeters(ball.getBallYPosition(), true) + (int)(BallUI.BALL_PIXEL_RADIUS / 1.3));
+                    }
+                    else{
+                        graphics.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
+                        graphics.drawString(String.valueOf(ball.getBall().getNumber()), 
+                                            getPixelFromMeters(ball.getBallXPosition(), false) - (int)(BallUI.BALL_PIXEL_RADIUS / 1.),
+                                            getPixelFromMeters(ball.getBallYPosition(), true) + (int)(BallUI.BALL_PIXEL_RADIUS / 1.5));
+                    }
                 }
             }    
         }
@@ -215,7 +234,7 @@ public class TableUI extends JPanel implements ActionListener{
         }
     }
 
-    public void placeNineBall(){
+    public void placeBall(int ballNumber){
         double x = TableUI.TABLE_WIDTH_METERS / 2;
         double y = TableUI.TABLE_HEIGHT_METERS / 2;
 
@@ -223,9 +242,9 @@ public class TableUI extends JPanel implements ActionListener{
             x += Ball.RADIUS;
         }
 
-        Ball nineBall = new Ball(9, x, y, 0, 0, 0, 0, 0, 0, 0);
-        BallUI nineBallUI = new BallUI(nineBall);
-        table.getBallArray().add(nineBall);
+        Ball placedBall = new Ball(ballNumber, x, y, 0, 0, 0, 0, 0, 0, 0);
+        BallUI nineBallUI = new BallUI(placedBall);
+        table.getBallArray().add(placedBall);
         ballUIs.add(nineBallUI);
     }
 

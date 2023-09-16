@@ -12,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -54,16 +56,12 @@ public class PoolPanel extends JPanel implements ActionListener{
 
     private boolean turn = false;
     
-    public PoolPanel(String username1, String username2){
+    public PoolPanel(String username1, String username2, ArrayList<Ball> rack){
         setLayout(null);     
         setFocusable(true);
         
-        ArrayList<Ball> ballArray = Ball.getStandardBallArray(); 
-        ArrayList<BallUI> ballUIs = new ArrayList<BallUI>();
-        for(Ball ball : ballArray)
-            ballUIs.add(new BallUI(ball));
-        Table table = new Table(ballArray);
-        this.tableUI = new TableUI("table7.png", table, ballUIs, this);
+        Table table = new Table(rack);
+        this.tableUI = new TableUI("table2.png", table, this);
         tableUI.setBounds(tableUI.getTableFrameX(), tableUI.getTableFrameY(), TableUI.getTableWidthPixels(), TableUI.getTableHeightPixels());
         this.add(tableUI);
 
@@ -278,8 +276,7 @@ public class PoolPanel extends JPanel implements ActionListener{
         }
     }
 
-    public void setWinnerString()
-    {
+    public void setWinnerString(){
         notifications.setForeground(Color.GREEN);
         if(turn){
             notifications.setText(userAccount2.getAccountName() + " wins!!");
@@ -343,6 +340,7 @@ public class PoolPanel extends JPanel implements ActionListener{
     }
 
     public void enableHitButton(){
+        firePropertyChange("hit button enabled", 0, 1);
         enableCue();
         hitButton.setEnabled(true);
         repaint();
@@ -366,8 +364,13 @@ public class PoolPanel extends JPanel implements ActionListener{
         notifications.setText("FOUL!");
     }
 
-    public void placeNineBall(){
-        tableUI.placeNineBall();     
+    public void placeBall(int ballNumber){
+        tableUI.placeBall(ballNumber);     
+    }
+
+    public void removeBall(int ballNumber){
+        getTable().removeBall(0);
+        getTableUI().removeBall(0);
     }
 
     public CueUI getCue(){

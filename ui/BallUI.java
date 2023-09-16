@@ -12,11 +12,18 @@ public class BallUI {
 
     public BallUI(Ball ball){
         this.ball = ball;
-        this.color = BALL_COLORS[ball.getNumber()];
+        if(ball.getNumber() >= 9)
+            this.color = BALL_COLORS[(ball.getNumber() % 9) + 1];
+        else
+            this.color = BALL_COLORS[ball.getNumber()]; // Temporary?
     }
 
     public Ball getBall(){
         return this.ball;
+    }
+
+    public int getNumber(){
+        return this.getBall().getNumber();
     }
 
     public double getBallXPosition(){

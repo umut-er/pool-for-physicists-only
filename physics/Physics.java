@@ -90,7 +90,7 @@ public class Physics{
                 time = calculateBallPocketCollisionTime(ball, pocket);
                 if(time >= 0){
                     if(event == null || event.getTimeUntilEvent() > time){
-                        event = new BallPocketCollisionEvent(table, ball, i, time);
+                        event = new BallPocketCollisionEvent(table, ball, time);
                     }
                 }
             }

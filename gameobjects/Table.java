@@ -17,7 +17,9 @@ public class Table{
     private Event currentEvent;
 
     private double timeThisTurn = 0;
-    private BallBallCollisionEvent firstCollisionEvent;
+    private BallBallCollisionEvent firstCollisionEvent; // TODO: get all collisions
+    private BallPocketCollisionEvent firstPocketEvent; // TODO: get all pocketings
+    private ArrayList<Integer> pocketedBalls = new ArrayList<Integer>();
     private boolean ballPocketedThisTurn = false;
 
     private final double TABLE_LEFT = cushions[1].getStart().getAxis(0);
@@ -35,6 +37,10 @@ public class Table{
 
     public boolean getBallPocketedThisTurn(){
         return ballPocketedThisTurn;
+    }
+
+    public ArrayList<Integer> getPocketedBalls(){
+        return pocketedBalls;
     }
 
     public void setBallArray(ArrayList<Ball> array){
@@ -57,9 +63,24 @@ public class Table{
         return firstCollisionEvent;
     }
 
+    public BallPocketCollisionEvent getFirstPocket(){
+        return firstPocketEvent;
+    }
+
+    public void removeBall(int ballNumber){
+        for(Ball ball : ballArray){
+            if(ball.getNumber() == ballNumber){
+                ballArray.remove(ball);
+                break;
+            }
+        }
+    }
+
     public void resetTurn(){
         ballPocketedThisTurn = false;
+        pocketedBalls.clear();
         firstCollisionEvent = null;
+        firstPocketEvent = null;
         timeThisTurn = 0;
     }
 
@@ -86,9 +107,9 @@ public class Table{
         return ballArray.size() == 0 || ballArray.get(0).getNumber() != 0;
     }
 
-    public boolean nineBallPocketed(){
+    public boolean ballPocketed(int ballNumber){
         for(Ball ball : ballArray){
-            if(ball.getNumber() == 9)
+            if(ball.getNumber() == ballNumber)
                 return false;
         }
         return true;
@@ -130,8 +151,11 @@ public class Table{
             else if(currentEvent instanceof BallPocketCollisionEvent){
                 ballPocketedThisTurn = true;
                 BallPocketCollisionEvent convertedEvent = (BallPocketCollisionEvent)currentEvent;
-                int idx = convertedEvent.getIndex();
-                tableUI.getBallUIArray().remove(idx);
+                if(firstPocketEvent == null){
+                    firstPocketEvent = convertedEvent;
+                }
+                pocketedBalls.add(convertedEvent.getBall().getNumber());
+                tableUI.removeBall(convertedEvent.getBall().getNumber());
             }
             currentEvent = null;
             timeThisTurn += dt;
