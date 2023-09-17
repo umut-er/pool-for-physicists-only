@@ -27,6 +27,7 @@ public abstract class PoolRule extends JFrame{
             @Override
             public void propertyChange(PropertyChangeEvent evt){
                 if(evt.getPropertyName().equals("hit button enabled")){
+                    startOfTurnInstructions();
                     if(turnStartWinCheck())
                         processWin();
                 }
@@ -58,8 +59,6 @@ public abstract class PoolRule extends JFrame{
                         resetTurn();
                         panel.enableHitButton();  
                     }
-
-
                 }
             }
         });
@@ -79,6 +78,7 @@ public abstract class PoolRule extends JFrame{
     }
 
     private void resetTurn(){
+        endOfTurnInstructions();
         foulThisTurn = false;
     }
 
@@ -102,5 +102,7 @@ public abstract class PoolRule extends JFrame{
     abstract boolean turnEndWinCheck(); // win checking, assuming no foul happened
     abstract ArrayList<Ball> rackingRule(); // a racking rule
     abstract int tableSelector(); // table selecting, currently not functional
+    abstract void startOfTurnInstructions();
+    abstract void endOfTurnInstructions(); // what to do before starting the other turn.
     abstract void endOfRackInstructions(); // what to do end of each rack, this is mainly for your local variables
 }

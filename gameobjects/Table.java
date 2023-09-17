@@ -15,10 +15,9 @@ public class Table{
     private PointCushion[] pointCushions = PointCushion.getStandardPointCushionArray();
     private Pocket[] pockets = Pocket.getStandardPocketArray();
     private Event currentEvent;
-
     private double timeThisTurn = 0;
+
     private BallBallCollisionEvent firstCollisionEvent; // TODO: get all collisions
-    private BallPocketCollisionEvent firstPocketEvent; // TODO: get all pocketings
     private ArrayList<Integer> pocketedBalls = new ArrayList<Integer>();
     private boolean ballPocketedThisTurn = false;
 
@@ -63,10 +62,6 @@ public class Table{
         return firstCollisionEvent;
     }
 
-    public BallPocketCollisionEvent getFirstPocket(){
-        return firstPocketEvent;
-    }
-
     public void removeBall(int ballNumber){
         for(Ball ball : ballArray){
             if(ball.getNumber() == ballNumber){
@@ -80,7 +75,6 @@ public class Table{
         ballPocketedThisTurn = false;
         pocketedBalls.clear();
         firstCollisionEvent = null;
-        firstPocketEvent = null;
         timeThisTurn = 0;
     }
 
@@ -104,7 +98,7 @@ public class Table{
     }
 
     public boolean cueBallPocketed(){
-        return ballArray.size() == 0 || ballArray.get(0).getNumber() != 0;
+        return ballPocketed(0);
     }
 
     public boolean ballPocketed(int ballNumber){
@@ -151,9 +145,6 @@ public class Table{
             else if(currentEvent instanceof BallPocketCollisionEvent){
                 ballPocketedThisTurn = true;
                 BallPocketCollisionEvent convertedEvent = (BallPocketCollisionEvent)currentEvent;
-                if(firstPocketEvent == null){
-                    firstPocketEvent = convertedEvent;
-                }
                 pocketedBalls.add(convertedEvent.getBall().getNumber());
                 tableUI.removeBall(convertedEvent.getBall().getNumber());
             }

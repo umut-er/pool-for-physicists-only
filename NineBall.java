@@ -58,6 +58,10 @@ public class NineBall extends PoolRule{
         return 2;
     }
 
+    public void startOfTurnInstructions(){};
+
+    public void endOfTurnInstructions(){};
+
     public void endOfRackInstructions(){};
 
     public static void main(String[] args){

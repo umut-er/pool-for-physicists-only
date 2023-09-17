@@ -11,10 +11,27 @@ public class EightBall extends PoolRule{
     private boolean teamSelected = false;
 
     public boolean preserveTurn(){
-        if(!foulThisTurn)
+        if(foulThisTurn)
+            return false;
+        if(!teamSelected)
             return panel.getTable().getBallPocketedThisTurn();
+
+        boolean lookup = selection ^ turn;
+        for(Integer ballNumber : panel.getTable().getPocketedBalls()){
+            if(lookup){
+                if(ballNumber >= 9 && ballNumber <= 15){
+                    return true;
+                }
+            }
+            else{
+                if(ballNumber <= 7 && ballNumber >= 1){
+                    return true;
+                }
+            }
+        }
         return false;
-    }
+    
+}
 
     public ArrayList<Integer> foulCheck(){
         ArrayList<Integer> foulCodes = new ArrayList<Integer>();
@@ -56,11 +73,11 @@ public class EightBall extends PoolRule{
                 }
             }
         }
-        else if(!teamSelected && panel.getTable().getFirstPocket() != null && foulCodes.size() == 0){
-            System.out.println("Pocketed ball was number: " + panel.getTable().getFirstPocket().getBall().getNumber());
+        else if(!teamSelected && panel.getTable().getPocketedBalls().size() > 0 && foulCodes.size() == 0){
+            System.out.println("Pocketed ball was number: " + panel.getTable().getPocketedBalls().get(0));
             teamSelected = true;
             boolean ballGroup = false;
-            if(panel.getTable().getFirstPocket().getBall().getNumber() <= 7)
+            if(panel.getTable().getPocketedBalls().get(0) <= 7)
                 ballGroup = false;
             else
                 ballGroup = true;
@@ -75,11 +92,6 @@ public class EightBall extends PoolRule{
             foulThisTurn = true;
         }
 
-        if(foulCodes.size() > 0){
-            System.out.println("FOUL");
-            System.out.println(selection + " " + teamSelected);
-            System.out.println(foulCodes.get(0));
-        }
         return foulCodes;
     }
 
@@ -124,6 +136,10 @@ public class EightBall extends PoolRule{
     public int tableSelector(){
         return 2;
     }
+
+    public void startOfTurnInstructions(){};
+
+    public void endOfTurnInstructions(){};
 
     public void endOfRackInstructions(){
         selection = false;
