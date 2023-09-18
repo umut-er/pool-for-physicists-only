@@ -19,7 +19,7 @@ public class NineBall extends PoolRule{
         if(code == 2){
             panel.placeBall(9);
         }
-        else if(code == 3){
+        if(code == 3){
             panel.removeBall(0);
         }
     }
@@ -27,11 +27,11 @@ public class NineBall extends PoolRule{
     public ArrayList<Integer> foulCheck(){
         ArrayList<Integer> foulCodes = new ArrayList<Integer>();
         BallBallCollisionEvent firstCollision = panel.getTable().getFirstCollision();
-        if(panel.getTable().ballPocketed(9)){
-            foulCodes.add(2);
-        }
         if(panel.getTable().cueBallPocketed()){
             foulCodes.add(1);
+            if(panel.getTable().ballPocketed(9)){
+                foulCodes.add(2);
+        }
         }
         else if(firstCollision == null || firstCollision.getFirstBallNumber() != 0 || firstCollision.getSecondBallNumber() != currentLowestNumber){
             foulCodes.add(3);
