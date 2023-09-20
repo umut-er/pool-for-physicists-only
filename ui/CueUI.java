@@ -34,7 +34,7 @@ public class CueUI extends JPanel{
 
     private boolean isActive = true;
     
-    CueUI(TableUI table){
+    public CueUI(TableUI table){
         this.table = table;
         this.ballUIs = table.getBallUIArray();
         visibleHeight = CUE_HEIGHT;

@@ -6,6 +6,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import server.PoolClient.PoolPanel;
+
 public class PowerBar extends JSlider{
     private CueUI cue;
     private PoolPanel pool;

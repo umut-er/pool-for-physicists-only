@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import server.PoolClient.PoolPanel;
+
 public class InGameMenu extends JPanel implements ActionListener{
     private JButton resumeButton;
     private JButton backToMenuButton;

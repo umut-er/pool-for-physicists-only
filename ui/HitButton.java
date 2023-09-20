@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
+
+import server.PoolClient.PoolPanel;
+
 import javax.swing.JButton;
 
 public class HitButton extends JButton implements ActionListener{
@@ -31,6 +34,7 @@ public class HitButton extends JButton implements ActionListener{
         this.setBackground(Color.WHITE);
     }
 
+    // This is the shot animation.
     @Override
     public void actionPerformed(ActionEvent e) {
         timer = new Timer(1, new ActionListener() {
@@ -54,18 +58,6 @@ public class HitButton extends JButton implements ActionListener{
     }
 
     public void hit(){
-        double xPosition = HitPosition.getXPos();
-        double yPosition = HitPosition.getYPos();
-        double powerValue = PowerBar.getPowerValue();
-        double elevationAngle = ElevationBar.getAngleValue();
-        double directionAngle = cueElement.getAngle();
-        powerElement.setValue(PowerBar.INITIAL_VALUE);
-        elevationElement.setValue(ElevationBar.INITIAL_VALUE);
-        cueElement.setShotDistance(PowerBar.power/10 + 1);
-        cueElement.setVisibleShotDistance(ElevationBar.getAngleValue());
-        hitPositionElement.setValueOfX(50);
-        hitPositionElement.setValueOfY(50);
-        table.hitBall(powerValue, directionAngle, elevationAngle, xPosition, yPosition);
-        pool.getNotif().setText("");
+        firePropertyChange("Hit", 0, 1);
     }
 }

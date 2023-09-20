@@ -7,16 +7,19 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import server.PoolClient;
+import server.PoolClient.PoolPanel;
+
 public class ElevationBar extends JSlider{
-    PoolPanel pool;
-    CueUI cue;
+    private PoolPanel pool;
+    private CueUI cue;
     
     private static final double EYE_COEFFICIENT = 0.7; 
     private static final int MIN = 0;
     private static final int MAX = 55;
     public static final int INITIAL_VALUE = 0;
     private static int angle = INITIAL_VALUE;
-    private static double poolDiameter = Math.sqrt(Math.pow(PoolPanel.PANEL_HEIGHT, 2) + Math.pow(PoolPanel.PANEL_WIDTH, 2));
+    private static double poolDiameter = Math.sqrt(Math.pow(PoolClient.PANEL_HEIGHT, 2) + Math.pow(PoolClient.PANEL_WIDTH, 2));
     
     public ElevationBar(CueUI cue, PoolPanel pool){ 
         this.setBackground(Color.DARK_GRAY);   

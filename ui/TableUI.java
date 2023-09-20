@@ -24,6 +24,7 @@ import gameobjects.Ball;
 import gameobjects.Cushion;
 import gameobjects.Table;
 import physics.Physics;
+import server.PoolClient.PoolPanel;
 
 public class TableUI extends JPanel implements ActionListener{
     private PoolPanel mainPanel;
@@ -113,18 +114,16 @@ public class TableUI extends JPanel implements ActionListener{
 
     public void startAction(){
         getTable().resetTurn();
-        mainPanel.disableHitButton();
+        mainPanel.disableTurn();
         mainPanel.disablePause();
         numbersOn = false;
-        mainPanel.disableCue();
-        firePropertyChange("turn start", 0, 1);
         timer.start();
     }
 
     public void stopAction(){
         numbersOn = true;
         timer.stop();
-        firePropertyChange("turn over", 0, 1);
+        firePropertyChange("Hit over", 0, 1);
     }
 
     public void hitBall(double cueSpeed, double directionAngle, double elevationAngle, double horizontalSpin, double verticalSpin){

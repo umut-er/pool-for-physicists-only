@@ -1,10 +1,12 @@
 package vectormath;
 
+import java.io.Serializable;
+
 /**
  * A simple matrix class (mainly) for vectors and related mathematical equations.
  * @author Bilkent 2023 Spring CS102 Section 2 Group 5
  */
-public class Matrix{
+public class Matrix implements Serializable{
     private double[] data;
     private int rows;
     private int columns;

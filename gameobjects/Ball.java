@@ -1,5 +1,6 @@
 package gameobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,7 +9,7 @@ import java.util.Random;
 import ui.TableUI;
 import vectormath.Vector3;
 
-public class Ball {
+public class Ball implements Serializable{
     public static final double RADIUS = 0.028575;
     public static final double MASS = 0.170097;
 

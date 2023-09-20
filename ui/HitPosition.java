@@ -7,6 +7,8 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+import server.PoolClient.PoolPanel;
+
 public class HitPosition extends JPanel implements MouseListener{
     private static int xValue = 50;
     private static int yValue = 50;
