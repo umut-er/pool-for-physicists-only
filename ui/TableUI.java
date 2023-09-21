@@ -114,6 +114,7 @@ public class TableUI extends JPanel implements ActionListener{
 
     public void startAction(){
         getTable().resetTurn();
+        getTable().setSmallestNumberedBall();
         mainPanel.disableTurn();
         mainPanel.disablePause();
         numbersOn = false;
@@ -218,22 +219,26 @@ public class TableUI extends JPanel implements ActionListener{
         mainPanel.repaint();
     }
 
-    public void ballInHand(double x, double y){
-        Ball cueBall = new Ball(0,x,y,0,0,0,0,0,0,0);
-        BallUI cueBallUI = new BallUI(cueBall);
-        if(table.isPositionValid(x, y)){
-            cueBallDrag = false;
-            ballUIs.add(0,cueBallUI);
-            table.getBallArray().add(0, cueBall);
-            this.removeMouseMotionListener(bp);
-            this.removeMouseListener(bp);
-            mainPanel.enableHitButton();
-            mainPanel.getNotif().setText("");
-            mainPanel.repaint();
-        }
+    public void ballInHandChecker(double x, double y){
+        if(!table.isPositionValid(x, y))
+            return;
+        firePropertyChange("ball in hand placed", x, y); // One of the ugliest things of all time
+        
     }
 
-    public void placeBall(int ballNumber){
+    public void ballInHandPlacer(double x, double y){
+        Ball cueBall = new Ball(0,x,y,0,0,0,0,0,0,0);
+        BallUI cueBallUI = new BallUI(cueBall);
+        cueBallDrag = false;
+        ballUIs.add(0,cueBallUI);
+        table.getBallArray().add(0, cueBall);
+        this.removeMouseMotionListener(bp);
+        this.removeMouseListener(bp);
+        mainPanel.getNotif().setText("");
+        mainPanel.repaint();
+    }
+
+    public double[] getPlacement(){
         double x = TableUI.TABLE_WIDTH_METERS / 2;
         double y = TableUI.TABLE_HEIGHT_METERS / 2;
 
@@ -241,21 +246,25 @@ public class TableUI extends JPanel implements ActionListener{
             x += Ball.RADIUS;
         }
 
+        double[] arr = {x, y};
+        return arr; 
+    }
+
+    public void placeBall(int ballNumber, double x, double y){
         Ball placedBall = new Ball(ballNumber, x, y, 0, 0, 0, 0, 0, 0, 0);
         BallUI nineBallUI = new BallUI(placedBall);
         table.getBallArray().add(placedBall);
         ballUIs.add(nineBallUI);
     }
 
-    public boolean getCueBallDrag()
-    {
+    public boolean getCueBallDrag(){
         return this.cueBallDrag;
     }
 
     class BallPlacement extends MouseAdapter{       
         @Override
         public void mouseClicked(MouseEvent e){
-            ballInHand(getMetersFromPixels(e.getX(), false), getMetersFromPixels(e.getY(), true));
+            ballInHandChecker(getMetersFromPixels(e.getX(), false), getMetersFromPixels(e.getY(), true));
         }
 
         @Override

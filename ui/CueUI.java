@@ -12,7 +12,7 @@ import gameobjects.PointCushion;
 import physics.PolynomialSolver;
 import vectormath.Vector3;
 
-public class CueUI extends JPanel{
+public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially with the cue ball position setter stuff)
     private final double CUE_HEIGHT = 420;
     private final int CUE_UPPER_WIDTH = 5;
     private final int CUE_LOWER_WIDTH = 11;

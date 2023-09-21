@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -43,6 +42,8 @@ import ui.TableUI;
 public class PoolClient extends JFrame{
     public static final int HIT_START_INFO = 1110;
     public static final int HIT_END_INFO = 1111;
+    public static final int REQUEST_NEW_RACK = 1112;
+    public static final int BALL_PLACEMENT_REQUEST = 1113;
 
     public static final int PANEL_HEIGHT=700;
     public static final int PANEL_WIDTH=1200;
@@ -54,8 +55,6 @@ public class PoolClient extends JFrame{
     private int playerID;
     private boolean playerTurn;
 
-    private int test = 0;
-
     public PoolClient(){
         // TODO: Implement a pre-game menu
         // Scanner s = new Scanner(System.in);
@@ -65,7 +64,7 @@ public class PoolClient extends JFrame{
         connectToServer();      
     }
 
-    public boolean playerHasTurn(){
+    public boolean playerHasTurn(int playerID, boolean playerTurn){
         return ((playerID == 1 && !playerTurn) || (playerID == 2 && playerTurn));
     }
 
@@ -145,6 +144,15 @@ public class PoolClient extends JFrame{
             else if(n == NineBallServer.FOUL_INFO){
                 receiveFoulInformation();
             }
+            else if(n == NineBallServer.WIN_INFO){
+                receiveWinInformation();
+            }
+            else if(n == NineBallServer.BALL_PLACEMENT_INFO){
+                receiveBallPlacementInformation();
+            }
+            else if(n == NineBallServer.RACK_INFO){
+                receiveRackInformation();
+            }
         }
 
         @SuppressWarnings("unchecked")
@@ -168,7 +176,6 @@ public class PoolClient extends JFrame{
 
         public void receiveTurnInformation(){
             clientResponsible = false;
-            test++;
             try {
                 playerTurn = dataIn.readBoolean();
             } catch (IOException e) {
@@ -177,10 +184,11 @@ public class PoolClient extends JFrame{
             }
 
             panel.setTurn(playerTurn);
-            if(playerHasTurn())
+            if(playerHasTurn(playerID, playerTurn))
                 panel.enableTurn();
             else
                 panel.disableTurn();
+            panel.repaint();
         }
 
         public void receiveHitInformation(){
@@ -197,9 +205,73 @@ public class PoolClient extends JFrame{
         public void receiveFoulInformation(){
             try {
                 ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
-                FoulInfo hit = (FoulInfo)objectIn.readObject();
-                // TODO: Deal with foul.
+                FoulInfo foul = (FoulInfo)objectIn.readObject();
+                if(foul.getPlaceNineBall()){
+                    double[] arr = panel.getTableUI().getPlacement();
+                    sendBallPlacementInformation(9, arr[0], arr[1]);
+                }
+                if(foul.getBallInHand()){
+                    panel.setFoulText();
+                    panel.removeBall(0);
+                    if(playerHasTurn(playerID, foul.getPlayerToUseFoul()))
+                        panel.ballInHand();
+                }
             } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
+        public void receiveWinInformation(){
+            boolean winner = false;
+            try {
+                winner = dataIn.readBoolean();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+            panel.awardWin();
+            if(playerHasTurn(playerID, winner)){
+                sendRackRequest();
+            }
+        }
+
+        public void receiveBallPlacementInformation(){
+            try {
+                int ballNumber = dataIn.readInt();
+                double x = dataIn.readDouble(), y = dataIn.readDouble();
+                if(ballNumber != 0)
+                    panel.getTableUI().placeBall(ballNumber, x, y);
+                else
+                    panel.getTableUI().ballInHandPlacer(x, y);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        public void receiveRackInformation(){
+            try {
+                ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
+                ArrayList<Ball> rack = (ArrayList<Ball>)objectIn.readObject();
+                panel.getTable().setBallArray(rack);
+                panel.getTableUI().setBallUIArray();
+                panel.repaint();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
+        public void sendBallPlacementInformation(int ballNumber, double x, double y){
+            try {
+                dataOut.writeInt(BALL_PLACEMENT_REQUEST);
+                dataOut.writeInt(ballNumber);
+                dataOut.writeDouble(x);
+                dataOut.writeDouble(y);
+                dataOut.flush();
+            } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }
@@ -230,6 +302,15 @@ public class PoolClient extends JFrame{
 
                 dataOut.flush();
                 objectOut.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
+        public void sendRackRequest(){
+            try {
+                dataOut.writeInt(REQUEST_NEW_RACK);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
@@ -474,6 +555,9 @@ public class PoolClient extends JFrame{
                     if(evt.getPropertyName().equals("Hit over")){
                         sendEndOfHit();
                     }
+                    else if(evt.getPropertyName().equals("ball in hand placed")){
+                        csc.sendBallPlacementInformation(0, (double)evt.getOldValue(), (double)evt.getNewValue());
+                    }
                 }
             });
 
@@ -494,8 +578,15 @@ public class PoolClient extends JFrame{
         public void sendEndOfHit(){
             if(!csc.clientWillSendEndOfHit())
                 return;
-            System.out.println("test = " + test);
-            HitEndInfo hitEnd = new HitEndInfo();
+            int ballNumber = -1;
+            if(getTable().getFirstCollision() != null){
+                ballNumber = getTable().getFirstCollision().getSecondBallNumber();
+            }
+            HitEndInfo hitEnd = new HitEndInfo(getTable().getSmallestNumberedBallAtStart(),
+                                                ballNumber,
+                                                getTable().ballPocketed(9),
+                                                getTable().ballPocketed(0),
+                                                getTable().getBallPocketedThisTurn());
             csc.sendHitEndInformation(hitEnd);
         }
 
@@ -643,14 +734,17 @@ public class PoolClient extends JFrame{
             elevationBar.setEnabled(true);
         }
 
-        public void ballInHand(){
+        public void setFoulText(){
             notifications.setForeground(Color.RED);
-            tableUI.addListener();
             notifications.setText("FOUL!");
         }
 
-        public void placeBall(int ballNumber){
-            tableUI.placeBall(ballNumber);     
+        public void ballInHand(){
+            tableUI.addListener();
+        }
+
+        public void placeBall(int ballNumber, double x, double y){
+            tableUI.placeBall(ballNumber, x, y);
         }
 
         public void removeBall(int ballNumber){

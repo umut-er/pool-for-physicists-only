@@ -12,10 +12,13 @@ import java.util.ArrayList;
 import gameobjects.Ball;
 
 public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
-    public static final int INITIALIZATION_INFO = 110; // tells the client to process an initialization
-    public static final int TURN_INFO = 111; // tells the client to process a turn 
-    public static final int HIT_INFO = 112;
+    public static final int INITIALIZATION_INFO = 110; // tells the client to process an initialization.
+    public static final int TURN_INFO = 111; // tells the client to process a turn. 
+    public static final int HIT_INFO = 112; // tells the client to process a hit.
     public static final int FOUL_INFO = 113; // tells the client to process a foul.
+    public static final int WIN_INFO = 114; // tells the client to process a win.
+    public static final int BALL_PLACEMENT_INFO = 115; // tells the client to process a ball placement.
+    public static final int RACK_INFO = 116; // tells the client to process a new rack.
 
     private ServerSocket ss;
     public static final int MAX_PLAYER_NUM = 2;
@@ -143,6 +146,42 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
             }
         }
 
+        public void sendWinInformation(boolean winner){
+            try {
+                dataOut.writeInt(FOUL_INFO);
+                dataOut.writeBoolean(winner);
+                dataOut.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
+        public void sendBallPlacementInformation(int ballNumber, double x, double y){
+            try {
+                dataOut.writeInt(BALL_PLACEMENT_INFO);
+                dataOut.writeInt(ballNumber);
+                dataOut.writeDouble(x);
+                dataOut.writeDouble(y);
+                dataOut.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+            
+        }
+
+        public void sendRackInformation(ArrayList<Ball> rack){
+            try {
+                ObjectOutputStream objectOut = new ObjectOutputStream(socket.getOutputStream());
+                objectOut.writeObject(rack);
+                objectOut.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
         public void run(){
             try {
                 dataOut.writeInt(playerID);
@@ -172,10 +211,29 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                         ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
                         HitEndInfo currentHit = (HitEndInfo)objectIn.readObject();
 
-                        // Generate FoulInfo and turn TODO: Generate WinInfo and send before turn info.
-                        FoulInfo foul = new FoulInfo();
-                        turn = !turn;
-                        System.out.println("GENERATED!!!");
+                        if(currentHit.getSmallestBall() == 9 && currentHit.getNineBallPotted() && !currentHit.getCueBallPotted()){
+                            sendWinInformation(turn);
+                            continue;
+                        }
+
+                        // Generate FoulInfo and turn
+                        FoulInfo foul = new FoulInfo(false, false, false);
+                        if(currentHit.getFirstBallContact() == -1){
+                            foul.setBallInHand(true);
+                        }
+                        else if(currentHit.getFirstBallContact() != currentHit.getSmallestBall() || currentHit.getCueBallPotted()){
+                            foul.setBallInHand(true);
+                            if(currentHit.getNineBallPotted())
+                                foul.setPlaceNineBall(true);
+                        }
+
+                        if(foul.getBallInHand()){
+                            foul.setPlayerToUseFoul(!turn);
+                        }
+
+                        if(foul.getBallInHand() || !currentHit.getBallPotted()){
+                            turn = !turn;
+                        }
                         
                         // Send turn information
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
@@ -186,7 +244,23 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
                             serverSideConnections[i].sendFoulInformation(foul);
                         }
+                    }
+                    else if(request == PoolClient.BALL_PLACEMENT_REQUEST){
+                        int ballNumber = dataIn.readInt();
+                        double x = dataIn.readDouble(), y = dataIn.readDouble();
 
+                        for(int i = 0; i < MAX_PLAYER_NUM; i++){
+                            sendBallPlacementInformation(ballNumber, x, y);
+                        }
+                    }
+                    else if(request == PoolClient.REQUEST_NEW_RACK){
+                        ArrayList<Ball> rack = Ball.getStandardNineBallArray();
+                        for(int i = 0; i < MAX_PLAYER_NUM; i++){
+                            serverSideConnections[i].sendRackInformation(rack);
+                        }
+                        for(int i = 0; i < MAX_PLAYER_NUM; i++){
+                            serverSideConnections[i].sendTurnInformation();
+                        }
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

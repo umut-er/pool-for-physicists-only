@@ -17,6 +17,7 @@ public class Table{
     private Event currentEvent;
     private double timeThisTurn = 0;
 
+    private int smallestNumberedBall;
     private BallBallCollisionEvent firstCollisionEvent; // TODO: get all collisions
     private ArrayList<Integer> pocketedBalls = new ArrayList<Integer>();
     private boolean ballPocketedThisTurn = false;
@@ -71,7 +72,16 @@ public class Table{
         }
     }
 
+    public void setSmallestNumberedBall(){
+        smallestNumberedBall = getLowestNumberOnTable();
+    }
+
+    public int getSmallestNumberedBallAtStart(){
+        return smallestNumberedBall;
+    }
+
     public void resetTurn(){
+        smallestNumberedBall = -1;
         ballPocketedThisTurn = false;
         pocketedBalls.clear();
         firstCollisionEvent = null;
@@ -95,10 +105,6 @@ public class Table{
             }
         }
         return min;
-    }
-
-    public boolean cueBallPocketed(){
-        return ballPocketed(0);
     }
 
     public boolean ballPocketed(int ballNumber){
