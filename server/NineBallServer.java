@@ -57,8 +57,10 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
             System.out.println("Connections established, game starting!");
             ArrayList<Ball> rack = Ball.getStandardNineBallArray();
             while(usernames[1] == null){} // wait for usernames to be processed by the server.
-            for(ServerSideConnection ssc : serverSideConnections)
+            for(ServerSideConnection ssc : serverSideConnections){
                 ssc.sendInitializationInformation(rack);
+                ssc.sendFoulInformation(new FoulInfo(false, false, false));
+            }
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -211,7 +213,8 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                         ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
                         HitEndInfo currentHit = (HitEndInfo)objectIn.readObject();
 
-                        if(currentHit.getSmallestBall() == 9 && currentHit.getNineBallPotted() && !currentHit.getCueBallPotted()){
+                        // TODO: This is not working
+                        if(currentHit.getNineBallPotted() && !currentHit.getCueBallPotted()){
                             sendWinInformation(turn);
                             continue;
                         }
@@ -237,6 +240,7 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                         
                         // Send turn information
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
+                            System.out.println("Turn = " + turn);
                             serverSideConnections[i].sendTurnInformation();
                         }
 
@@ -250,7 +254,7 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                         double x = dataIn.readDouble(), y = dataIn.readDouble();
 
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
-                            sendBallPlacementInformation(ballNumber, x, y);
+                            serverSideConnections[i].sendBallPlacementInformation(ballNumber, x, y);
                         }
                     }
                     else if(request == PoolClient.REQUEST_NEW_RACK){

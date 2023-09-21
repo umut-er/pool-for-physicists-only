@@ -55,13 +55,17 @@ public class PoolClient extends JFrame{
     private int playerID;
     private boolean playerTurn;
 
-    public PoolClient(){
-        // TODO: Implement a pre-game menu
-        // Scanner s = new Scanner(System.in);
-        // System.out.print("Username: ");
-        // username = s.nextLine();
-        // s.close();
+    public PoolClient(){ // TODO: Implement a pre-game menu
         connectToServer();      
+    }
+
+    public void activateTurn(){
+        panel.setTurn(playerTurn);
+        if(playerHasTurn(playerID, playerTurn))
+            panel.enableTurn();
+        else
+            panel.disableTurn();
+        panel.repaint();
     }
 
     public boolean playerHasTurn(int playerID, boolean playerTurn){
@@ -172,6 +176,7 @@ public class PoolClient extends JFrame{
             }
 
             initializeGUI(p1, p2, rack);
+            activateTurn();
         } 
 
         public void receiveTurnInformation(){
@@ -184,10 +189,6 @@ public class PoolClient extends JFrame{
             }
 
             panel.setTurn(playerTurn);
-            if(playerHasTurn(playerID, playerTurn))
-                panel.enableTurn();
-            else
-                panel.disableTurn();
             panel.repaint();
         }
 
@@ -216,13 +217,16 @@ public class PoolClient extends JFrame{
                     if(playerHasTurn(playerID, foul.getPlayerToUseFoul()))
                         panel.ballInHand();
                 }
+                else{
+                    activateTurn();
+                }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
                 System.exit(-1);
             }
         }
 
-        public void receiveWinInformation(){
+        public void receiveWinInformation(){ // TODO: This is not working at all, check it
             boolean winner = false;
             try {
                 winner = dataIn.readBoolean();
@@ -230,7 +234,7 @@ public class PoolClient extends JFrame{
                 e.printStackTrace();
                 System.exit(-1);
             }
-            panel.awardWin();
+            panel.awardWin(winner);
             if(playerHasTurn(playerID, winner)){
                 sendRackRequest();
             }
@@ -244,6 +248,8 @@ public class PoolClient extends JFrame{
                     panel.getTableUI().placeBall(ballNumber, x, y);
                 else
                     panel.getTableUI().ballInHandPlacer(x, y);
+
+                activateTurn();
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
@@ -611,10 +617,6 @@ public class PoolClient extends JFrame{
             repaint();
         }
 
-        public void switchTurns(){
-            turn = !turn;
-        }
-
         public TableUI getTableUI(){
             return tableUI;
         }
@@ -623,9 +625,9 @@ public class PoolClient extends JFrame{
             return this.inGameMenuButton.isEnabled();
         }
 
-        public void awardWin(){
-            setWinnerString();
-            if(turn){
+        public void awardWin(boolean winner){
+            setWinnerString(winner);
+            if(winner){
                 userAccount2.levelUpAccount();
                 score2++;
                 scoreLabel2.setText(String.valueOf(score2));
@@ -637,9 +639,9 @@ public class PoolClient extends JFrame{
             }
         }
 
-        public void setWinnerString(){
+        public void setWinnerString(boolean winner){
             notifications.setForeground(Color.GREEN);
-            if(turn){
+            if(winner){
                 notifications.setText(userAccount2.getAccountName() + " wins!!");
             }
             else{
