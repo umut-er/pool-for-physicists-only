@@ -186,6 +186,14 @@ public class Ball implements Serializable{
         return lst;
     }
 
+    public static ArrayList<Ball> getOnlyNineBallArray(){
+        double[] positions = getStandardEightBallPositions();
+        ArrayList<Ball> lst = new ArrayList<Ball>();
+        lst.add(new Ball(0, 0.9, positions[1]));
+        lst.add(new Ball(9, positions[8], positions[9]));
+        return lst;
+    }
+
     @Override
     public String toString(){
         return String.format("Position: %s\nVelocity: %s\nAngular Velocity: %s",

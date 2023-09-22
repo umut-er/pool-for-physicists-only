@@ -55,7 +55,8 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                 t.start();
             }
             System.out.println("Connections established, game starting!");
-            ArrayList<Ball> rack = Ball.getStandardNineBallArray();
+            // ArrayList<Ball> rack = Ball.getStandardNineBallArray();
+            ArrayList<Ball> rack = Ball.getOnlyNineBallArray();
             while(usernames[1] == null){} // wait for usernames to be processed by the server.
             for(ServerSideConnection ssc : serverSideConnections){
                 ssc.sendInitializationInformation(rack);
@@ -150,7 +151,7 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
 
         public void sendWinInformation(boolean winner){
             try {
-                dataOut.writeInt(FOUL_INFO);
+                dataOut.writeInt(WIN_INFO);
                 dataOut.writeBoolean(winner);
                 dataOut.flush();
             } catch (IOException e) {
@@ -175,8 +176,10 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
 
         public void sendRackInformation(ArrayList<Ball> rack){
             try {
+                dataOut.writeInt(RACK_INFO);
                 ObjectOutputStream objectOut = new ObjectOutputStream(socket.getOutputStream());
                 objectOut.writeObject(rack);
+                dataOut.flush();
                 objectOut.flush();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -215,7 +218,9 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
 
                         // TODO: This is not working
                         if(currentHit.getNineBallPotted() && !currentHit.getCueBallPotted()){
-                            sendWinInformation(turn);
+                            for(int i = 0; i < MAX_PLAYER_NUM; i++){
+                                serverSideConnections[i].sendWinInformation(turn);
+                            }
                             continue;
                         }
 
@@ -264,6 +269,9 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                         }
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
                             serverSideConnections[i].sendTurnInformation();
+                        }
+                        for(int i = 0; i < MAX_PLAYER_NUM; i++){
+                            serverSideConnections[i].sendFoulInformation(new FoulInfo(false, false, false));
                         }
                     }
                 } catch (IOException | ClassNotFoundException e) {
