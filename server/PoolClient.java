@@ -386,7 +386,6 @@ public class PoolClient extends JFrame{
             inGameMenuButton.setBackground(Color.WHITE);
             inGameMenuButton.addActionListener(this);
             this.add(inGameMenuButton);
-            disablePause();
             gameMenu=new InGameMenu(this);
             gameMenu.setVisible(false);
             this.add(gameMenu);
