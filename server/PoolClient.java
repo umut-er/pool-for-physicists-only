@@ -45,6 +45,8 @@ public class PoolClient extends JFrame{
     public static final int REQUEST_NEW_RACK = 1112;
     public static final int BALL_PLACEMENT_REQUEST = 1113;
 
+    public static final String IP_ADDRESS = "10.147.17.132";
+
     public static final int PANEL_HEIGHT=700;
     public static final int PANEL_WIDTH=1200;
 
@@ -340,10 +342,10 @@ public class PoolClient extends JFrame{
         private HitPosition hitPosition = new HitPosition(this);
         private ElevationBar elevationBar;
         private HitButton hitButton;
-        // private JButton inGameMenuButton;
+        private JButton inGameMenuButton;
         private JTextField notifications;
         
-        // private InGameMenu gameMenu;
+        private InGameMenu gameMenu;
         private AccountUI userAccount1;
         private AccountUI userAccount2;
         private JLabel scoreLabel1;
@@ -379,14 +381,15 @@ public class PoolClient extends JFrame{
             this.setBackground(Color.DARK_GRAY);
             this.add(userAccount1);
             this.add(userAccount2);
-            // inGameMenuButton=new JButton("Pause");
-            // inGameMenuButton.setBounds(1000,250,100,100);
-            // inGameMenuButton.setBackground(Color.WHITE);
-            // inGameMenuButton.addActionListener(this);
-            // this.add(inGameMenuButton);
-            // gameMenu=new InGameMenu(this);
-            // gameMenu.setVisible(false);
-            // this.add(gameMenu);
+            inGameMenuButton=new JButton("Pause");
+            inGameMenuButton.setBounds(1000,250,100,100);
+            inGameMenuButton.setBackground(Color.WHITE);
+            inGameMenuButton.addActionListener(this);
+            this.add(inGameMenuButton);
+            disablePause();
+            gameMenu=new InGameMenu(this);
+            gameMenu.setVisible(false);
+            this.add(gameMenu);
             
             cue = new CueUI(tableUI);
             powerBar = new PowerBar(cue, this);
@@ -535,7 +538,7 @@ public class PoolClient extends JFrame{
             hitPosition.addMouseMotionListener(hitPositionListener);
             powerBar.addMouseMotionListener(powerBarListener);
             elevationBar.addMouseMotionListener(elevationBarListener);
-            // inGameMenuButton.addMouseMotionListener(inGameMenuButtonListener);
+            inGameMenuButton.addMouseMotionListener(inGameMenuButtonListener);
             notifications.addMouseMotionListener(notificationsListener);
             addMouseMotionListener(frameListener);
 
@@ -630,9 +633,9 @@ public class PoolClient extends JFrame{
             return tableUI;
         }
 
-        // public boolean isResumed(){
-        //     return this.inGameMenuButton.isEnabled();
-        // }
+        public boolean isResumed(){
+            return this.inGameMenuButton.isEnabled();
+        }
 
         public void awardWin(boolean winner){
             setWinnerString(winner);
@@ -664,7 +667,7 @@ public class PoolClient extends JFrame{
             hitButton.removeMouseMotionListener(hitButtonListener);
             powerBar.removeMouseMotionListener(powerBarListener);
             elevationBar.removeMouseMotionListener(elevationBarListener);
-            // inGameMenuButton.removeMouseMotionListener(inGameMenuButtonListener);
+            inGameMenuButton.removeMouseMotionListener(inGameMenuButtonListener);
             notifications.removeMouseMotionListener(notificationsListener);
             cue.setActive(false);
             repaint();
@@ -679,17 +682,17 @@ public class PoolClient extends JFrame{
             hitButton.addMouseMotionListener(hitButtonListener);
             powerBar.addMouseMotionListener(powerBarListener);
             elevationBar.addMouseMotionListener(elevationBarListener);
-            // inGameMenuButton.addMouseMotionListener(inGameMenuButtonListener);
+            inGameMenuButton.addMouseMotionListener(inGameMenuButtonListener);
             notifications.addMouseMotionListener(notificationsListener);
-            // enableInGameMenuButton();
+            enableInGameMenuButton();
             cue.setActive(true);
             repaint();
         }
 
-        // public void enableInGameMenuButton(){
-            // this.inGameMenuButton.setText("Pause");
-            // this.inGameMenuButton.setEnabled(true);
-        // }
+        public void enableInGameMenuButton(){
+            this.inGameMenuButton.setText("Pause");
+            this.inGameMenuButton.setEnabled(true);
+        }
 
         public void disableHitButton(){
             hitButton.setEnabled(false);
@@ -707,9 +710,9 @@ public class PoolClient extends JFrame{
             hitPosition.setEnabled(false);
         }
 
-        // public void disablePause(){
-        //     inGameMenuButton.setEnabled(false);
-        // }
+        public void disablePause(){
+            inGameMenuButton.setEnabled(false);
+        }
 
         public void enableHitButton(){
             hitButton.setEnabled(true);
@@ -788,16 +791,17 @@ public class PoolClient extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // if(e.getSource()==inGameMenuButton){
-            //     // this.gameMenu.setVisible(true);
-            //     this.inGameMenuButton.setText("Paused");
-            //     this.inGameMenuButton.setEnabled(false);
-            //     disableCue();
-            //     disableHitButton();
-            //     disableElevationBar();
-            //     disableHitPosition();
-            //     disablePowerBar();
-            // }
+            if(e.getSource()==inGameMenuButton)
+            {
+                this.gameMenu.setVisible(true);
+                this.inGameMenuButton.setText("cd");
+                this.inGameMenuButton.setEnabled(false);
+                disableCue();
+                disableHitButton();
+                disableElevationBar();
+                disableHitPosition();
+                disablePowerBar();
+            }
         }
     } 
 
