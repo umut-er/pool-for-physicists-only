@@ -26,6 +26,8 @@ public class Physics{
         double time;
 
         for(Ball ball : table.getBallArray()){
+            if(ball.getPocketed())
+                continue;
             if(ball.isSpinning()){
                 time = calculateSpinningTime(ball);
                 if(event == null || event.getTimeUntilEvent() > time)
@@ -44,9 +46,13 @@ public class Physics{
         }
 
         for(int i = 0; i < (table.getBallArray().size()); i++){
+            Ball ball1 = table.getBallArray().get(i);
+            if(ball1.getPocketed())
+                continue;
             for(int j = i + 1; j < (table.getBallArray().size()); j++){
-                Ball ball1 = table.getBallArray().get(i);
                 Ball ball2 = table.getBallArray().get(j);
+                if(ball2.getPocketed())
+                    continue;
                 double dist = Vector3.subtract(ball1.getPosition(), ball2.getPosition()).getVectorLength();
                 if(dist < 2 * Ball.RADIUS - 1e-4){
                     // System.out.println("Ball collision is not detected between: " + i + " " + j);
@@ -63,6 +69,8 @@ public class Physics{
         }
 
         for(Ball ball : table.getBallArray()){
+            if(ball.getPocketed())
+                continue;
             for(Cushion cushion : table.getCushionArray()){
                 time = calculateBallCushionCollisionTime(ball, cushion);
                 if(time >= 0){
@@ -74,6 +82,8 @@ public class Physics{
         }
 
         for(Ball ball : table.getBallArray()){
+            if(ball.getPocketed())
+                continue;
             for(PointCushion pointCushion : table.getPointCushionArray()){
                 time = calculateBallPointCushionCollisionTime(ball, pointCushion);
                 if(time >= 0){
@@ -85,8 +95,10 @@ public class Physics{
         }
 
         for(int i = 0; i < table.getBallArray().size(); i++){
+            Ball ball = table.getBallArray().get(i);
+            if(ball.getPocketed())
+                continue;
             for(Pocket pocket : table.getPocketArray()){
-                Ball ball = table.getBallArray().get(i);
                 time = calculateBallPocketCollisionTime(ball, pocket);
                 if(time >= 0){
                     if(event == null || event.getTimeUntilEvent() > time){
@@ -100,8 +112,10 @@ public class Physics{
     }
 
     public static void updateTable(Table table, double dt){
-        for(Ball ball : table.getBallArray())
-            evolveBallMotion(ball, dt);
+        for(Ball ball : table.getBallArray()){
+            if(!ball.getPocketed())
+                evolveBallMotion(ball, dt);
+        }
     }
 
     public static double calculateBallBallCollisionTime(Ball ball1, Ball ball2){

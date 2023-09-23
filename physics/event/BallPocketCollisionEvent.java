@@ -18,6 +18,6 @@ public class BallPocketCollisionEvent extends Event{
     }
 
     public void resolveEvent(){
-        table.removeBall(ball.getNumber());
+        ball.setPocketed(true);
     }
 }

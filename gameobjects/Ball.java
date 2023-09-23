@@ -18,6 +18,8 @@ public class Ball implements Serializable{
     private Vector3 velocity;
     private Vector3 angularVelocity;
 
+    private boolean pocketed = false;
+
     public Ball(int number, double... data) throws IllegalArgumentException{
         if(data.length != 9) throw new IllegalArgumentException("9 arguments required for vector initialization, " + data.length + " given.");
         this.ballNumber = number;
@@ -44,6 +46,14 @@ public class Ball implements Serializable{
 
     public int getNumber(){
         return this.ballNumber;
+    }
+
+    public boolean getPocketed(){
+        return this.pocketed;
+    }
+
+    public void setPocketed(boolean pocketed){
+        this.pocketed = pocketed;
     }
 
     public void setPosition(double x, double y, double z){

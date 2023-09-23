@@ -173,7 +173,7 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
         double targetBallY = 0;
         g2.setColor(Color.BLACK);
         for(BallUI ball : ballUIs){
-            if (ball.getColor() != Color.WHITE){
+            if (ball.getNumber() != 0 && !ball.getPocketed()){
                 double a = 1;
 
                 double b = 2 * (Math.cos(angle + Math.PI) * (TableUI.getPixelFromMeters(ball.getBallXPosition(), false) + table.getTableFrameX() - cueBallX) + 

@@ -177,6 +177,8 @@ public class TableUI extends JPanel implements ActionListener{
         }
 
         for(BallUI ball : ballUIs){
+            if(ball.getPocketed())
+                continue;
             graphics.setColor(ball.getColor());
             graphics.fillOval(getPixelFromMeters(ball.getBallXPosition(), false) - BallUI.BALL_PIXEL_RADIUS, 
                             getPixelFromMeters(ball.getBallYPosition(), true) - BallUI.BALL_PIXEL_RADIUS,
@@ -186,7 +188,7 @@ public class TableUI extends JPanel implements ActionListener{
         if(numbersOn){
             graphics.setColor(new Color(134, 74, 154));
             for(BallUI ball : ballUIs){
-                if(ball.getBall().getNumber() != 0){
+                if(ball.getBall().getNumber() != 0 && !ball.getPocketed()){
                     if(ball.getNumber() < 10){
                         graphics.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
                         graphics.drawString(String.valueOf(ball.getBall().getNumber()), 
@@ -227,11 +229,8 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public void ballInHandPlacer(double x, double y){
-        Ball cueBall = new Ball(0,x,y,0,0,0,0,0,0,0);
-        BallUI cueBallUI = new BallUI(cueBall);
         cueBallDrag = false;
-        ballUIs.add(0,cueBallUI);
-        table.getBallArray().add(0, cueBall);
+        placeBall(0, x, y);
         this.removeMouseMotionListener(bp);
         this.removeMouseListener(bp);
         mainPanel.getNotif().setText("");
@@ -251,10 +250,15 @@ public class TableUI extends JPanel implements ActionListener{
     }
 
     public void placeBall(int ballNumber, double x, double y){
-        Ball placedBall = new Ball(ballNumber, x, y, 0, 0, 0, 0, 0, 0, 0);
-        BallUI nineBallUI = new BallUI(placedBall);
-        table.getBallArray().add(placedBall);
-        ballUIs.add(nineBallUI);
+        for(Ball ball : table.getBallArray()){
+            if(ball.getNumber() == ballNumber){
+                ball.setPosition(x, y, 0);
+                ball.setVelocity(0, 0, 0);
+                ball.setAngularVelocity(0, 0, 0);
+                ball.setPocketed(false);
+                break;
+            }
+        }
     }
 
     public boolean getCueBallDrag(){

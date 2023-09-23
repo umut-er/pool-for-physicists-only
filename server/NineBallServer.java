@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
         turn = (rand >= 0.5);
 
         try {
-            ss = new ServerSocket(4999);
+            ss = new ServerSocket(4999, 0, InetAddress.getByName("localhost"));
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -55,8 +56,8 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                 t.start();
             }
             System.out.println("Connections established, game starting!");
-            // ArrayList<Ball> rack = Ball.getStandardNineBallArray();
-            ArrayList<Ball> rack = Ball.getOnlyNineBallArray();
+            ArrayList<Ball> rack = Ball.getStandardNineBallArray();
+            // ArrayList<Ball> rack = Ball.getOnlyNineBallArray();
             while(usernames[1] == null){} // wait for usernames to be processed by the server.
             for(ServerSideConnection ssc : serverSideConnections){
                 ssc.sendInitializationInformation(rack);
@@ -216,14 +217,6 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                         ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
                         HitEndInfo currentHit = (HitEndInfo)objectIn.readObject();
 
-                        // TODO: This is not working
-                        if(currentHit.getNineBallPotted() && !currentHit.getCueBallPotted()){
-                            for(int i = 0; i < MAX_PLAYER_NUM; i++){
-                                serverSideConnections[i].sendWinInformation(turn);
-                            }
-                            continue;
-                        }
-
                         // Generate FoulInfo and turn
                         FoulInfo foul = new FoulInfo(false, false, false);
                         if(currentHit.getFirstBallContact() == -1){
@@ -239,13 +232,19 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                             foul.setPlayerToUseFoul(!turn);
                         }
 
+                        if(currentHit.getNineBallPotted() && !foul.getBallInHand()){
+                            for(int i = 0; i < MAX_PLAYER_NUM; i++){
+                                serverSideConnections[i].sendWinInformation(turn);
+                            }
+                            continue;
+                        }
+
                         if(foul.getBallInHand() || !currentHit.getBallPotted()){
                             turn = !turn;
                         }
                         
                         // Send turn information
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
-                            System.out.println("Turn = " + turn);
                             serverSideConnections[i].sendTurnInformation();
                         }
 

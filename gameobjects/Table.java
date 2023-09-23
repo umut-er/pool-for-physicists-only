@@ -46,6 +46,14 @@ public class Table{
     public void setBallArray(ArrayList<Ball> array){
         this.ballArray = array;
     }
+
+    public Ball getCueBall(){
+        for(Ball ball : ballArray){
+            if(ball.getNumber() == 0)
+                return ball;
+        }
+        return null;
+    }
     
     public Cushion[] getCushionArray(){
         return this.cushions;
@@ -66,8 +74,7 @@ public class Table{
     public void removeBall(int ballNumber){
         for(Ball ball : ballArray){
             if(ball.getNumber() == ballNumber){
-                ballArray.remove(ball);
-                break;
+                ball.setPocketed(true);
             }
         }
     }
@@ -100,7 +107,7 @@ public class Table{
     public int getLowestNumberOnTable(){
         int min = 10;
         for(Ball ball : ballArray){
-            if(ball.getNumber() < min && ball.getNumber() > 0){
+            if(ball.getNumber() < min && ball.getNumber() > 0 && !ball.getPocketed()){
                 min = ball.getNumber();
             }
         }
@@ -110,7 +117,7 @@ public class Table{
     public boolean ballPocketed(int ballNumber){
         for(Ball ball : ballArray){
             if(ball.getNumber() == ballNumber)
-                return false;
+                return ball.getPocketed();
         }
         return true;
     }
@@ -152,7 +159,6 @@ public class Table{
                 ballPocketedThisTurn = true;
                 BallPocketCollisionEvent convertedEvent = (BallPocketCollisionEvent)currentEvent;
                 pocketedBalls.add(convertedEvent.getBall().getNumber());
-                tableUI.removeBall(convertedEvent.getBall().getNumber());
             }
             currentEvent = null;
             timeThisTurn += dt;

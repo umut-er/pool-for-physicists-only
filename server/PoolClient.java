@@ -51,7 +51,7 @@ public class PoolClient extends JFrame{
     public PoolPanel panel;
 
     private ClientSideConnection csc;
-    private String username = "Hello";
+    private String username = "UUE";
     private int playerID;
     private boolean playerTurn;
 
@@ -207,13 +207,14 @@ public class PoolClient extends JFrame{
             try {
                 ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
                 FoulInfo foul = (FoulInfo)objectIn.readObject();
-                if(foul.getPlaceNineBall()){
+                if(foul.getPlaceNineBall() && playerHasTurn(playerID, foul.getPlayerToUseFoul())){
                     double[] arr = panel.getTableUI().getPlacement();
                     sendBallPlacementInformation(9, arr[0], arr[1]);
                 }
                 if(foul.getBallInHand()){
+                    panel.getTable().getCueBall().setPocketed(true);
                     panel.setFoulText();
-                    panel.removeBall(0);
+                    panel.repaint();
                     if(playerHasTurn(playerID, foul.getPlayerToUseFoul()))
                         panel.ballInHand();
                 }
@@ -246,10 +247,13 @@ public class PoolClient extends JFrame{
                 double x = dataIn.readDouble(), y = dataIn.readDouble();
                 if(ballNumber != 0)
                     panel.getTableUI().placeBall(ballNumber, x, y);
-                else
+                else{
                     panel.getTableUI().ballInHandPlacer(x, y);
-
-                activateTurn();
+                    panel.repaint();
+                    activateTurn();
+                }
+                panel.repaint();
+    
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
@@ -272,6 +276,7 @@ public class PoolClient extends JFrame{
 
         public void sendBallPlacementInformation(int ballNumber, double x, double y){
             try {
+                // System.out.println("Sent Ball Placement Request: " + ballNumber + " " + x + " " + y);
                 dataOut.writeInt(BALL_PLACEMENT_REQUEST);
                 dataOut.writeInt(ballNumber);
                 dataOut.writeDouble(x);
@@ -342,7 +347,7 @@ public class PoolClient extends JFrame{
         private int score1 = 0;
         private int score2 = 0;
 
-        public static boolean cueIsFixed = false;
+        public boolean cueIsFixed = false;
 
         private MouseAdapter frameListener;
         private MouseAdapter hitPositionListener;
@@ -747,11 +752,6 @@ public class PoolClient extends JFrame{
 
         public void placeBall(int ballNumber, double x, double y){
             tableUI.placeBall(ballNumber, x, y);
-        }
-
-        public void removeBall(int ballNumber){
-            getTable().removeBall(0);
-            getTableUI().removeBall(0);
         }
 
         public CueUI getCue(){

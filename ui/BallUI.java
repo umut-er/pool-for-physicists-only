@@ -37,4 +37,8 @@ public class BallUI {
     public Color getColor(){
         return this.color;
     }
+
+    public boolean getPocketed(){
+        return getBall().getPocketed();
+    }
 }
