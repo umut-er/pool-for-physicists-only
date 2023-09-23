@@ -96,7 +96,7 @@ public class PoolClient extends JFrame{
         public ClientSideConnection(){
             System.out.println("---- Client ----");
             try {
-                socket = new Socket("localhost", 4999);
+                socket = new Socket(NineBallServer.IP_ADDRESS, 4999);
                 dataIn = new DataInputStream(socket.getInputStream());
                 dataOut = new DataOutputStream(socket.getOutputStream());
 
@@ -196,6 +196,9 @@ public class PoolClient extends JFrame{
             try {
                 ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
                 HitInfo hit = (HitInfo)objectIn.readObject();
+
+                System.out.println("HIT RECEIVED!");
+
                 panel.handleHit(hit);
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -298,6 +301,7 @@ public class PoolClient extends JFrame{
 
                 dataOut.flush();
                 objectOut.flush();
+                System.out.println("HIT SENT!");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
@@ -339,7 +343,7 @@ public class PoolClient extends JFrame{
         private JButton inGameMenuButton;
         private JTextField notifications;
         
-        private InGameMenu gameMenu;
+        // private InGameMenu gameMenu;
         private AccountUI userAccount1;
         private AccountUI userAccount2;
         private JLabel scoreLabel1;
@@ -375,14 +379,14 @@ public class PoolClient extends JFrame{
             this.setBackground(Color.DARK_GRAY);
             this.add(userAccount1);
             this.add(userAccount2);
-            inGameMenuButton=new JButton("Pause");
-            inGameMenuButton.setBounds(1000,250,100,100);
-            inGameMenuButton.setBackground(Color.WHITE);
-            inGameMenuButton.addActionListener(this);
-            this.add(inGameMenuButton);
-            gameMenu=new InGameMenu(this);
-            gameMenu.setVisible(false);
-            this.add(gameMenu);
+            // inGameMenuButton=new JButton("Pause");
+            // inGameMenuButton.setBounds(1000,250,100,100);
+            // inGameMenuButton.setBackground(Color.WHITE);
+            // inGameMenuButton.addActionListener(this);
+            // this.add(inGameMenuButton);
+            // gameMenu=new InGameMenu(this);
+            // gameMenu.setVisible(false);
+            // this.add(gameMenu);
             
             cue = new CueUI(tableUI);
             powerBar = new PowerBar(cue, this);
@@ -784,9 +788,8 @@ public class PoolClient extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource()==inGameMenuButton)
-            {
-                this.gameMenu.setVisible(true);
+            if(e.getSource()==inGameMenuButton){
+                // this.gameMenu.setVisible(true);
                 this.inGameMenuButton.setText("Paused");
                 this.inGameMenuButton.setEnabled(false);
                 disableCue();

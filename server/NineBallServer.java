@@ -21,6 +21,8 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
     public static final int BALL_PLACEMENT_INFO = 115; // tells the client to process a ball placement.
     public static final int RACK_INFO = 116; // tells the client to process a new rack.
 
+    public static final String IP_ADDRESS = "10.147.17.132";
+
     private ServerSocket ss;
     public static final int MAX_PLAYER_NUM = 2;
     private int numOfPlayers;
@@ -38,7 +40,7 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
         turn = (rand >= 0.5);
 
         try {
-            ss = new ServerSocket(4999, 0, InetAddress.getByName("localhost"));
+            ss = new ServerSocket(4999, 0, InetAddress.getByName(IP_ADDRESS));
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -129,6 +131,8 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
 
                 dataOut.flush();
                 objectOut.flush();
+
+                System.out.println("SERVER SENT HIT");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
