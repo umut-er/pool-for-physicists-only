@@ -249,19 +249,6 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                             turn = !turn;
                         }
                         
-                        if(rackInfoIn[0] && rackInfoIn[1]){
-                            boolean same = true;
-                            for(int i = 0; i < 18; i++){
-                                same &= (rack1[i] == rack2[i]);
-                            }
-
-                            if(same) System.out.println("The racks are the same!");
-                            else System.out.println("Differences detected between racks!");
-                            System.out.flush();
-
-                            rackInfoIn[0] = false; rackInfoIn[1] = false;
-                        }
-                        
                         // Send turn information
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
                             serverSideConnections[i].sendTurnInformation();
@@ -306,6 +293,19 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                                 rack2[i] = dataIn.readDouble();
                             }
                             rackInfoIn[1] = true;
+                        }
+
+                        if(rackInfoIn[0] && rackInfoIn[1]){
+                            boolean same = true;
+                            for(int i = 0; i < 18; i++){
+                                same &= (rack1[i] == rack2[i]);
+                            }
+
+                            if(same) System.out.println("The racks are the same!");
+                            else System.out.println("Differences detected between racks!");
+                            System.out.flush();
+
+                            rackInfoIn[0] = false; rackInfoIn[1] = false;
                         }
                     }
                 } catch (IOException | ClassNotFoundException e) {

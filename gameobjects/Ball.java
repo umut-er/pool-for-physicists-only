@@ -175,7 +175,7 @@ public class Ball implements Serializable{
      * @return
      */
     public static double[] getStandardEightBallPositions(){
-        double randTerm = ((Math.random() * 5) + 1) / 10000.;
+        double randTerm = ((Math.random() * 4) + 2) / 10000.;
         double[] positions = new double[30];
 
         double xDefault = TableUI.getTableWidthMeters() - 0.82;
