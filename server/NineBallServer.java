@@ -21,7 +21,7 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
     public static final int BALL_PLACEMENT_INFO = 115; // tells the client to process a ball placement.
     public static final int RACK_INFO = 116; // tells the client to process a new rack.
 
-    public static final String IP_ADDRESS = "10.147.17.132";
+    public static final String IP_ADDRESS = "localhost";
 
     private ServerSocket ss;
     public static final int MAX_PLAYER_NUM = 2;
@@ -29,6 +29,10 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
     private ServerSideConnection[] serverSideConnections;
     private String[] usernames;
     private boolean turn;
+
+    private double[] rack1 = new double[18];
+    private double[] rack2 = new double[18];
+    private boolean[] rackInfoIn = new boolean[2];
 
     public NineBallServer(){
         System.out.println("---- Nine Ball Server ----");
@@ -131,8 +135,6 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
 
                 dataOut.flush();
                 objectOut.flush();
-
-                System.out.println("SERVER SENT HIT");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
@@ -247,6 +249,19 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                             turn = !turn;
                         }
                         
+                        if(rackInfoIn[0] && rackInfoIn[1]){
+                            boolean same = true;
+                            for(int i = 0; i < 18; i++){
+                                same &= (rack1[i] == rack2[i]);
+                            }
+
+                            if(same) System.out.println("The racks are the same!");
+                            else System.out.println("Differences detected between racks!");
+                            System.out.flush();
+
+                            rackInfoIn[0] = false; rackInfoIn[1] = false;
+                        }
+                        
                         // Send turn information
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
                             serverSideConnections[i].sendTurnInformation();
@@ -256,6 +271,7 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
                             serverSideConnections[i].sendFoulInformation(foul);
                         }
+
                     }
                     else if(request == PoolClient.BALL_PLACEMENT_REQUEST){
                         int ballNumber = dataIn.readInt();
@@ -275,6 +291,21 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                         }
                         for(int i = 0; i < MAX_PLAYER_NUM; i++){
                             serverSideConnections[i].sendFoulInformation(new FoulInfo(false, false, false));
+                        }
+                    }
+                    else if(request == PoolClient.CURRENT_RACK_INFO){
+                        System.out.println("HERE");
+                        if(playerID == 1){
+                            for(int i = 0; i < 18; i++){
+                                rack1[i] = dataIn.readDouble();
+                            }
+                            rackInfoIn[0] = true;
+                        }
+                        else{
+                            for(int i = 0; i < 18; i++){
+                                rack2[i] = dataIn.readDouble();
+                            }
+                            rackInfoIn[1] = true;
                         }
                     }
                 } catch (IOException | ClassNotFoundException e) {

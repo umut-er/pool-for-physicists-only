@@ -15,8 +15,11 @@ public class Ball implements Serializable{
 
     private int ballNumber;
     private Vector3 position;
+    private Vector3 internalPosition;
     private Vector3 velocity;
+    private Vector3 internalVelocity;
     private Vector3 angularVelocity;
+    private Vector3 internalAngularVelocity;
 
     private boolean pocketed = false;
 
@@ -26,6 +29,10 @@ public class Ball implements Serializable{
         this.position = new Vector3(data[0], data[1], data[2]);
         this.velocity = new Vector3(data[3], data[4], data[5]);
         this.angularVelocity = new Vector3(data[6], data[7], data[8]);
+        this.internalPosition = new Vector3(this.position);
+        this.internalVelocity = new Vector3(this.velocity);
+        this.internalAngularVelocity = new Vector3(this.angularVelocity);
+        equatePropertyVectors();
     }
 
     public Ball(int number, double x, double y){
@@ -36,12 +43,24 @@ public class Ball implements Serializable{
         return this.position;
     }
 
+    public Vector3 getInternalPosition(){
+        return this.internalPosition;
+    }
+
     public Vector3 getVelocity(){
         return this.velocity;
     }
 
+    public Vector3 getInternalVelocity(){
+        return this.internalVelocity;
+    }
+
     public Vector3 getAngularVelocity(){
         return this.angularVelocity;
+    }
+
+    public Vector3 getInternalAngularVelocity(){
+        return this.internalAngularVelocity;
     }
 
     public int getNumber(){
@@ -64,6 +83,14 @@ public class Ball implements Serializable{
         this.position = displacement;
     }
 
+    public void setInternalPosition(double x, double y, double z){
+        this.internalPosition.setAll(x, y, z);
+    }
+
+    public void setInternalPosition(Vector3 position){
+        this.internalPosition = position;
+    }
+
     public void setVelocity(double x, double y, double z){
         this.velocity.setAll(x, y, z);
     }
@@ -72,12 +99,34 @@ public class Ball implements Serializable{
         this.velocity = velocity;
     }
 
+    public void setInternalVelocity(double x, double y, double z){
+        this.internalVelocity.setAll(x, y, z);
+    }
+
+    public void setInternalVelocity(Vector3 velocity){
+        this.internalVelocity = velocity;
+    }
+
     public void setAngularVelocity(double x, double y, double z){
         this.angularVelocity.setAll(x, y, z);
     }
 
     public void setAngularVelocity(Vector3 angularVelocity){
         this.angularVelocity = angularVelocity;
+    }
+
+    public void setInternalAngularVelocity(double x, double y, double z){
+        this.internalAngularVelocity.setAll(x, y, z);
+    }
+
+    public void setInternalAngularVelocity(Vector3 angularVelocity){
+        this.internalAngularVelocity = angularVelocity;
+    }
+
+    public void equatePropertyVectors(){
+        this.internalPosition.setAll(this.position);
+        this.internalVelocity.setAll(this.velocity);
+        this.internalAngularVelocity.setAll(this.angularVelocity);
     }
 
     public boolean isStationary(){
@@ -101,6 +150,21 @@ public class Ball implements Serializable{
         return !Vector3.crossProduct(normalizedVector, angularVelocity).equals(velocity);
     }
 
+    public static ArrayList<Ball> getTestingLayout(){
+        double[] positions = getStandardEightBallPositions();
+        ArrayList<Ball> ret = new ArrayList<>();
+        Ball cueBall = new Ball(0, 0.9, TableUI.getTableHeightMeters() / 2);
+        Ball nineBall = new Ball(9, 0.6, TableUI.getTableHeightMeters() / 2);
+        ret.add(cueBall);
+        ret.add(nineBall);
+        for(int i = 0; i < 6; i++){
+            Ball newBall = new Ball(i+1, positions[2*i], positions[2*i+1]);
+            ret.add(newBall);
+        }
+
+        return ret;
+    }
+
     /**
      *          0
      *         2 4
@@ -111,7 +175,7 @@ public class Ball implements Serializable{
      * @return
      */
     public static double[] getStandardEightBallPositions(){
-        double randTerm = ((Math.random() * 5) + 1) / 100000.;
+        double randTerm = ((Math.random() * 5) + 1) / 10000.;
         double[] positions = new double[30];
 
         double xDefault = TableUI.getTableWidthMeters() - 0.82;

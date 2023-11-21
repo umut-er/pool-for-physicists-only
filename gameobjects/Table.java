@@ -16,6 +16,7 @@ public class Table{
     private Pocket[] pockets = Pocket.getStandardPocketArray();
     private Event currentEvent;
     private double timeThisTurn = 0;
+    private double interimTime = 0;
 
     private int smallestNumberedBall;
     private BallBallCollisionEvent firstCollisionEvent; // TODO: get all collisions
@@ -145,12 +146,14 @@ public class Table{
             getNextEvent();
         }
         if(currentEvent == null){
+            timeThisTurn = 0;
             return -2;
         }
-
+        
         if(dt > currentEvent.getTimeUntilEvent()){
             dt = currentEvent.getTimeUntilEvent();
-            Physics.updateTable(this, dt);
+            timeThisTurn += dt;
+            Physics.updateTable(this, timeThisTurn);
             currentEvent.resolveEvent();
             if(currentEvent instanceof BallBallCollisionEvent && firstCollisionEvent == null){
                 firstCollisionEvent = (BallBallCollisionEvent)currentEvent;
@@ -160,16 +163,21 @@ public class Table{
                 BallPocketCollisionEvent convertedEvent = (BallPocketCollisionEvent)currentEvent;
                 pocketedBalls.add(convertedEvent.getBall().getNumber());
             }
+            for(Ball ball : ballArray)
+                ball.equatePropertyVectors();
             currentEvent = null;
-            timeThisTurn += dt;
-            if(timeThisTurn <= TableUI.UPDATION_INTERVAL / 1000.)
+            timeThisTurn = 0;
+            interimTime += dt;
+            if(interimTime <= TableUI.UPDATION_INTERVAL / 1000.){
                 evolveTable(tableUI, TableUI.UPDATION_INTERVAL / 1000.);
+            }
         }
         else{
-            Physics.updateTable(this, dt);
+            timeThisTurn += dt;
+            Physics.updateTable(this, timeThisTurn);
             currentEvent.decreaseTimeUntilEvent(dt);
         }
-        timeThisTurn = 0;
+        interimTime = 0;
         return -1;
     }
 }

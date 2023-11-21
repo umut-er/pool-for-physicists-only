@@ -53,12 +53,6 @@ public class Physics{
                 Ball ball2 = table.getBallArray().get(j);
                 if(ball2.getPocketed())
                     continue;
-                double dist = Vector3.subtract(ball1.getPosition(), ball2.getPosition()).getVectorLength();
-                if(dist < 2 * Ball.RADIUS - 1e-4){
-                    // System.out.println("Ball collision is not detected between: " + i + " " + j);
-                    Physics.resolveBallBallCollision(ball1, ball2);
-                    continue;
-                }
 
                 time = calculateBallBallCollisionTime(ball1, ball2);
                 if(time >= 0){
@@ -174,8 +168,13 @@ public class Physics{
         Vector3 lineOfCenters = Vector3.subtract(ball2.getPosition(), ball1.getPosition());
         if(Cx * Cx + Cy * Cy + Cz * Cz - 4 * Ball.RADIUS * Ball.RADIUS < 1e-3){
             Vector3 relativeVelocity = Vector3.subtract(ball1.getVelocity(), ball2.getVelocity()); 
-            if(Math.abs(Vector3.getSignedAngle2D(relativeVelocity, lineOfCenters)) >= Math.PI / 2 + 1e-6)
+            if(Math.abs(Vector3.getSignedAngle2D(relativeVelocity, lineOfCenters)) >= Math.PI / 2)
                 return -1;
+            else{
+                double dist = Vector3.subtract(ball1.getPosition(), ball2.getPosition()).getVectorLength();
+                if(dist < 2 * Ball.RADIUS - 1e-4)
+                    return 0;
+            }  
         }
 
         return PolynomialSolver.solveQuarticEquation(
@@ -382,7 +381,7 @@ public class Physics{
      * @param ball the Ball object to evolve.
      */
     private static void evolveSpinningBallMotion(Ball ball, double deltaTime){
-        double ZAxisAngularVelocity = ball.getAngularVelocity().getAxis(2);
+        double ZAxisAngularVelocity = ball.getInternalAngularVelocity().getAxis(2);
         double sign = Math.signum(ZAxisAngularVelocity);
         double diff = Math.min(5 * SPINNING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime/ (2 * Ball.RADIUS), Math.abs(ZAxisAngularVelocity));
         ZAxisAngularVelocity -= sign * diff;
@@ -394,15 +393,24 @@ public class Physics{
      * @param ball the Ball object to evolve.
      */
     private static void evolveRollingBallMotion(Ball ball, double deltaTime){
-        if(calculateRollingTime(ball) < deltaTime)
-            deltaTime = calculateRollingTime(ball);
+        // if(calculateRollingTime(ball) < deltaTime)
+        //     deltaTime = calculateRollingTime(ball);
 
-        Vector3 normalizedVelocity = Vector3.normalize(ball.getVelocity());
-        ball.getPosition().inPlaceAdd(Vector3.multiply(deltaTime, ball.getVelocity()));
-        ball.getPosition().inPlaceSubtract(Vector3.multiply(ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedVelocity));
+        Vector3 normalizedVelocity = Vector3.normalize(ball.getInternalVelocity());
+        // ball.getPosition().inPlaceAdd(Vector3.multiply(deltaTime, ball.getInternalVelocity()));
+        // ball.getPosition().inPlaceSubtract(Vector3.multiply(ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedVelocity));
+
+        Vector3 newPosition = new Vector3(ball.getInternalPosition());
+        newPosition.inPlaceAdd(Vector3.multiply(deltaTime, ball.getInternalVelocity()));
+        newPosition.inPlaceSubtract(Vector3.multiply(ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedVelocity));
+        ball.setPosition(newPosition);
 
         normalizedVelocity.inPlaceMultiply(ROLLING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime);
-        ball.getVelocity().inPlaceSubtract(normalizedVelocity);
+        // ball.getVelocity().inPlaceSubtract(normalizedVelocity);
+
+        Vector3 newVelocity = new Vector3(ball.getInternalVelocity());
+        newVelocity.inPlaceSubtract(normalizedVelocity);
+        ball.setVelocity(newVelocity);
 
         ball.getAngularVelocity().setAxis(0, -1 / Ball.RADIUS * ball.getVelocity().getAxis(1));
         ball.getAngularVelocity().setAxis(1, 1 / Ball.RADIUS * ball.getVelocity().getAxis(0));
@@ -415,25 +423,31 @@ public class Physics{
      * @param ball the Ball object to evolve.
      */
     private static void evolveSlidingBallMotion(Ball ball, double deltaTime){
-        double slideTimeLeft = calculateSlidingTime(ball);
-        if(slideTimeLeft < deltaTime)
-            deltaTime = slideTimeLeft;
+        // double slideTimeLeft = calculateSlidingTime(ball);
+        // if(slideTimeLeft < deltaTime)
+        //     deltaTime = slideTimeLeft;
 
         Vector3 radiusVector = new Vector3(0, 0, Ball.RADIUS);
-        Vector3 relativeVelocity = Vector3.add(ball.getVelocity(), Vector3.crossProduct(radiusVector, ball.getAngularVelocity()));
+        Vector3 relativeVelocity = Vector3.add(ball.getInternalVelocity(), Vector3.crossProduct(radiusVector, ball.getInternalAngularVelocity()));
         Vector3 normalizedRelativeVelocity = Vector3.normalize(relativeVelocity);
-        ball.getPosition().inPlaceAdd(Vector3.multiply(deltaTime, ball.getVelocity()));
-        ball.getPosition().inPlaceSubtract(Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedRelativeVelocity));
+
+        // ball.getPosition().inPlaceAdd(Vector3.multiply(deltaTime, ball.getVelocity()));
+        // ball.getPosition().inPlaceSubtract(Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedRelativeVelocity));
+        Vector3 newPosition = new Vector3(ball.getInternalPosition());
+        newPosition.inPlaceAdd(Vector3.multiply(deltaTime, ball.getInternalVelocity()));
+        newPosition.inPlaceSubtract(Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime * deltaTime / 2, normalizedRelativeVelocity));
+        ball.setPosition(newPosition);
 
         Vector3 deltaVelocity = Vector3.multiply(SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime, normalizedRelativeVelocity);
-        ball.getVelocity().inPlaceSubtract(deltaVelocity);
+        // ball.getVelocity().inPlaceSubtract(deltaVelocity);
+        ball.setVelocity(Vector3.subtract(ball.getInternalVelocity(), deltaVelocity));
 
         double constantMultiplier = (5 * SLIDING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime) / (2 * Ball.RADIUS);
         Vector3 deltaVector = Vector3.multiply(constantMultiplier, normalizedRelativeVelocity);
         double deltaXAngularVelocity = - deltaVector.getAxis(1);
         double deltaYAngularVelocity = deltaVector.getAxis(0);
-        ball.getAngularVelocity().setAxis(0, ball.getAngularVelocity().getAxis(0) + deltaXAngularVelocity);
-        ball.getAngularVelocity().setAxis(1, ball.getAngularVelocity().getAxis(1) + deltaYAngularVelocity);
+        ball.getAngularVelocity().setAxis(0, ball.getInternalAngularVelocity().getAxis(0) + deltaXAngularVelocity);
+        ball.getAngularVelocity().setAxis(1, ball.getInternalAngularVelocity().getAxis(1) + deltaYAngularVelocity);
         
         evolveSpinningBallMotion(ball, deltaTime);
     }
@@ -586,5 +600,6 @@ public class Physics{
         Vector3 w = Vector3.rotateAboutZAxis(new Vector3(wx, wy, wz), directionAngle);
         w.inPlaceMultiply(force / momentOfInertia);
         ball.setAngularVelocity(w);
+        ball.equatePropertyVectors();
     }
 }

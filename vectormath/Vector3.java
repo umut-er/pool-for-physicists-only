@@ -52,6 +52,10 @@ public class Vector3 extends Matrix{
         setAxis(2, z);
     }
 
+    public void setAll(final Vector3 vector){
+        setAll(vector.getAxis(0), vector.getAxis(1), vector.getAxis(2));
+    }
+
     /**
      * Performs this = this + vector
      * @param vector The non-modified vector.

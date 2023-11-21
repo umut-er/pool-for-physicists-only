@@ -44,6 +44,7 @@ public class PoolClient extends JFrame{
     public static final int HIT_END_INFO = 1111;
     public static final int REQUEST_NEW_RACK = 1112;
     public static final int BALL_PLACEMENT_REQUEST = 1113;
+    public static final int CURRENT_RACK_INFO = 1114;
 
     public static final String IP_ADDRESS = "10.147.17.132";
 
@@ -192,15 +193,13 @@ public class PoolClient extends JFrame{
 
             panel.setTurn(playerTurn);
             panel.repaint();
+            sendCurrentRackInformation();
         }
 
         public void receiveHitInformation(){
             try {
                 ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
                 HitInfo hit = (HitInfo)objectIn.readObject();
-
-                System.out.println("HIT RECEIVED!");
-
                 panel.handleHit(hit);
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -232,7 +231,7 @@ public class PoolClient extends JFrame{
             }
         }
 
-        public void receiveWinInformation(){ // TODO: This is not working at all, check it
+        public void receiveWinInformation(){
             boolean winner = false;
             try {
                 winner = dataIn.readBoolean();
@@ -281,7 +280,6 @@ public class PoolClient extends JFrame{
 
         public void sendBallPlacementInformation(int ballNumber, double x, double y){
             try {
-                // System.out.println("Sent Ball Placement Request: " + ballNumber + " " + x + " " + y);
                 dataOut.writeInt(BALL_PLACEMENT_REQUEST);
                 dataOut.writeInt(ballNumber);
                 dataOut.writeDouble(x);
@@ -303,7 +301,6 @@ public class PoolClient extends JFrame{
 
                 dataOut.flush();
                 objectOut.flush();
-                System.out.println("HIT SENT!");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);
@@ -328,6 +325,20 @@ public class PoolClient extends JFrame{
         public void sendRackRequest(){
             try {
                 dataOut.writeInt(REQUEST_NEW_RACK);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+    
+        public void sendCurrentRackInformation(){
+            try {
+                dataOut.writeInt(CURRENT_RACK_INFO);
+                for(Ball ball : panel.getTable().getBallArray()){
+                    dataOut.writeDouble(ball.getPosition().getAxis(0));
+                    dataOut.writeDouble(ball.getPosition().getAxis(1));
+                    dataOut.flush();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(-1);

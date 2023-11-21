@@ -1,6 +1,7 @@
 package physics.event;
 import gameobjects.Ball;
 
+@SuppressWarnings("unused")
 public class BallStateChangeEvent extends Event{
     private Ball ball;
 
