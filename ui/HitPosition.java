@@ -33,7 +33,7 @@ public class HitPosition extends JPanel implements MouseListener{
         {
             xValue = e.getX();
             yValue = e.getY();
-            if(Math.pow(xValue - this.getWidth()/2 , 2) + Math.pow(yValue - this.getHeight()/2, 2) <= Math.pow(this.getWidth()/2, 2)){
+            if(StrictMath.pow(xValue - this.getWidth()/2 , 2) + StrictMath.pow(yValue - this.getHeight()/2, 2) <= StrictMath.pow(this.getWidth()/2, 2)){
                 repaint();
             }
         }

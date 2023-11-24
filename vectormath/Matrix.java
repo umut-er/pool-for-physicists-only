@@ -202,7 +202,7 @@ public class Matrix implements Serializable{
         if(this.getRowCount() != comp.getRowCount() || this.getColumnCount() != comp.getColumnCount()) return false;
         for(int i = 0; i < getRowCount(); i++){
             for(int j = 0; j < getColumnCount(); j++){
-                if(Math.abs(this.getItem(i, j) - comp.getItem(i, j)) > 1e-6) return false;
+                if(StrictMath.abs(this.getItem(i, j) - comp.getItem(i, j)) > 1e-6) return false;
             }
         }
         return true;

@@ -46,7 +46,7 @@ public class PoolClient extends JFrame{
     public static final int BALL_PLACEMENT_REQUEST = 1113;
     public static final int CURRENT_RACK_INFO = 1114;
 
-    public static final String IP_ADDRESS = "10.147.17.132";
+    // public static final String IP_ADDRESS = "10.147.17.132";
 
     public static final int PANEL_HEIGHT=700;
     public static final int PANEL_WIDTH=1200;

@@ -5,7 +5,7 @@ import vectormath.Vector3;
 
 public class Cushion{
     private static final double EPSILON = 0.15 * Ball.RADIUS;
-    public static final double THETA = Math.asin(EPSILON / Ball.RADIUS);
+    public static final double THETA = StrictMath.asin(EPSILON / Ball.RADIUS);
     private Vector3 startPosition;
     private Vector3 endPosition;
 

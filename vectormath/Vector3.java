@@ -28,7 +28,7 @@ public class Vector3 extends Matrix{
      * @return A double, length of the vector.
      */
     public double getVectorLength(){
-        return Math.sqrt(this.getAxis(0) * this.getAxis(0) + this.getAxis(1) * this.getAxis(1) + this.getAxis(2) * this.getAxis(2));
+        return StrictMath.sqrt(this.getAxis(0) * this.getAxis(0) + this.getAxis(1) * this.getAxis(1) + this.getAxis(2) * this.getAxis(2));
     }
 
     /**
@@ -122,7 +122,7 @@ public class Vector3 extends Matrix{
      * @return A boolean, true if the vector length is within the tolerance.
      */
     public boolean vectorLengthEquals(double length){
-        return Math.abs(getVectorLength() - length) < 1e-6;
+        return StrictMath.abs(getVectorLength() - length) < 1e-6;
     }
 
     /**
@@ -165,7 +165,7 @@ public class Vector3 extends Matrix{
      * @return A new Vector3, the rotated vector.
      */
     public static Vector3 rotateAboutZAxis(final Vector3 vector, double phi){
-        double[] rotation_data = {Math.cos(phi), -Math.sin(phi), 0, Math.sin(phi), Math.cos(phi), 0, 0, 0, 1};
+        double[] rotation_data = {StrictMath.cos(phi), -StrictMath.sin(phi), 0, StrictMath.sin(phi), StrictMath.cos(phi), 0, 0, 0, 1};
         Matrix rotation_matrix = new Matrix(3, 3, rotation_data);
         return Vector3.vectorFromMatrix(Matrix.multiply(rotation_matrix, vector));
     }
@@ -203,13 +203,13 @@ public class Vector3 extends Matrix{
     public static double getAngleBetweenVectors(final Vector3 vector1, final Vector3 vector2){
         double dotProductOfVectors = dotProduct(vector1, vector2);
         double productOfMagnitudes = vector1.getVectorLength() * vector2.getVectorLength();
-        return Math.acos(dotProductOfVectors / productOfMagnitudes);
+        return StrictMath.acos(dotProductOfVectors / productOfMagnitudes);
     }
 
     public static double getSignedAngle2D(final Vector3 vector1, final Vector3 vector2){
         double dotProduct = Vector3.dotProduct(vector1, vector2);
         double determinant = vector1.getAxis(0) * vector2.getAxis(1) - vector1.getAxis(1) * vector2.getAxis(0);
-        return  Math.atan2(determinant, dotProduct);
+        return  StrictMath.atan2(determinant, dotProduct);
     }
 
     @Override

@@ -135,9 +135,9 @@ public class Ball implements Serializable{
 
     public boolean isSpinning(){
         return velocity.vectorLengthEquals(0) &&
-            Math.abs(angularVelocity.getAxis(0)) <= 1e-6 &&
-            Math.abs(angularVelocity.getAxis(1)) <= 1e-6 &&
-            Math.abs(angularVelocity.getAxis(2)) > 1e-6;
+            StrictMath.abs(angularVelocity.getAxis(0)) <= 1e-6 &&
+            StrictMath.abs(angularVelocity.getAxis(1)) <= 1e-6 &&
+            StrictMath.abs(angularVelocity.getAxis(2)) > 1e-6;
     }
 
     public boolean isRolling(){
@@ -175,7 +175,7 @@ public class Ball implements Serializable{
      * @return
      */
     public static double[] getStandardEightBallPositions(){
-        double randTerm = ((Math.random() * 4) + 2) / 10000.;
+        double randTerm = ((StrictMath.random() * 4) + 2) / 10000.;
         double[] positions = new double[30];
 
         double xDefault = TableUI.getTableWidthMeters() - 0.82;
@@ -185,22 +185,22 @@ public class Ball implements Serializable{
         positions[1] = yDefault;
 
         for(int i = 2; i <= 4; i+=2){
-            positions[i] = xDefault + randTerm + Ball.RADIUS * Math.sqrt(3);
+            positions[i] = xDefault + randTerm + Ball.RADIUS * StrictMath.sqrt(3);
             positions[i+1] = yDefault + (i - 3) * Ball.RADIUS;
         }
 
         for(int i = 6; i <= 10; i+=2){
-            positions[i] = xDefault + 2 * randTerm + 2 * Ball.RADIUS * Math.sqrt(3);
+            positions[i] = xDefault + 2 * randTerm + 2 * Ball.RADIUS * StrictMath.sqrt(3);
             positions[i+1] = yDefault + (i - 8) * Ball.RADIUS;
         }
 
         for(int i = 12; i <= 18; i+=2){
-            positions[i] = xDefault + 3 * randTerm + 3 * Ball.RADIUS * Math.sqrt(3);
+            positions[i] = xDefault + 3 * randTerm + 3 * Ball.RADIUS * StrictMath.sqrt(3);
             positions[i+1] = yDefault + (i - 15) * Ball.RADIUS;
         }
 
         for(int i = 20; i <= 28; i+=2){
-            positions[i] = xDefault + 4 * randTerm + 4 * Ball.RADIUS * Math.sqrt(3);
+            positions[i] = xDefault + 4 * randTerm + 4 * Ball.RADIUS * StrictMath.sqrt(3);
             positions[i+1] = yDefault + (i - 24) * Ball.RADIUS;
         }
 

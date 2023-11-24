@@ -21,7 +21,9 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
     public static final int BALL_PLACEMENT_INFO = 115; // tells the client to process a ball placement.
     public static final int RACK_INFO = 116; // tells the client to process a new rack.
 
-    public static final String IP_ADDRESS = "localhost";
+    // public static final String IP_ADDRESS = "localhost";
+    public static final String IP_ADDRESS = "10.147.17.132";
+    // public static final String IP_ADDRESS = "139.179.55.71";
 
     private ServerSocket ss;
     public static final int MAX_PLAYER_NUM = 2;
@@ -40,7 +42,7 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
         serverSideConnections = new ServerSideConnection[MAX_PLAYER_NUM];
         usernames = new String[MAX_PLAYER_NUM];
 
-        double rand = Math.random();
+        double rand = StrictMath.random();
         turn = (rand >= 0.5);
 
         try {
@@ -299,6 +301,8 @@ public class NineBallServer { // TODO: Maybe do a PoolServer parent class?
                             boolean same = true;
                             for(int i = 0; i < 18; i++){
                                 same &= (rack1[i] == rack2[i]);
+                                if(rack1[i] != rack2[i])
+                                    System.out.println("DIFF: " + rack1[i] + " " + rack2[i]);
                             }
 
                             if(same) System.out.println("The racks are the same!");

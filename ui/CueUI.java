@@ -76,7 +76,7 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
     public void setVisibleHeight(double newHeight) {visibleHeight = newHeight;}
     public void setVisibleLowerWidth(double newWidth) {visibleLowerWidth = newWidth;}
     public void setVisibleBlueTipHeight(double newHeight) {visibleBlueTipHeight = newHeight;}
-    public void setVisibleShotDistance(double Angle) {visibleShotDistance = shotDistance * Math.cos(Angle);}
+    public void setVisibleShotDistance(double Angle) {visibleShotDistance = shotDistance * StrictMath.cos(Angle);}
   
     @Override
     public void paintComponent(Graphics g){
@@ -86,24 +86,24 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
         //the angle of the line that passes through mouse cursor and cueBall center 
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-        double angle = Math.atan2(this.cueBallY - this.mouseY, this.cueBallX - this.mouseX );
+        double angle = StrictMath.atan2(this.cueBallY - this.mouseY, this.cueBallX - this.mouseX );
         
         //central points of upper and lower edges 
-        double upperEdgeCenterX = cueBallX - (CUE_BALL_RADIUS + visibleShotDistance) * Math.cos(angle);
-        double upperEdgeCenterY = cueBallY - (CUE_BALL_RADIUS + visibleShotDistance) * Math.sin(angle);
-        double lowerEdgeCenterX = cueBallX - (CUE_BALL_RADIUS + visibleShotDistance + visibleHeight) * Math.cos(angle);
-        double lowerEdgeCenterY = cueBallY - (CUE_BALL_RADIUS + visibleShotDistance + visibleHeight) * Math.sin(angle);
+        double upperEdgeCenterX = cueBallX - (CUE_BALL_RADIUS + visibleShotDistance) * StrictMath.cos(angle);
+        double upperEdgeCenterY = cueBallY - (CUE_BALL_RADIUS + visibleShotDistance) * StrictMath.sin(angle);
+        double lowerEdgeCenterX = cueBallX - (CUE_BALL_RADIUS + visibleShotDistance + visibleHeight) * StrictMath.cos(angle);
+        double lowerEdgeCenterY = cueBallY - (CUE_BALL_RADIUS + visibleShotDistance + visibleHeight) * StrictMath.sin(angle);
         
         //coordinates of the blue tip of the cue
-        double blueTipPoint1X = upperEdgeCenterX + CUE_UPPER_WIDTH/2 * Math.sin(angle);
-        double blueTipPoint1Y = upperEdgeCenterY - CUE_UPPER_WIDTH/2 * Math.cos(angle);
-        double blueTipPoint2X = upperEdgeCenterX - CUE_UPPER_WIDTH/2 * Math.sin(angle);
-        double blueTipPoint2Y = upperEdgeCenterY + CUE_UPPER_WIDTH/2 * Math.cos(angle);
+        double blueTipPoint1X = upperEdgeCenterX + CUE_UPPER_WIDTH/2 * StrictMath.sin(angle);
+        double blueTipPoint1Y = upperEdgeCenterY - CUE_UPPER_WIDTH/2 * StrictMath.cos(angle);
+        double blueTipPoint2X = upperEdgeCenterX - CUE_UPPER_WIDTH/2 * StrictMath.sin(angle);
+        double blueTipPoint2Y = upperEdgeCenterY + CUE_UPPER_WIDTH/2 * StrictMath.cos(angle);
         
-        double blueTipPoint3X = upperEdgeCenterX - visibleBlueTipHeight*Math.cos(angle) - ((visibleHeight - visibleBlueTipHeight) * CUE_UPPER_WIDTH + visibleLowerWidth * visibleBlueTipHeight)/2/visibleHeight * Math.sin(angle);
-        double blueTipPoint3Y = upperEdgeCenterY - visibleBlueTipHeight*Math.sin(angle) + ((visibleHeight - visibleBlueTipHeight) * CUE_UPPER_WIDTH + visibleLowerWidth * visibleBlueTipHeight)/2/visibleHeight * Math.cos(angle);
-        double blueTipPoint4X = upperEdgeCenterX - visibleBlueTipHeight*Math.cos(angle) + ((visibleHeight - visibleBlueTipHeight) * CUE_UPPER_WIDTH + visibleLowerWidth * visibleBlueTipHeight)/2/visibleHeight * Math.sin(angle);
-        double blueTipPoint4Y = upperEdgeCenterY - visibleBlueTipHeight*Math.sin(angle) - ((visibleHeight - visibleBlueTipHeight) * CUE_UPPER_WIDTH + visibleLowerWidth * visibleBlueTipHeight)/2/visibleHeight * Math.cos(angle);
+        double blueTipPoint3X = upperEdgeCenterX - visibleBlueTipHeight*StrictMath.cos(angle) - ((visibleHeight - visibleBlueTipHeight) * CUE_UPPER_WIDTH + visibleLowerWidth * visibleBlueTipHeight)/2/visibleHeight * StrictMath.sin(angle);
+        double blueTipPoint3Y = upperEdgeCenterY - visibleBlueTipHeight*StrictMath.sin(angle) + ((visibleHeight - visibleBlueTipHeight) * CUE_UPPER_WIDTH + visibleLowerWidth * visibleBlueTipHeight)/2/visibleHeight * StrictMath.cos(angle);
+        double blueTipPoint4X = upperEdgeCenterX - visibleBlueTipHeight*StrictMath.cos(angle) + ((visibleHeight - visibleBlueTipHeight) * CUE_UPPER_WIDTH + visibleLowerWidth * visibleBlueTipHeight)/2/visibleHeight * StrictMath.sin(angle);
+        double blueTipPoint4Y = upperEdgeCenterY - visibleBlueTipHeight*StrictMath.sin(angle) - ((visibleHeight - visibleBlueTipHeight) * CUE_UPPER_WIDTH + visibleLowerWidth * visibleBlueTipHeight)/2/visibleHeight * StrictMath.cos(angle);
         
         //coordinates of the middle part of the cue
         double middlePartPoint1X = blueTipPoint4X;
@@ -111,10 +111,10 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
         double middlePartPoint2X = blueTipPoint3X;
         double middlePartPoint2Y = blueTipPoint3Y;
     
-        double middlePartPoint3X = upperEdgeCenterX - visibleHeight/2 * Math.cos(angle) - (CUE_UPPER_WIDTH + visibleLowerWidth)/4 * Math.sin(angle);
-        double middlePartPoint3Y = upperEdgeCenterY - visibleHeight/2 * Math.sin(angle) + (CUE_UPPER_WIDTH + visibleLowerWidth)/4 * Math.cos(angle);
-        double middlePartPoint4X = upperEdgeCenterX - visibleHeight/2 * Math.cos(angle) + (CUE_UPPER_WIDTH + visibleLowerWidth)/4 * Math.sin(angle);
-        double middlePartPoint4Y = upperEdgeCenterY - visibleHeight/2 * Math.sin(angle) - (CUE_UPPER_WIDTH + visibleLowerWidth)/4 * Math.cos(angle);
+        double middlePartPoint3X = upperEdgeCenterX - visibleHeight/2 * StrictMath.cos(angle) - (CUE_UPPER_WIDTH + visibleLowerWidth)/4 * StrictMath.sin(angle);
+        double middlePartPoint3Y = upperEdgeCenterY - visibleHeight/2 * StrictMath.sin(angle) + (CUE_UPPER_WIDTH + visibleLowerWidth)/4 * StrictMath.cos(angle);
+        double middlePartPoint4X = upperEdgeCenterX - visibleHeight/2 * StrictMath.cos(angle) + (CUE_UPPER_WIDTH + visibleLowerWidth)/4 * StrictMath.sin(angle);
+        double middlePartPoint4Y = upperEdgeCenterY - visibleHeight/2 * StrictMath.sin(angle) - (CUE_UPPER_WIDTH + visibleLowerWidth)/4 * StrictMath.cos(angle);
         
         //coordinates of the lower part of the cue
         double lowerPartPoint1X = middlePartPoint4X;
@@ -122,16 +122,16 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
         double lowerPartPoint2X = middlePartPoint3X;
         double lowerPartPoint2Y = middlePartPoint3Y;
     
-        double lowerPartPoint3X = lowerEdgeCenterX - visibleLowerWidth/2 * Math.sin(angle);
-        double lowerPartPoint3Y = lowerEdgeCenterY + visibleLowerWidth/2 * Math.cos(angle);
-        double lowerPartPoint4X = lowerEdgeCenterX + visibleLowerWidth/2 * Math.sin(angle);
-        double lowerPartPoint4Y = lowerEdgeCenterY - visibleLowerWidth/2 * Math.cos(angle);
+        double lowerPartPoint3X = lowerEdgeCenterX - visibleLowerWidth/2 * StrictMath.sin(angle);
+        double lowerPartPoint3Y = lowerEdgeCenterY + visibleLowerWidth/2 * StrictMath.cos(angle);
+        double lowerPartPoint4X = lowerEdgeCenterX + visibleLowerWidth/2 * StrictMath.sin(angle);
+        double lowerPartPoint4Y = lowerEdgeCenterY - visibleLowerWidth/2 * StrictMath.cos(angle);
 
         //coordinates of helper line
         double helperLinePoint1X = cueBallX; 
         double helperLinePoint1Y = cueBallY;
-        double helperLinePoint2X = cueBallX - (CUE_BALL_RADIUS + helperLineLength) * Math.cos(angle + Math.PI);
-        double helperLinePoint2Y = cueBallY - (CUE_BALL_RADIUS + helperLineLength) * Math.sin(angle + Math.PI);
+        double helperLinePoint2X = cueBallX - (CUE_BALL_RADIUS + helperLineLength) * StrictMath.cos(angle + StrictMath.PI);
+        double helperLinePoint2Y = cueBallY - (CUE_BALL_RADIUS + helperLineLength) * StrictMath.sin(angle + StrictMath.PI);
     
         //draw blue tip
         Path2D.Double path1 = new Path2D.Double();
@@ -176,11 +176,11 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
             if (ball.getNumber() != 0 && !ball.getPocketed()){
                 double a = 1;
 
-                double b = 2 * (Math.cos(angle + Math.PI) * (TableUI.getPixelFromMeters(ball.getBallXPosition(), false) + table.getTableFrameX() - cueBallX) + 
-                Math.sin(angle + Math.PI) * (TableUI.getPixelFromMeters(ball.getBallYPosition(), true) + table.getTableFrameY() - cueBallY));
+                double b = 2 * (StrictMath.cos(angle + StrictMath.PI) * (TableUI.getPixelFromMeters(ball.getBallXPosition(), false) + table.getTableFrameX() - cueBallX) + 
+                StrictMath.sin(angle + StrictMath.PI) * (TableUI.getPixelFromMeters(ball.getBallYPosition(), true) + table.getTableFrameY() - cueBallY));
             
-                double c = Math.pow((TableUI.getPixelFromMeters(ball.getBallXPosition(), false) + table.getTableFrameX() - cueBallX), 2) + 
-                Math.pow((TableUI.getPixelFromMeters(ball.getBallYPosition(), true) + table.getTableFrameY() - cueBallY), 2) - 4*Math.pow(CUE_BALL_RADIUS, 2);
+                double c = StrictMath.pow((TableUI.getPixelFromMeters(ball.getBallXPosition(), false) + table.getTableFrameX() - cueBallX), 2) + 
+                StrictMath.pow((TableUI.getPixelFromMeters(ball.getBallYPosition(), true) + table.getTableFrameY() - cueBallY), 2) - 4*StrictMath.pow(CUE_BALL_RADIUS, 2);
 
                 double candidateLength = PolynomialSolver.solveQuadraticEquation(a, b, c);
                 if (0 < candidateLength && candidateLength < newLength1 && b*b -4*a*c > 0){
@@ -200,57 +200,57 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
             double startY = TableUI.getPixelFromMeters(start.getAxis(1), true) + table.getTableFrameY();
             double endY =  TableUI.getPixelFromMeters(end.getAxis(1), true) + table.getTableFrameY();
             if (startX - endX == 0){
-                double candidateLength1 = (cueBallX - startX)/Math.cos(angle + Math.PI);
+                double candidateLength1 = (cueBallX - startX)/StrictMath.cos(angle + StrictMath.PI);
                 if (endY < startY){
-                    candidateLength1 = candidateLength1 - CUE_BALL_RADIUS/Math.cos(angle + Math.PI);
-                    double yCoordinanteCheck = cueBallY - candidateLength1*Math.sin(angle + Math.PI);
-                    if (candidateLength1 > 0 && candidateLength1 < newLength2 && yCoordinanteCheck <= Math.max(startY, endY) && yCoordinanteCheck >= Math.min(startY, endY)){
+                    candidateLength1 = candidateLength1 - CUE_BALL_RADIUS/StrictMath.cos(angle + StrictMath.PI);
+                    double yCoordinanteCheck = cueBallY - candidateLength1*StrictMath.sin(angle + StrictMath.PI);
+                    if (candidateLength1 > 0 && candidateLength1 < newLength2 && yCoordinanteCheck <= StrictMath.max(startY, endY) && yCoordinanteCheck >= StrictMath.min(startY, endY)){
                         newLength2 = candidateLength1;
                     }
                 }
                 else{
-                    candidateLength1 = candidateLength1 + CUE_BALL_RADIUS/Math.cos(angle + Math.PI);
-                    double yCoordinanteCheck = cueBallY - candidateLength1*Math.sin(angle + Math.PI);
-                    if (candidateLength1 > 0 && candidateLength1 < newLength2 && yCoordinanteCheck <= Math.max(startY, endY) && yCoordinanteCheck >= Math.min(startY, endY)){
+                    candidateLength1 = candidateLength1 + CUE_BALL_RADIUS/StrictMath.cos(angle + StrictMath.PI);
+                    double yCoordinanteCheck = cueBallY - candidateLength1*StrictMath.sin(angle + StrictMath.PI);
+                    if (candidateLength1 > 0 && candidateLength1 < newLength2 && yCoordinanteCheck <= StrictMath.max(startY, endY) && yCoordinanteCheck >= StrictMath.min(startY, endY)){
                         newLength2 = candidateLength1;
                     }
                 }         
             }
 
             if (startY - endY == 0){
-                double candidateLength2 = (cueBallY - startY)/Math.sin(angle + Math.PI);
+                double candidateLength2 = (cueBallY - startY)/StrictMath.sin(angle + StrictMath.PI);
                 if (endX < startX){
-                    candidateLength2 = candidateLength2 + CUE_BALL_RADIUS/Math.sin(angle + Math.PI);
-                    double xCoordinanteCheck = cueBallX - candidateLength2*Math.cos(angle + Math.PI);
-                    if (candidateLength2 > 0 && candidateLength2 < newLength2 && xCoordinanteCheck <= Math.max(startX, endX) && xCoordinanteCheck >= Math.min(startX, endX)){
+                    candidateLength2 = candidateLength2 + CUE_BALL_RADIUS/StrictMath.sin(angle + StrictMath.PI);
+                    double xCoordinanteCheck = cueBallX - candidateLength2*StrictMath.cos(angle + StrictMath.PI);
+                    if (candidateLength2 > 0 && candidateLength2 < newLength2 && xCoordinanteCheck <= StrictMath.max(startX, endX) && xCoordinanteCheck >= StrictMath.min(startX, endX)){
                         newLength2 = candidateLength2;
                     }
                 }
                 else{
-                    candidateLength2 = candidateLength2 - CUE_BALL_RADIUS/Math.sin(angle + Math.PI);
-                    double xCoordinanteCheck = cueBallX - candidateLength2*Math.cos(angle + Math.PI);
-                    if (candidateLength2 > 0 && candidateLength2 < newLength2 && xCoordinanteCheck <= Math.max(startX, endX) && xCoordinanteCheck >= Math.min(startX, endX)){
+                    candidateLength2 = candidateLength2 - CUE_BALL_RADIUS/StrictMath.sin(angle + StrictMath.PI);
+                    double xCoordinanteCheck = cueBallX - candidateLength2*StrictMath.cos(angle + StrictMath.PI);
+                    if (candidateLength2 > 0 && candidateLength2 < newLength2 && xCoordinanteCheck <= StrictMath.max(startX, endX) && xCoordinanteCheck >= StrictMath.min(startX, endX)){
                         newLength2 = candidateLength2;
                     }      
                 }       
             }
 
             else{
-                double a = (startY - endY)*Math.cos(angle+ Math.PI) + (endX - startX)*Math.sin(angle + Math.PI);
+                double a = (startY - endY)*StrictMath.cos(angle+ StrictMath.PI) + (endX - startX)*StrictMath.sin(angle + StrictMath.PI);
 
                 double b = (endY - startY)*cueBallX + (startX - endX)*cueBallY + endX*startY - endY*startX;
 
                 if(a != 0){
                     double tempLength = -b/a;
                     if( tempLength > 0 ){
-                        double cushionAngle = Math.atan2(endY-startY,endX-startX);
-                        tempLength = tempLength - Math.abs(CUE_BALL_RADIUS/Math.sin(angle + Math.PI - cushionAngle));
-                        double tempX = cueBallX - tempLength*Math.cos(angle + Math.PI);
-                        double tempY = cueBallY - tempLength*Math.sin(angle + Math.PI);
-                        double maxX = Math.max(startX,endX);
-                        double maxY = Math.max(startY,endY);
-                        double minX = Math.min(startX,endX);
-                        double minY = Math.min(startY,endY);
+                        double cushionAngle = StrictMath.atan2(endY-startY,endX-startX);
+                        tempLength = tempLength - StrictMath.abs(CUE_BALL_RADIUS/StrictMath.sin(angle + StrictMath.PI - cushionAngle));
+                        double tempX = cueBallX - tempLength*StrictMath.cos(angle + StrictMath.PI);
+                        double tempY = cueBallY - tempLength*StrictMath.sin(angle + StrictMath.PI);
+                        double maxX = StrictMath.max(startX,endX);
+                        double maxY = StrictMath.max(startY,endY);
+                        double minX = StrictMath.min(startX,endX);
+                        double minY = StrictMath.min(startY,endY);
                         if(tempX <= maxX && tempX >= minX && tempY <= maxY && tempY >= minY && tempLength < newLength2){
                             newLength2 = tempLength;
                         }
@@ -267,9 +267,9 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
                     
             double a = 1;
 
-            double b = 2 * (Math.cos(angle + Math.PI) * (pocketX - cueBallX) + Math.sin(angle + Math.PI) * (pocketY - cueBallY));
+            double b = 2 * (StrictMath.cos(angle + StrictMath.PI) * (pocketX - cueBallX) + StrictMath.sin(angle + StrictMath.PI) * (pocketY - cueBallY));
             
-            double c = Math.pow((pocketX - cueBallX), 2) + Math.pow((pocketY - cueBallY), 2) - Math.pow(pocketR, 2);
+            double c = StrictMath.pow((pocketX - cueBallX), 2) + StrictMath.pow((pocketY - cueBallY), 2) - StrictMath.pow(pocketR, 2);
 
             double candidateLength = PolynomialSolver.solveQuadraticEquation(a, b, c);
             if (0 < candidateLength && candidateLength < newLength3){
@@ -284,9 +284,9 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
 
             double a = 1;
 
-            double b = 2 * (Math.cos(angle + Math.PI) * (pointCushionX - cueBallX) + Math.sin(angle + Math.PI) * (pointCushionY - cueBallY));
+            double b = 2 * (StrictMath.cos(angle + StrictMath.PI) * (pointCushionX - cueBallX) + StrictMath.sin(angle + StrictMath.PI) * (pointCushionY - cueBallY));
             
-            double c = Math.pow((pointCushionX - cueBallX), 2) + Math.pow((pointCushionY - cueBallY), 2) - Math.pow(CUE_BALL_RADIUS, 2);
+            double c = StrictMath.pow((pointCushionX - cueBallX), 2) + StrictMath.pow((pointCushionY - cueBallY), 2) - StrictMath.pow(CUE_BALL_RADIUS, 2);
 
             double candidateLength = PolynomialSolver.solveQuadraticEquation(a, b, c);
             
@@ -295,34 +295,34 @@ public class CueUI extends JPanel{ // TODO: Make this make sense. (Especially wi
             }
         }
 
-        double newLength = Math.min(Math.min(Math.min(newLength1, newLength2),newLength3),newLength4);
+        double newLength = StrictMath.min(StrictMath.min(StrictMath.min(newLength1, newLength2),newLength3),newLength4);
         if(newLength == newLength1){
-            helperLinePoint2X = cueBallX - (newLength) * Math.cos(angle + Math.PI);
-            helperLinePoint2Y = cueBallY - (newLength) * Math.sin(angle + Math.PI);
+            helperLinePoint2X = cueBallX - (newLength) * StrictMath.cos(angle + StrictMath.PI);
+            helperLinePoint2Y = cueBallY - (newLength) * StrictMath.sin(angle + StrictMath.PI);
             g2.draw(new Line2D.Double(helperLinePoint1X, helperLinePoint1Y, helperLinePoint2X, helperLinePoint2Y));
             g2.draw(new Ellipse2D.Double(helperLinePoint2X - CUE_BALL_RADIUS , helperLinePoint2Y - CUE_BALL_RADIUS, 2*CUE_BALL_RADIUS, 2*CUE_BALL_RADIUS));
-            double secondLineAngle = Math.atan2(helperLinePoint2Y - targetBallY, helperLinePoint2X - targetBallX );
-            double secondLineEndingX = targetBallX - SECOND_LINE_LENGTH*Math.cos(secondLineAngle);
-            double secondLineEndingY = targetBallY - SECOND_LINE_LENGTH*Math.sin(secondLineAngle);
+            double secondLineAngle = StrictMath.atan2(helperLinePoint2Y - targetBallY, helperLinePoint2X - targetBallX );
+            double secondLineEndingX = targetBallX - SECOND_LINE_LENGTH*StrictMath.cos(secondLineAngle);
+            double secondLineEndingY = targetBallY - SECOND_LINE_LENGTH*StrictMath.sin(secondLineAngle);
             g2.draw(new Line2D.Double(targetBallX, targetBallY, secondLineEndingX, secondLineEndingY));
         }
 
         else if (newLength == newLength2){
-            helperLinePoint2X = cueBallX - (newLength) * Math.cos(angle + Math.PI);
-            helperLinePoint2Y = cueBallY - (newLength) * Math.sin(angle + Math.PI);
+            helperLinePoint2X = cueBallX - (newLength) * StrictMath.cos(angle + StrictMath.PI);
+            helperLinePoint2Y = cueBallY - (newLength) * StrictMath.sin(angle + StrictMath.PI);
             g2.draw(new Line2D.Double(helperLinePoint1X, helperLinePoint1Y, helperLinePoint2X, helperLinePoint2Y));
             g2.draw(new Ellipse2D.Double(helperLinePoint2X - CUE_BALL_RADIUS , helperLinePoint2Y - CUE_BALL_RADIUS, 2*CUE_BALL_RADIUS, 2*CUE_BALL_RADIUS));
         }
 
         else if(newLength == newLength3){
-            helperLinePoint2X = cueBallX - (newLength) * Math.cos(angle + Math.PI);
-            helperLinePoint2Y = cueBallY - (newLength) * Math.sin(angle + Math.PI);
+            helperLinePoint2X = cueBallX - (newLength) * StrictMath.cos(angle + StrictMath.PI);
+            helperLinePoint2Y = cueBallY - (newLength) * StrictMath.sin(angle + StrictMath.PI);
             g2.draw(new Line2D.Double(helperLinePoint1X, helperLinePoint1Y, helperLinePoint2X, helperLinePoint2Y));
             g2.draw(new Ellipse2D.Double(helperLinePoint2X - CUE_BALL_RADIUS , helperLinePoint2Y - CUE_BALL_RADIUS, 2*CUE_BALL_RADIUS, 2*CUE_BALL_RADIUS));
         }
         else if(newLength == newLength4){
-            helperLinePoint2X = cueBallX - (newLength) * Math.cos(angle + Math.PI);
-            helperLinePoint2Y = cueBallY - (newLength) * Math.sin(angle + Math.PI);
+            helperLinePoint2X = cueBallX - (newLength) * StrictMath.cos(angle + StrictMath.PI);
+            helperLinePoint2Y = cueBallY - (newLength) * StrictMath.sin(angle + StrictMath.PI);
             g2.draw(new Line2D.Double(helperLinePoint1X, helperLinePoint1Y, helperLinePoint2X, helperLinePoint2Y));
             g2.draw(new Ellipse2D.Double(helperLinePoint2X - CUE_BALL_RADIUS , helperLinePoint2Y - CUE_BALL_RADIUS, 2*CUE_BALL_RADIUS, 2*CUE_BALL_RADIUS));
         }

@@ -168,7 +168,7 @@ public class Physics{
         Vector3 lineOfCenters = Vector3.subtract(ball2.getPosition(), ball1.getPosition());
         if(Cx * Cx + Cy * Cy + Cz * Cz - 4 * Ball.RADIUS * Ball.RADIUS < 1e-3){
             Vector3 relativeVelocity = Vector3.subtract(ball1.getVelocity(), ball2.getVelocity()); 
-            if(Math.abs(Vector3.getSignedAngle2D(relativeVelocity, lineOfCenters)) >= Math.PI / 2)
+            if(StrictMath.abs(Vector3.getSignedAngle2D(relativeVelocity, lineOfCenters)) >= StrictMath.PI / 2)
                 return -1;
             else{
                 double dist = Vector3.subtract(ball1.getPosition(), ball2.getPosition()).getVectorLength();
@@ -193,10 +193,10 @@ public class Physics{
 
         double d;
         if(cushion.getEnd().getAxis(0) - cushion.getStart().getAxis(0) == 0){
-            d = Math.abs(ball.getPosition().getAxis(0) - cushion.getStart().getAxis(0));
+            d = StrictMath.abs(ball.getPosition().getAxis(0) - cushion.getStart().getAxis(0));
         }
         else{
-            d = Math.abs(lx * ball.getPosition().getAxis(0) + ly * ball.getPosition().getAxis(1) + l0) / Math.sqrt(lx * lx + ly * ly);
+            d = StrictMath.abs(lx * ball.getPosition().getAxis(0) + ly * ball.getPosition().getAxis(1) + l0) / StrictMath.sqrt(lx * lx + ly * ly);
         }
         
         if(d <= Ball.RADIUS + 1e-8 && d >= Ball.RADIUS - 1e-8){
@@ -243,8 +243,8 @@ public class Physics{
             secondTwoSolutions = PolynomialSolver.solveQuadraticEquationAllRoots(ax, bx, cx - cushion.getStart().getAxis(0) - Ball.RADIUS);
         }
         else{
-            firstTwoSolutions = PolynomialSolver.solveQuadraticEquationAllRoots(A, B, C + Ball.RADIUS * Math.sqrt(lx * lx + ly * ly));
-            secondTwoSolutions = PolynomialSolver.solveQuadraticEquationAllRoots(A, B, C - Ball.RADIUS * Math.sqrt(lx * lx + ly * ly));
+            firstTwoSolutions = PolynomialSolver.solveQuadraticEquationAllRoots(A, B, C + Ball.RADIUS * StrictMath.sqrt(lx * lx + ly * ly));
+            secondTwoSolutions = PolynomialSolver.solveQuadraticEquationAllRoots(A, B, C - Ball.RADIUS * StrictMath.sqrt(lx * lx + ly * ly));
         }
         solutions[0] = firstTwoSolutions[0]; solutions[1] = firstTwoSolutions[1]; solutions[2] = secondTwoSolutions[0]; solutions[3] = secondTwoSolutions[1];
         for(int i = 0; i < 4; i++){
@@ -262,7 +262,7 @@ public class Physics{
     public static double calculateBallPointCushionCollisionTime(Ball ball, PointCushion pointCushion){
         Vector3 relativeVector = Vector3.subtract(ball.getPosition(), pointCushion.getPosition());
         if(relativeVector.vectorLengthEquals(Ball.RADIUS)){
-            if(Math.abs(Vector3.getSignedAngle2D(relativeVector, ball.getVelocity())) <= Math.PI / 2 + 1e-6){
+            if(StrictMath.abs(Vector3.getSignedAngle2D(relativeVector, ball.getVelocity())) <= StrictMath.PI / 2 + 1e-6){
                 return -1;
             }
         }
@@ -332,7 +332,7 @@ public class Physics{
     }
 
     public static double calculateSpinningTime(Ball ball){
-        return 2 * Ball.RADIUS * Math.abs(ball.getAngularVelocity().getAxis(2)) / (5 * SPINNING_COEFFICIENT * GRAVITATIONAL_CONSTANT);
+        return 2 * Ball.RADIUS * StrictMath.abs(ball.getAngularVelocity().getAxis(2)) / (5 * SPINNING_COEFFICIENT * GRAVITATIONAL_CONSTANT);
     }
 
     public static double calculateRollingTime(Ball ball){
@@ -382,8 +382,8 @@ public class Physics{
      */
     private static void evolveSpinningBallMotion(Ball ball, double deltaTime){
         double ZAxisAngularVelocity = ball.getInternalAngularVelocity().getAxis(2);
-        double sign = Math.signum(ZAxisAngularVelocity);
-        double diff = Math.min(5 * SPINNING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime/ (2 * Ball.RADIUS), Math.abs(ZAxisAngularVelocity));
+        double sign = StrictMath.signum(ZAxisAngularVelocity);
+        double diff = StrictMath.min(5 * SPINNING_COEFFICIENT * GRAVITATIONAL_CONSTANT * deltaTime/ (2 * Ball.RADIUS), StrictMath.abs(ZAxisAngularVelocity));
         ZAxisAngularVelocity -= sign * diff;
         ball.getAngularVelocity().setAxis(2, ZAxisAngularVelocity);
     }
@@ -465,7 +465,7 @@ public class Physics{
         Vector3 lineOfCollision = Vector3.subtract(ball2.getPosition(), ball1.getPosition());
         lineOfCollision.normalize();
         double angle = Vector3.getSignedAngle2D(initialVelocity, lineOfCollision);
-        double ball2VelocityScalar = initialVelocity.getVectorLength() * Math.cos(angle);
+        double ball2VelocityScalar = initialVelocity.getVectorLength() * StrictMath.cos(angle);
         Vector3 ball2Velocity = Vector3.multiply(ball2VelocityScalar, lineOfCollision);
         Vector3 ball1Velocity = Vector3.subtract(initialVelocity, ball2Velocity);
         ball1.setVelocity(Vector3.add(ball1Velocity, initialBall2Velocity));
@@ -482,43 +482,43 @@ public class Physics{
         Vector3 cushionVector = Vector3.subtract(leftmostCushionPoint, rightmostCushionPoint);
         double vectorAngle = Vector3.getSignedAngle2D(new Vector3(0, 1, 0), cushionVector);
         if(Vector3.getSignedAngle2D(cushionVector, relativeBallPosition) < 0)
-            vectorAngle = -(Math.PI - vectorAngle);
+            vectorAngle = -(StrictMath.PI - vectorAngle);
 
         ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), -vectorAngle));
         ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), -vectorAngle));
 
         double e = 0.85;
-        double sx = ball.getVelocity().getAxis(0) * Math.sin(Cushion.THETA) - ball.getVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(1);
-        double sy = -ball.getVelocity().getAxis(1) - Ball.RADIUS * ball.getAngularVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(0) * Math.sin(Cushion.THETA);
-        double c = ball.getVelocity().getAxis(0) * Math.cos(Cushion.THETA);
+        double sx = ball.getVelocity().getAxis(0) * StrictMath.sin(Cushion.THETA) - ball.getVelocity().getAxis(2) * StrictMath.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(1);
+        double sy = -ball.getVelocity().getAxis(1) - Ball.RADIUS * ball.getAngularVelocity().getAxis(2) * StrictMath.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(0) * StrictMath.sin(Cushion.THETA);
+        double c = ball.getVelocity().getAxis(0) * StrictMath.cos(Cushion.THETA);
         double I = 2 * Ball.MASS * Ball.RADIUS * Ball.RADIUS / 5;
         double PzE = Ball.MASS * c * (1 + e);
-        double PzS = 2 * Ball.MASS * Math.sqrt(sx * sx + sy * sy) / 7;
+        double PzS = 2 * Ball.MASS * StrictMath.sqrt(sx * sx + sy * sy) / 7;
 
         // Velocity
         double deltaX = 0, deltaY = 0, deltaZ = 0;
         if(PzS <= PzE){
-            deltaX = -2 * sx * Math.sin(Cushion.THETA) / 7 - (1 + e) * c * Math.cos(Cushion.THETA);
+            deltaX = -2 * sx * StrictMath.sin(Cushion.THETA) / 7 - (1 + e) * c * StrictMath.cos(Cushion.THETA);
             deltaY = 2 * sy / 7;
-            deltaZ = 2 * sx / 7 * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
+            deltaZ = 2 * sx / 7 * StrictMath.cos(Cushion.THETA) - (1 + e) * c * StrictMath.sin(Cushion.THETA);
         }
         else{
             double phi = Vector3.getSignedAngle2D(ball.getVelocity(), new Vector3(1, 0, 0));
             double mu = 0.2;
-            if(phi > Math.PI / 2)
-                phi = Math.PI - phi;
+            if(phi > StrictMath.PI / 2)
+                phi = StrictMath.PI - phi;
 
-            deltaX = -c * (1 + e) * (mu * Math.cos(phi) * Math.sin(Cushion.THETA) + Math.cos(Cushion.THETA));
-            deltaY = c * (1 + e) * mu * Math.sin(phi);
-            deltaZ = mu * (1 + e) * c * Math.cos(phi) * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
+            deltaX = -c * (1 + e) * (mu * StrictMath.cos(phi) * StrictMath.sin(Cushion.THETA) + StrictMath.cos(Cushion.THETA));
+            deltaY = c * (1 + e) * mu * StrictMath.sin(phi);
+            deltaZ = mu * (1 + e) * c * StrictMath.cos(phi) * StrictMath.cos(Cushion.THETA) - (1 + e) * c * StrictMath.sin(Cushion.THETA);
         }
 
         ball.setVelocity(ball.getVelocity().getAxis(0) + deltaX, 
                         ball.getVelocity().getAxis(1) + deltaY, 
                         ball.getVelocity().getAxis(2));
-        ball.setAngularVelocity(ball.getAngularVelocity().getAxis(0) - Ball.MASS * Ball.RADIUS * deltaY * Math.sin(Cushion.THETA) / I,
-                                ball.getAngularVelocity().getAxis(1) + Ball.MASS * Ball.RADIUS * (deltaX * Math.sin(Cushion.THETA) - deltaZ * Math.cos(Cushion.THETA)) / I,
-                                ball.getAngularVelocity().getAxis(2) + Ball.MASS * Ball.RADIUS * deltaY * Math.cos(Cushion.THETA) / I);
+        ball.setAngularVelocity(ball.getAngularVelocity().getAxis(0) - Ball.MASS * Ball.RADIUS * deltaY * StrictMath.sin(Cushion.THETA) / I,
+                                ball.getAngularVelocity().getAxis(1) + Ball.MASS * Ball.RADIUS * (deltaX * StrictMath.sin(Cushion.THETA) - deltaZ * StrictMath.cos(Cushion.THETA)) / I,
+                                ball.getAngularVelocity().getAxis(2) + Ball.MASS * Ball.RADIUS * deltaY * StrictMath.cos(Cushion.THETA) / I);
 
         Vector3 correctionTerm = Vector3.rotateAboutZAxis(new Vector3(-1e-5, 0, 0), vectorAngle); // unnoticable in game but useful to seperate ball from cushion after impact for calculations.
         ball.setPosition(Vector3.add(ball.getPosition(), correctionTerm));
@@ -530,44 +530,44 @@ public class Physics{
         Vector3 relativeVector = Vector3.subtract(ball.getPosition(), pointCushion.getPosition());
         double vectorAngle = Vector3.getSignedAngle2D(new Vector3(0, 1, 0), relativeVector);
         if(vectorAngle < 0)
-            vectorAngle = 2 * Math.PI + vectorAngle;
-        vectorAngle -= Math.PI / 2;
+            vectorAngle = 2 * StrictMath.PI + vectorAngle;
+        vectorAngle -= StrictMath.PI / 2;
 
         ball.setVelocity(Vector3.rotateAboutZAxis(ball.getVelocity(), -vectorAngle));
         ball.setAngularVelocity(Vector3.rotateAboutZAxis(ball.getAngularVelocity(), -vectorAngle));
 
         double e = 0.85;
-        double sx = ball.getVelocity().getAxis(0) * Math.sin(Cushion.THETA) - ball.getVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(1);
-        double sy = -ball.getVelocity().getAxis(1) - Ball.RADIUS * ball.getAngularVelocity().getAxis(2) * Math.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(0) * Math.sin(Cushion.THETA);
-        double c = ball.getVelocity().getAxis(0) * Math.cos(Cushion.THETA);
+        double sx = ball.getVelocity().getAxis(0) * StrictMath.sin(Cushion.THETA) - ball.getVelocity().getAxis(2) * StrictMath.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(1);
+        double sy = -ball.getVelocity().getAxis(1) - Ball.RADIUS * ball.getAngularVelocity().getAxis(2) * StrictMath.cos(Cushion.THETA) + Ball.RADIUS * ball.getAngularVelocity().getAxis(0) * StrictMath.sin(Cushion.THETA);
+        double c = ball.getVelocity().getAxis(0) * StrictMath.cos(Cushion.THETA);
         double I = 2 * Ball.MASS * Ball.RADIUS * Ball.RADIUS / 5;
         double PzE = Ball.MASS * c * (1 + e);
-        double PzS = 2 * Ball.MASS * Math.sqrt(sx * sx + sy * sy) / 7;
+        double PzS = 2 * Ball.MASS * StrictMath.sqrt(sx * sx + sy * sy) / 7;
 
         // Velocity
         double deltaX = 0, deltaY = 0, deltaZ = 0;
         if(PzS <= PzE){
-            deltaX = -2 * sx * Math.sin(Cushion.THETA) / 7 - (1 + e) * c * Math.cos(Cushion.THETA);
+            deltaX = -2 * sx * StrictMath.sin(Cushion.THETA) / 7 - (1 + e) * c * StrictMath.cos(Cushion.THETA);
             deltaY = 2 * sy / 7;
-            deltaZ = 2 * sx / 7 * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
+            deltaZ = 2 * sx / 7 * StrictMath.cos(Cushion.THETA) - (1 + e) * c * StrictMath.sin(Cushion.THETA);
         }
         else{
             double phi = Vector3.getSignedAngle2D(ball.getVelocity(), new Vector3(1, 0, 0));
             double mu = 0.2;
-            if(phi > Math.PI / 2)
-                phi = Math.PI - phi;
+            if(phi > StrictMath.PI / 2)
+                phi = StrictMath.PI - phi;
 
-            deltaX = -c * (1 + e) * (mu * Math.cos(phi) * Math.sin(Cushion.THETA) + Math.cos(Cushion.THETA));
-            deltaY = c * (1 + e) * mu * Math.sin(phi);
-            deltaZ = mu * (1 + e) * c * Math.cos(phi) * Math.cos(Cushion.THETA) - (1 + e) * c * Math.sin(Cushion.THETA);
+            deltaX = -c * (1 + e) * (mu * StrictMath.cos(phi) * StrictMath.sin(Cushion.THETA) + StrictMath.cos(Cushion.THETA));
+            deltaY = c * (1 + e) * mu * StrictMath.sin(phi);
+            deltaZ = mu * (1 + e) * c * StrictMath.cos(phi) * StrictMath.cos(Cushion.THETA) - (1 + e) * c * StrictMath.sin(Cushion.THETA);
         }
 
         ball.setVelocity(ball.getVelocity().getAxis(0) + deltaX, 
                         ball.getVelocity().getAxis(1) + deltaY, 
                         ball.getVelocity().getAxis(2));
-        ball.setAngularVelocity(ball.getAngularVelocity().getAxis(0) - Ball.MASS * Ball.RADIUS * deltaY * Math.sin(Cushion.THETA) / I,
-                                ball.getAngularVelocity().getAxis(1) + Ball.MASS * Ball.RADIUS * (deltaX * Math.sin(Cushion.THETA) - deltaZ * Math.cos(Cushion.THETA)) / I,
-                                ball.getAngularVelocity().getAxis(2) + Ball.MASS * Ball.RADIUS * deltaY * Math.cos(Cushion.THETA) / I);
+        ball.setAngularVelocity(ball.getAngularVelocity().getAxis(0) - Ball.MASS * Ball.RADIUS * deltaY * StrictMath.sin(Cushion.THETA) / I,
+                                ball.getAngularVelocity().getAxis(1) + Ball.MASS * Ball.RADIUS * (deltaX * StrictMath.sin(Cushion.THETA) - deltaZ * StrictMath.cos(Cushion.THETA)) / I,
+                                ball.getAngularVelocity().getAxis(2) + Ball.MASS * Ball.RADIUS * deltaY * StrictMath.cos(Cushion.THETA) / I);
         
         Vector3 correctionTerm = Vector3.rotateAboutZAxis(new Vector3(-1e-5, 0, 0), vectorAngle); // unnoticable in game but useful to seperate ball from cushion after impact for calculations.
         ball.setPosition(Vector3.add(ball.getPosition(), correctionTerm));
@@ -581,21 +581,21 @@ public class Physics{
         horizontalSpin *= -Ball.RADIUS * spinCorrector;
         verticalSpin *= -Ball.RADIUS * spinCorrector;
 
-        double c = Math.sqrt(Ball.RADIUS * Ball.RADIUS - horizontalSpin * horizontalSpin - verticalSpin * verticalSpin);
+        double c = StrictMath.sqrt(Ball.RADIUS * Ball.RADIUS - horizontalSpin * horizontalSpin - verticalSpin * verticalSpin);
         double temp = horizontalSpin * horizontalSpin 
-                    + verticalSpin * verticalSpin * Math.cos(elevationAngle) * Math.cos(elevationAngle) 
-                    + c * c * Math.cos(elevationAngle) * Math.cos(elevationAngle)
-                    - 2 * verticalSpin * c * Math.cos(elevationAngle) * Math.sin(elevationAngle);
+                    + verticalSpin * verticalSpin * StrictMath.cos(elevationAngle) * StrictMath.cos(elevationAngle) 
+                    + c * c * StrictMath.cos(elevationAngle) * StrictMath.cos(elevationAngle)
+                    - 2 * verticalSpin * c * StrictMath.cos(elevationAngle) * StrictMath.sin(elevationAngle);
         double force = (2 * CUE_MASS * cueSpeed) / (1 + Ball.MASS / CUE_MASS + (5 * temp) / (2 * Ball.RADIUS * Ball.RADIUS));
 
-        Vector3 velocity = new Vector3(0, -force * Math.cos(elevationAngle) / Ball.MASS , 0);
+        Vector3 velocity = new Vector3(0, -force * StrictMath.cos(elevationAngle) / Ball.MASS , 0);
         velocity = Vector3.rotateAboutZAxis(velocity, directionAngle);
         ball.setVelocity(velocity);
 
         double momentOfInertia = 2 * Ball.MASS * Ball.RADIUS * Ball.RADIUS / 5;
-        double wx = -c * Math.sin(elevationAngle) + verticalSpin * Math.cos(elevationAngle);
-        double wy = horizontalSpin * Math.sin(elevationAngle);
-        double wz = -horizontalSpin * Math.cos(elevationAngle);
+        double wx = -c * StrictMath.sin(elevationAngle) + verticalSpin * StrictMath.cos(elevationAngle);
+        double wy = horizontalSpin * StrictMath.sin(elevationAngle);
+        double wz = -horizontalSpin * StrictMath.cos(elevationAngle);
 
         Vector3 w = Vector3.rotateAboutZAxis(new Vector3(wx, wy, wz), directionAngle);
         w.inPlaceMultiply(force / momentOfInertia);

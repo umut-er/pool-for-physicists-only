@@ -19,7 +19,7 @@ public class ElevationBar extends JSlider{
     private static final int MAX = 55;
     public static final int INITIAL_VALUE = 0;
     private static int angle = INITIAL_VALUE;
-    private static double poolDiameter = Math.sqrt(Math.pow(PoolClient.PANEL_HEIGHT, 2) + Math.pow(PoolClient.PANEL_WIDTH, 2));
+    private static double poolDiameter = StrictMath.sqrt(StrictMath.pow(PoolClient.PANEL_HEIGHT, 2) + StrictMath.pow(PoolClient.PANEL_WIDTH, 2));
     
     public ElevationBar(CueUI cue, PoolPanel pool){ 
         this.setBackground(Color.DARK_GRAY);   
@@ -43,14 +43,14 @@ public class ElevationBar extends JSlider{
         public void stateChanged(ChangeEvent e) {
             angle = ElevationBar.this.getValue();
             cue.setVisibleShotDistance(getAngleValue());
-            cue.setVisibleBlueTipHeight(cue.getCueUpperWidth() * Math.cos(getAngleValue()));
-            cue.setVisibleHeight(cue.getCueStickHeight() * Math.cos(getAngleValue()));
-            cue.setVisibleLowerWidth(EYE_COEFFICIENT * poolDiameter * cue.getCueLowerWidth() / (EYE_COEFFICIENT * poolDiameter - (cue.getCueStickHeight() + cue.getShotDistance()) * Math.sin(getAngleValue())));
+            cue.setVisibleBlueTipHeight(cue.getCueUpperWidth() * StrictMath.cos(getAngleValue()));
+            cue.setVisibleHeight(cue.getCueStickHeight() * StrictMath.cos(getAngleValue()));
+            cue.setVisibleLowerWidth(EYE_COEFFICIENT * poolDiameter * cue.getCueLowerWidth() / (EYE_COEFFICIENT * poolDiameter - (cue.getCueStickHeight() + cue.getShotDistance()) * StrictMath.sin(getAngleValue())));
             pool.repaint();
         }
     }
     
     public static double getAngleValue(){
-        return angle * Math.PI / 180;  
+        return angle * StrictMath.PI / 180;  
     }
 }

@@ -34,7 +34,7 @@ public class PolynomialSolverTest{
 
      @Test
     public void shouldReturnSquareRootTwo(){
-        assertEquals(Math.sqrt(2), PolynomialSolver.solveQuadraticEquation(4, 4*Math.sqrt(2), -16), 0.01);
+        assertEquals(StrictMath.sqrt(2), PolynomialSolver.solveQuadraticEquation(4, 4*StrictMath.sqrt(2), -16), 0.01);
     }
 
     //Testcases for the method solveQuarticEquation
@@ -60,7 +60,7 @@ public class PolynomialSolverTest{
     @Test
     public void shouldReturnSquareRootTwoMinusOne()
     {
-        assertEquals(Math.sqrt(2) - 1, PolynomialSolver.solveQuarticEquation(1, 2, -4, -6, 3), 0.01);
+        assertEquals(StrictMath.sqrt(2) - 1, PolynomialSolver.solveQuarticEquation(1, 2, -4, -6, 3), 0.01);
     }
 
     @Test
